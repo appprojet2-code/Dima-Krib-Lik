@@ -355,3 +355,173 @@ export const store = {
 export function getUserInterface(user: User): "mobile" | "backoffice" | "client" | "both" {
   return user.interface
 }
+
+// ════════════════════════════════════════════════════════════════════════════
+// HELPERS — used by BackOfficeLayout and other components
+// ════════════════════════════════════════════════════════════════════════════
+
+export const JAWAD_ID = "u-master"
+
+export function isSuperSuperAdmin(user: { role: string }): boolean {
+  return user.role === "master_admin" || user.role === "super_super_admin"
+}
+
+export function isDemoUser(user: User | null): boolean {
+  if (!user) return false
+  // No demo accounts in this project — always false
+  return false
+}
+
+export const ROLE_COLORS: Record<UserRole, string> = {
+  master_admin:         "bg-yellow-500",
+  super_admin:          "bg-violet-600",
+  directeur_general:    "bg-indigo-700",
+  directeur_commercial: "bg-blue-700",
+  directeur_achat:      "bg-lime-700",
+  directeur_logistique: "bg-orange-700",
+  directeur_financier:  "bg-purple-700",
+  directeur_rh:         "bg-fuchsia-700",
+  directeur_it:         "bg-indigo-800",
+  resp_commercial:      "bg-blue-600",
+  resp_achat:           "bg-lime-600",
+  resp_logistique:      "bg-orange-600",
+  resp_stock:           "bg-amber-600",
+  resp_rh:              "bg-fuchsia-600",
+  resp_it:              "bg-indigo-600",
+  resp_qualite:         "bg-red-600",
+  cash_man:             "bg-emerald-600",
+  financier:            "bg-purple-600",
+  comptable:            "bg-indigo-600",
+  acheteur:             "bg-lime-600",
+  prevendeur:           "bg-green-600",
+  commercial:           "bg-cyan-600",
+  livreur:              "bg-yellow-600",
+  chauffeur:            "bg-yellow-700",
+  dispatcheur:          "bg-rose-600",
+  magasinier:           "bg-amber-600",
+  ctrl_achat:           "bg-sky-700",
+  ctrl_prep:            "bg-violet-700",
+  ctrl_retour:          "bg-rose-700",
+  fournisseur:          "bg-slate-600",
+  client:               "bg-teal-600",
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// LOOKUP DICTIONARIES — referenced by BackOffice components
+// ════════════════════════════════════════════════════════════════════════════
+
+export const MODALITE_LABELS: Record<string, string> = {
+  cash:      "Cash / نقدا",
+  cheque:    "Chèque",
+  virement:  "Virement bancaire",
+  traite_30: "Traite 30j",
+  traite_60: "Traite 60j",
+  traite_90: "Traite 90j",
+  credit_7:  "Crédit 7j",
+  credit_15: "Crédit 15j",
+  credit_30: "Crédit 30j",
+}
+
+export const DELAI_RECOUVREMENT_LABELS: Record<string, string> = {
+  jour_meme:  "La journée même",
+  "24h":      "24 heures",
+  "48h":      "48 heures",
+  "1_semaine":"1 semaine",
+  "1_mois":   "1 mois",
+  a_definir:  "À définir",
+}
+
+export const FAMILLES_ARTICLES: string[] = [
+  "Légumes feuilles", "Légumes racines", "Légumes fruits",
+  "Agrumes", "Fruits tropicaux", "Fruits rouges",
+  "Herbes aromatiques", "Champignons", "Fruits secs", "Autre",
+]
+
+export const SPECIALITES_FRUITS_LEGUMES: string[] = [
+  "Légumes feuilles", "Légumes racines", "Légumes fruits", "Agrumes",
+  "Fruits tropicaux", "Fruits rouges", "Herbes aromatiques", "Champignons",
+  "Primeurs", "Fruits secs", "Dattes", "Olives & huile d'olive",
+  "Céréales & légumineuses", "Épices & condiments", "Fleurs comestibles",
+  "Pommes", "Poires", "Raisins", "Melons & pastèques", "Pêches & abricots",
+  "Figues", "Grenades", "Clémentines", "Citrons", "Pamplemousses",
+  "Tomates cerises", "Concombres", "Aubergines", "Artichauds", "Brocolis",
+  "Choux-fleurs", "Épinards", "Poireaux", "Céleri", "Persil & coriandre",
+  "Avocat", "Mangue", "Ananas", "Kiwi", "Fraises", "Framboises", "Myrtilles",
+]
+
+export const CATEGORIE_CHARGE_LABELS: Record<string, string> = {
+  transport:     "Transport (Honda, chario, véhicule)",
+  equipement:    "Equipement (balance, caisses, frigo)",
+  salaire:       "Salaires & charges sociales",
+  loyer:         "Loyer & charges locatives",
+  energie:       "Eau, Electricité, Gaz",
+  maintenance:   "Maintenance & réparations",
+  communication: "Communication & internet",
+  assurance:     "Assurance",
+  impots:        "Impôts & taxes",
+  autre:         "Autres charges",
+}
+
+export const STATUT_SALARIE_LABELS: Record<string, string> = {
+  actif:         "Actif",
+  conge:         "En congé",
+  periode_essai: "Période d'essai",
+  inactif:       "Inactif",
+}
+
+export const TYPE_CONTRAT_LABELS: Record<string, string> = {
+  cdi:        "CDI — Contrat à Durée Indéterminée",
+  cdd:        "CDD — Contrat à Durée Déterminée",
+  interim:    "Intérim",
+  saisonnier: "Contrat Saisonnier",
+}
+
+export const TRIP_CHARGE_TYPE_LABELS: Record<string, string> = {
+  carburant:    "Carburant",
+  peage:        "Péage",
+  reparation:   "Réparation",
+  chargement:   "Chargement",
+  dechargement: "Déchargement",
+  parking:      "Parking",
+  autre:        "Autre",
+}
+
+export const MOTIF_RETOUR_LABELS: Record<string, string> = {
+  pas_notre_variete: "Pas notre variété",
+  produit_pourri:    "Produit pourri / avarié",
+  trop_vieux:        "Trop vieux / dépassé",
+  endommage:         "Endommagé (transport)",
+  autre:             "Autre motif",
+}
+
+export const DEFAULT_CAISSE_PRICING = {
+  prixGrosseCaisse: 70,
+  prixDemiCaisse:   50,
+}
+
+export const DEFAULT_FRAIS_BL = {
+  fraisImpressionParFeuille: 0,
+  nbFeuilles:                1,
+  fraisServiceParCaisse:     0,
+}
+
+export const DEFAULT_DEPOT = {
+  id:   "DEPOT_PRINCIPAL",
+  nom:  "Dépôt Principal",
+  actif: true,
+}
+
+export const DEFAULT_WORKFLOW_STEPS: {
+  id: string; label: string; labelAr?: string; description?: string;
+  enabled: boolean; mandatory: boolean; canBypass: boolean; bypassed?: boolean; gate?: boolean
+}[] = [
+  { id: "order_placement", label: "Prise de Commande",          labelAr: "استلام الطلب",          enabled: true,  mandatory: true,  canBypass: false },
+  { id: "procurement",     label: "Achat Marché de Gros",       labelAr: "الشراء من سوق الجملة",  enabled: true,  mandatory: true,  canBypass: false },
+  { id: "market_qc",       label: "Contrôle Qualité Marché",    labelAr: "مراقبة الجودة",         enabled: true,  mandatory: false, canBypass: true,  bypassed: false, gate: true },
+  { id: "transfer",        label: "Transfert vers Entrepôt",    labelAr: "النقل إلى المستودع",    enabled: true,  mandatory: false, canBypass: false },
+  { id: "receiving",       label: "Réception & Tri Entrepôt",   labelAr: "الاستلام والفرز",       enabled: true,  mandatory: true,  canBypass: false },
+  { id: "preparation",     label: "Préparation Commandes",      labelAr: "تحضير الطلبات",         enabled: true,  mandatory: true,  canBypass: false },
+  { id: "dispatch",        label: "Dispatch & Chargement",      labelAr: "التوزيع والتحميل",      enabled: true,  mandatory: true,  canBypass: false },
+  { id: "delivery",        label: "Livraison Client",           labelAr: "التوصيل للعميل",        enabled: true,  mandatory: true,  canBypass: false },
+  { id: "invoicing",       label: "Facturation & Recouvrement", labelAr: "الفوترة والتحصيل",      enabled: true,  mandatory: true,  canBypass: false },
+]
