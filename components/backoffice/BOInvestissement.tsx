@@ -3,8 +3,8 @@
 import { useState } from "react"
 
 const LANG_LABELS = {
-  fr: { title: "Dossier Investisseur", sub: "FreshLink Pro — Powered by Vita Tech" },
-  en: { title: "Investor Dossier", sub: "FreshLink Pro — Powered by Vita Tech" },
+  fr: { title: "Dossier Investisseur", sub: "FreshLink Pro — Empire Fresh Distribution" },
+  en: { title: "Investor Dossier", sub: "FreshLink Pro — Empire Fresh Distribution" },
   ar: { title: "ملف المستثمر", sub: "فريشلينك برو — توزيع إمبير فريش" },
 }
 
@@ -20,13 +20,13 @@ const SECTIONS = [
     content: {
       fr: [
         { tag: "Vision", text: "FreshLink Pro est la première plateforme ERP tout-en-un dédiée à la distribution de fruits et légumes au Maroc, développée par et pour les opérateurs locaux." },
-        { tag: "Traction", text: "Déjà déployée chez Powered by Vita Tech (Casablanca), l'application gère en temps réel : commandes terrain, stock, logistique, finance et agents IA commerciaux." },
+        { tag: "Traction", text: "Déjà déployée chez Empire Fresh Distribution (Casablanca), l'application gère en temps réel : commandes terrain, stock, logistique, finance et agents IA commerciaux." },
         { tag: "Modèle", text: "SaaS B2B modulaire — abonnement mensuel par utilisateur. Premier client actif. Expansion prévue vers 50+ distributeurs au Maroc dès 2026." },
         { tag: "Levée", text: "Recherche de 2 à 5 M MAD (seed) pour accélérer la commercialisation, l'équipe commerciale et l'hébergement cloud." },
       ],
       en: [
         { tag: "Vision", text: "FreshLink Pro is Morocco's first all-in-one ERP platform dedicated to fruit & vegetable distribution, built by and for local operators." },
-        { tag: "Traction", text: "Already live at Powered by Vita Tech (Casablanca), managing in real-time: field orders, stock, logistics, finance, and AI commercial agents." },
+        { tag: "Traction", text: "Already live at Empire Fresh Distribution (Casablanca), managing in real-time: field orders, stock, logistics, finance, and AI commercial agents." },
         { tag: "Model", text: "Modular B2B SaaS — monthly per-user subscription. First active client. Expansion target: 50+ Moroccan distributors by 2026." },
         { tag: "Raise", text: "Seeking 2–5 M MAD (seed) to accelerate commercialization, sales team, and cloud infrastructure." },
       ],
@@ -329,9 +329,9 @@ export default function BOInvestissement() {
       {/* Footer note */}
       <p className="text-[10px] text-muted-foreground text-center pb-2">
         {lang === "fr"
-          ? "Document confidentiel — FreshLink Pro © 2026 Powered by Vita Tech. Tous droits réservés."
+          ? "Document confidentiel — FreshLink Pro © 2026 Empire Fresh Distribution. Tous droits réservés."
           : lang === "en"
-          ? "Confidential document — FreshLink Pro © 2026 Powered by Vita Tech. All rights reserved."
+          ? "Confidential document — FreshLink Pro © 2026 Empire Fresh Distribution. All rights reserved."
           : "وثيقة سرية — فريشلينك برو © 2026 إمبير فريش للتوزيع. جميع الحقوق محفوظة."}
       </p>
     </div>

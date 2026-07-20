@@ -356,7 +356,7 @@ export default function LoginPage({ onLogin }: Props) {
             <p className="text-sm font-black leading-tight" style={{ color: "#1a4f2a" }}>
               {companyBrand.appName || "FreshLink Pro"}
             </p>
-            <p className="text-[10px] font-bold" style={{ color: "#b8962e" }}>{companyBrand.appSlogan || companyBrand.nom || "Powered by Vita Tech"}</p>
+            <p className="text-[10px] font-bold" style={{ color: "#b8962e" }}>{companyBrand.appSlogan || companyBrand.nom || "Empire Fresh"}</p>
           </div>
         </div>
         <div className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold border"

@@ -190,7 +190,6 @@ const DEFAULT_USERS: User[] = [
 
 const USERS_KEY    = "fl_users"
 const SESSIONS_KEY = "fl_sessions"
-const COMPANY_CONFIG_KEY = "fl_company_config"
 
 // ════════════════════════════════════════════════════════════════════════════
 // HELPERS COOKIE  (lisibles par le middleware Next.js côté serveur)
@@ -540,33 +539,6 @@ export interface Depot {
   [key: string]: any
 }
 
-export interface CompanyConfig {
-  appName?: string
-  appSlogan?: string
-  logo?: string
-  nom?: string
-  couleurEntete?: string
-  adresse?: string
-  ville?: string
-  telephone?: string
-  email?: string
-  siteWeb?: string
-  ice?: string
-  rc?: string
-  if_fiscal?: string
-  tp?: string
-  cnss?: string
-  mentionsBL?: string
-  mentionsFacture?: string
-}
-
-const DEFAULT_COMPANY_CONFIG: CompanyConfig = {
-  appName:   "FreshLink Pro",
-  appSlogan: "Powered by Vita Tech",
-  logo:      "/empire-fresh-logo.png",
-  nom:       "Powered by Vita Tech",
-}
-
 // Types Logistique/RH minimalistes — hors périmètre Achat/Réception/Commandes/Facturation,
 // déclarés juste pour satisfaire la compilation partagée de lib/supabase/db.ts
 export interface Trip { id: string; [key: string]: any }
@@ -721,18 +693,13 @@ export const store = {
 
   // ── Company config ────────────────────────────────────────────────────────
 
-  getCompanyConfig(): CompanyConfig {
-    try {
-      const raw = localStorage.getItem(COMPANY_CONFIG_KEY)
-      if (!raw) return { ...DEFAULT_COMPANY_CONFIG }
-      return { ...DEFAULT_COMPANY_CONFIG, ...JSON.parse(raw) }
-    } catch {
-      return { ...DEFAULT_COMPANY_CONFIG }
+  getCompanyConfig() {
+    return {
+      appName:   "FreshLink Pro",
+      appSlogan: "Distribution & IA",
+      logo:      "/empire-fresh-logo.png",
+      nom:       "Empire Fresh",
     }
-  },
-
-  saveCompanyConfig(cfg: CompanyConfig) {
-    localStorage.setItem(COMPANY_CONFIG_KEY, JSON.stringify(cfg))
   },
 
   // ── Login helpers ─────────────────────────────────────────────────────────

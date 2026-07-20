@@ -1,7 +1,7 @@
 "use client"
 
 /**
- * Data Integrity Guard — Powered by Vita Tech
+ * Data Integrity Guard — Empire Fresh
  *
  * Runs once on application startup to detect and recover from corrupted
  * localStorage entries before any component tries to read them.

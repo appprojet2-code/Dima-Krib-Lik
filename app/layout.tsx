@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'FreshLink Pro — Powered by Vita Tech',
+  title: 'FreshLink Pro — Empire Fresh',
   description: 'Distribution Fruits & Légumes — Gestion bout en bout',
 }
 
