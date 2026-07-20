@@ -5,7 +5,7 @@ import {
   store,
   type Commande, type Trip, type User, type BonLivraison, type MotifRetour, type Client, type Reception, type Article, type Fournisseur, DELAI_RECOUVREMENT_LABELS
 } from "@/lib/store"
-import { printBL } from "@/lib/print"
+import { printBL, printTicket80mm } from "@/lib/print"
 
 interface Props { user: User }
 
@@ -167,11 +167,17 @@ function DeliveryCard({ commande, motifs, onUpdate }: DeliveryCardProps) {
           {bl && (
             <div className="flex gap-2">
               <button
-                onClick={() => printBL(bl)}
+                onClick={() => printTicket80mm(bl)}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border border-border text-muted-foreground hover:bg-muted transition-colors"
               >
                 <Icon d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" className="w-3.5 h-3.5" />
-                Imprimer BL
+                Ticket 80mm
+              </button>
+              <button
+                onClick={() => printBL(bl)}
+                className="px-3 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold border border-border text-muted-foreground hover:bg-muted transition-colors"
+              >
+                A4
               </button>
             </div>
           )}
