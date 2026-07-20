@@ -282,7 +282,7 @@ export default function MobileLogistique({ user }: Props) {
 
       store.getCommandes().filter(c => c.gpsLat && c.gpsLng).forEach(c => {
         const bl = store.getBonsLivraison().find(b => b.commandeId === c.id)
-        L.marker([c.gpsLat, c.gpsLng], { icon: bl?.statutLivraison === "livre" ? deliveredIcon : icon })
+        L.marker([c.gpsLat ?? 0, c.gpsLng ?? 0], { icon: bl?.statutLivraison === "livre" ? deliveredIcon : icon })
           .addTo(map)
           .bindPopup(`<b>${c.clientNom}</b><br>${c.statut}<br>${c.heurelivraison}`)
       })
@@ -749,11 +749,11 @@ export default function MobileLogistique({ user }: Props) {
             </div>
 
             {/* Itinéraire — ordered list */}
-            {activeTrip && activeTrip.itineraire.length > 0 && (
+            {activeTrip && (activeTrip.itineraire?.length ?? 0) > 0 && (
               <div className="bg-card rounded-2xl border border-border p-4">
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Itinéraire</p>
                 <div className="flex flex-col gap-2">
-                  {[...activeTrip.itineraire]
+                  {[...(activeTrip.itineraire ?? [])]
                     .sort((a, b) => a.ordre - b.ordre)
                     .map((stop, i) => {
                       const c = commandes.find(c => c.clientNom === stop.clientNom)

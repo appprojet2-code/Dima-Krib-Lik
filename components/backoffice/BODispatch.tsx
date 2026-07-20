@@ -100,8 +100,8 @@ export default function BODispatch({ user }: Props) {
     (c.statut === "valide" || c.statut === "en_attente" || c.statut === "en_attente_approbation")
   )
   const filtered = availableCommandes.filter(c => {
-    if (filterZone && !c.zone.toLowerCase().includes(filterZone.toLowerCase())) return false
-    if (filterPrevendeur && !c.commercialNom.toLowerCase().includes(filterPrevendeur.toLowerCase())) return false
+    if (filterZone && !(c.zone ?? "").toLowerCase().includes(filterZone.toLowerCase())) return false
+    if (filterPrevendeur && !(c.commercialNom ?? "").toLowerCase().includes(filterPrevendeur.toLowerCase())) return false
     return true
   })
   const zones = [...new Set(availableCommandes.map(c => c.zone).filter(Boolean))]
@@ -138,7 +138,7 @@ export default function BODispatch({ user }: Props) {
       statut: "planifié",
       itineraire: cmds
         .filter(c => c.gpsLat && c.gpsLng)
-        .map((c, i) => ({ lat: c.gpsLat, lng: c.gpsLng, clientNom: c.clientNom, ordre: i + 1 })),
+        .map((c, i) => ({ lat: c.gpsLat!, lng: c.gpsLng!, clientNom: c.clientNom, ordre: i + 1 })),
     }
     store.addTrip(trip)
     selectedCmds.forEach(id => store.updateCommande(id, { statut: "en_transit" }))
@@ -184,15 +184,15 @@ export default function BODispatch({ user }: Props) {
         document.head.appendChild(link)
       }
       const L = (await import("leaflet")).default
-      const map = L.map(el).setView([trip.itineraire[0].lat, trip.itineraire[0].lng], 11)
+      const map = L.map(el).setView([trip.itineraire[0].lat ?? 0, trip.itineraire[0].lng ?? 0], 11)
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OSM" }).addTo(map)
-      L.polyline(trip.itineraire.map(p => [p.lat, p.lng] as [number, number]), { color: "#0891b2", weight: 3 }).addTo(map)
+      L.polyline(trip.itineraire.map(p => [p.lat ?? 0, p.lng ?? 0] as [number, number]), { color: "#0891b2", weight: 3 }).addTo(map)
       trip.itineraire.forEach(p => {
         const icon = L.divIcon({
           html: `<div style="background:#0891b2;color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;border:2px solid white">${p.ordre}</div>`,
           className: "", iconSize: [22, 22], iconAnchor: [11, 11],
         })
-        L.marker([p.lat, p.lng], { icon }).addTo(map).bindPopup(`<b>${p.ordre}. ${p.clientNom}</b>`)
+        L.marker([p.lat ?? 0, p.lng ?? 0], { icon }).addTo(map).bindPopup(`<b>${p.ordre}. ${p.clientNom}</b>`)
       })
       mapsLoaded.current.add(trip.id)
     } catch { /* no leaflet */ }

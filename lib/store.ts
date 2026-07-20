@@ -329,6 +329,7 @@ export interface LigneReception {
   nbCaisseDemi?: number
   typePoids?: "brut" | "net"
   prixAchat?: number
+  prixFacture?: number
   motifReliquat?: string
 }
 
@@ -377,6 +378,8 @@ export interface Client {
   creditStatut?: string
   creditSolde?: number
   teamLeadId?: string
+  ice?: string
+  modalitePaiement?: ModalitePaiement
 }
 
 export interface LigneCommande {
@@ -436,6 +439,18 @@ export interface CaisseVide {
   enCirculation: number
 }
 
+export interface CaisseEntry {
+  id: string
+  date: string
+  libelle: string
+  type: "entree" | "sortie"
+  categorie: string
+  montant: number
+  reference?: string
+  createdBy: string
+  [key: string]: any
+}
+
 export interface AnalyseAchat {
   article: string
   qteAchat: number
@@ -470,7 +485,9 @@ export interface BonLivraison {
   statut?: string
   valideMagasinier?: boolean
   montantTotal: number
+  montantTTC?: number
   lignes: { articleId?: string; articleNom: string; quantite: number; total: number }[]
+  [key: string]: any
 }
 
 export type PriceEntryType = "fournisseur" | "client"
@@ -541,14 +558,128 @@ export interface Depot {
 
 // Types Logistique/RH minimalistes — hors périmètre Achat/Réception/Commandes/Facturation,
 // déclarés juste pour satisfaire la compilation partagée de lib/supabase/db.ts
-export interface Trip { id: string; [key: string]: any }
-export interface Retour { id: string; [key: string]: any }
-export interface BonPreparation { id: string; [key: string]: any }
+export interface Trip { id: string; itineraire?: TripItineraryPoint[]; commandeIds: string[]; numero?: string; [key: string]: any }
+export interface Retour { id: string; date?: string; livreurNom?: string; lignes: any[]; [key: string]: any }
+
+export type TripChargeType = "carburant" | "peage" | "reparation" | "chargement" | "dechargement" | "parking" | "autre"
+
+export interface RetourMarchandiseItem {
+  article: string
+  quantite: number
+  motif: "pas_notre_variete" | "produit_pourri" | "trop_vieux" | "endommage" | "autre"
+  alerte: boolean
+  iaObservation?: string
+}
+
+export interface ControleRetour {
+  date: string
+  caissesPrevues: number
+  caissesRetournees: number
+  caissesMarcheRetour: number
+  marchandises: RetourMarchandiseItem[]
+  validated: boolean
+  observations?: string
+}
+
+export interface TripChargeItem {
+  type: TripChargeType
+  montant: number
+  description?: string
+}
+
+export interface TripCharge {
+  id: string
+  numero: string
+  date: string
+  livreur: string
+  immatricule: string
+  secteur: string
+  nbCaissesFact: number
+  nbClients: number
+  kmDepart: number | null
+  kmRetour: number | null
+  charges: TripChargeItem[]
+  validated: boolean
+  controleRetour?: ControleRetour
+  [key: string]: any
+}
 export interface TransfertStock { id: string; [key: string]: any }
-export interface Livreur { id: string; [key: string]: any }
+export interface Livreur {
+  id: string
+  nom: string
+  prenom: string
+  type: "interne" | "externe"
+  telephone?: string
+  actif: boolean
+  matricule?: string
+  cin?: string
+  capaciteCaisses?: number
+  capaciteTonnage?: number
+  typeVehicule?: string
+  marqueVehicule?: string
+}
+
+export interface TransportCompany {
+  id: string
+  nom: string
+  actif: boolean
+  [key: string]: any
+}
 export interface MotifRetour { id: string; [key: string]: any }
 export interface Message { id: string; [key: string]: any }
 export interface Notice { id: string; [key: string]: any }
+
+export type ModePreparation = "par_trip" | "par_client" | "par_article"
+export type TypePreparation = "stockage" | "cross_dock"
+export type FormatPreparation = "numerique" | "papier"
+export type SequenceModePrep = "horaire" | "itineraire"
+
+export interface ClientSequenceInfo {
+  clientId: string
+  clientNom: string
+  heurelivraison?: string
+  ordre: number
+  secteur?: string
+  zone?: string
+  gpsLat?: number
+  gpsLng?: number
+}
+
+export interface TripItineraryPoint {
+  clientNom: string
+  ordre: number
+  lat?: number
+  lng?: number
+  [key: string]: any
+}
+
+export interface LignePreparation {
+  articleId: string
+  articleNom: string
+  unite: string
+  qtesParClient: Record<string, number>
+  qteCommandee: number
+  qtePrepared: number
+  valide: boolean
+}
+
+export interface BonPreparation {
+  id: string
+  nom: string
+  date: string
+  mode: ModePreparation
+  type: TypePreparation
+  format: FormatPreparation
+  tripId?: string
+  clientIds: string[]
+  clientsInfo: ClientSequenceInfo[]
+  sequenceMode: SequenceModePrep
+  lignes: LignePreparation[]
+  statut: "brouillon" | "en_cours" | "valide"
+  createdBy: string
+  validatedAt?: string
+  validatedBy?: string
+}
 
 // ════════════════════════════════════════════════════════════════════════════
 // STORE
@@ -720,26 +851,45 @@ export const store = {
   saveFournisseurs(_: any){},
   getCommandes(): Commande[]          { return [] },
   saveCommandes(_: any)   {},
+  updateCommande(_id: string, _patch: Partial<Commande>) {},
+  formatMAD(amount: number): string {
+    return `${amount.toLocaleString("fr-MA", { maximumFractionDigits: 2 })} MAD`
+  },
   getBonsLivraison(): BonLivraison[]      { return [] },
   saveBonsLivraison(_: any){},
+  addBonLivraison(_: BonLivraison) {},
+  getTripCharges(): TripCharge[] { return [] },
+  addTripCharge(_: TripCharge) {},
+  updateTripCharge(_id: string, _patch: Partial<TripCharge>) {},
+  addTransportCompany(_: TransportCompany) {},
+  updateTransportCompany(_id: string, _patch: Partial<TransportCompany>) {},
+  deleteTransportCompany(_id: string) {},
   getPurchaseOrders(): PurchaseOrder[]     { return [] },
   savePurchaseOrders(_: any){},
   getReceptions(): Reception[]         { return [] },
   saveReceptions(_: any)  {},
   getTrips(): Trip[]              { return [] },
   saveTrips(_: any)       {},
+  addTrip(_: Trip) {},
+  updateTrip(_id: string, _patch: Partial<Trip>) {},
+  genTripNumber(): string { return `TRIP-${Date.now()}-${Math.random().toString(36).slice(2, 6)}` },
+  getTransportCompanies(): TransportCompany[] { return [] },
+  saveTransportCompanies(_: any) {},
   getVisites(): Visite[]            { return [] },
   saveVisites(_: any)     {},
   getRetours(): Retour[]            { return [] },
   saveRetours(_: any)     {},
+  addRetour(_: Retour) {},
   getBonsAchat(): BonAchat[]          { return [] },
   saveBonsAchat(_: any)   {},
   getBonsPreparation(): BonPreparation[]    { return [] },
   saveBonsPreparation(_: any){},
+  addBonPreparation(_: BonPreparation) {},
   getTransferts(): TransfertStock[]         { return [] },
   saveTransferts(_: any)  {},
   getLivreurs(): Livreur[]           { return [] },
   saveLivreurs(_: any)    {},
+  addLivreur(_: Livreur) {},
   getMotifs(): MotifRetour[]             { return [] },
   saveMotifs(_: any)      {},
   getMessages(): Message[]           { return [] },
@@ -766,6 +916,8 @@ export const store = {
   getContenantsConfig(): ContenantTare[] { return [] },
   getCaissesVides(): CaisseVide[] { return [] },
   updateCaisseVide(_id: string, _patch: any) {},
+  getCaisseEntries(): CaisseEntry[] { return [] },
+  addCaisseEntry(_: CaisseEntry) {},
   sortieCaissesVides(_id: string, _nb: number) {},
   retourCaissesVides(_id: string, _nb: number) {},
   addCaisseMouvement(_: any) {},
