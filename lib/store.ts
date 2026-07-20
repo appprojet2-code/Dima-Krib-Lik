@@ -380,6 +380,7 @@ export interface Client {
   teamLeadId?: string
   ice?: string
   modalitePaiement?: ModalitePaiement
+  plafondCredit?: number
 }
 
 export interface LigneCommande {
@@ -448,7 +449,106 @@ export interface CaisseEntry {
   montant: number
   reference?: string
   createdBy: string
+}
+
+export type PeriodeDistribution = "journalier" | "hebdomadaire" | "mensuel"
+export type CategorieCharge = "transport" | "equipement" | "salaire" | "loyer" | "energie" | "maintenance" | "communication" | "assurance" | "impots" | "autre"
+export type StatutSalarie = "actif" | "conge" | "periode_essai" | "inactif"
+export type TypeContrat = "cdi" | "cdd" | "interim" | "saisonnier"
+export type Civilite = "M." | "Mme" | "Mlle"
+
+export interface Actionnaire {
+  id: string
+  nom: string
+  prenom: string
+  telephone?: string
+  cotisation: number
+  dateEntree: string
+  periodeDistribution: PeriodeDistribution
+  actif: boolean
+}
+
+export interface Charge {
+  id: string
+  date: string
+  libelle: string
+  categorie: CategorieCharge
+  montant: number
+  recurrente: boolean
+  createdBy: string
+}
+
+export interface Salarie {
+  id: string
+  civilite?: Civilite
+  nom: string
+  prenom: string
+  poste: string
+  telephone?: string
+  cin?: string
+  cnss?: string
+  dateEmbauche: string
+  typeContrat: TypeContrat
+  salaireBrut: number
+  avances: number
+  statut: StatutSalarie
+  createdBy?: string
+  createdAt?: string
+}
+
+export interface PaiementSalaire {
+  id: string
+  salarieId: string
+  salarieNom: string
+  mois: string
+  salaireBrut: number
+  avance: number
+  salaireNet: number
+  datePaiement: string
+  createdBy: string
+}
+
+export type CaissePricing = { prixGrosseCaisse: number; prixDemiCaisse: number }
+export type FraisBlConfig = { fraisImpressionParFeuille: number; nbFeuilles: number; fraisServiceParCaisse: number }
+export type TypeCaisse = "gros" | "demi"
+export const TYPES_CAISSE_LABELS: Record<TypeCaisse, string> = { gros: "Grosse caisse", demi: "Demi caisse" }
+
+export interface CaisseVideMouvement {
+  id: string
+  date: string
+  typeOperation: "expedition" | "retour" | "reception" | "achat" | "manuel"
+  sens: "entree" | "sortie"
+  nbCaisseGros: number
+  nbCaisseDemi: number
+  referenceDoc?: string
+  articleNom?: string
+  operateurId: string
+  operateurNom: string
+  notes?: string
   [key: string]: any
+}
+
+export interface CutoffNotification {
+  id: string
+  time: string
+  message: string
+  active: boolean
+  roles: UserRole[]
+}
+
+export const DEFAULT_CUTOFFS: CutoffNotification[] = [
+  { id: "cutoff-achat", time: "09:00", message: "Cutoff commandes fournisseurs", active: true, roles: ["acheteur"] },
+]
+
+export interface ReserveCaisseSnap {
+  id: string
+  date: string
+  periode: string
+  beneficeNet: number
+  tauxReserve: number
+  montantReserve: number
+  repartition: { actionnaireId: string; nom: string; prenom: string; part: number; montant: number }[]
+  createdBy: string
 }
 
 export interface AnalyseAchat {
@@ -486,7 +586,7 @@ export interface BonLivraison {
   valideMagasinier?: boolean
   montantTotal: number
   montantTTC?: number
-  lignes: { articleId?: string; articleNom: string; quantite: number; total: number }[]
+  lignes: { articleId?: string; articleNom: string; quantite: number; total: number; prixUnitaire?: number }[]
   [key: string]: any
 }
 
@@ -921,6 +1021,27 @@ export const store = {
   sortieCaissesVides(_id: string, _nb: number) {},
   retourCaissesVides(_id: string, _nb: number) {},
   addCaisseMouvement(_: any) {},
+  getCaissesMovements(): CaisseVideMouvement[] { return [] },
+  getCaissePricing(): CaissePricing { return DEFAULT_CAISSE_PRICING },
+  getActionnaires(): Actionnaire[] { return [] },
+  addActionnaire(_: Actionnaire) {},
+  updateActionnaire(_id: string, _patch: Partial<Actionnaire>) {},
+  deleteActionnaire(_id: string) {},
+  getCharges(): Charge[] { return [] },
+  addCharge(_: Charge) {},
+  updateCharge(_id: string, _patch: Partial<Charge>) {},
+  deleteCharge(_id: string) {},
+  getSalaries(): Salarie[] { return [] },
+  addSalarie(_: Salarie) {},
+  updateSalarie(_id: string, _patch: Partial<Salarie>) {},
+  deleteSalarie(_id: string) {},
+  getPaiementsSalaires(): PaiementSalaire[] { return [] },
+  addPaiementSalaire(_: PaiementSalaire) {},
+  getReserveSnaps(): ReserveCaisseSnap[] { return [] },
+  addReserveSnap(_: ReserveCaisseSnap) {},
+  getCutoffs(): CutoffNotification[] { return DEFAULT_CUTOFFS },
+  saveCutoffs(_: any) {},
+  isReadOnly(): boolean { return false },
 
   // ── Purchase Orders ──────────────────────────────────────────────────────
   addPurchaseOrder(_: any) {},

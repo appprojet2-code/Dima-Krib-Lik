@@ -92,8 +92,8 @@ function _printBLLegacy(bl: BonLivraison) {
     <div class="doc-type">Bon de Livraison</div>
     <div class="doc-num">BL-${bl.id.slice(0,8).toUpperCase()}</div>
     <div class="doc-date">Date : ${bl.date}</div>
-    <div class="doc-date">Trip : ${bl.tripId.slice(0,8).toUpperCase()}</div>
-    <span class="badge badge-${bl.statut === "encaissé" ? "encaisse" : bl.statut === "retour_partiel" ? "retour" : "emis"}">${bl.statut.toUpperCase()}</span>
+    <div class="doc-date">Trip : ${(bl.tripId ?? "").slice(0,8).toUpperCase()}</div>
+    <span class="badge badge-${bl.statut === "encaissé" ? "encaisse" : bl.statut === "retour_partiel" ? "retour" : "emis"}">${(bl.statut ?? "").toUpperCase()}</span>
   </div>
 </div>
 
@@ -105,7 +105,7 @@ function _printBLLegacy(bl: BonLivraison) {
   </div>
   <div class="party">
     <div class="label">Livreur</div>
-    <div class="name">${bl.livreurNom}</div>
+    <div class="name">${bl.livreurNom ?? ""}</div>
     <div class="sub">Prévendeur : ${bl.prevendeurNom || "—"}</div>
   </div>
   <div class="party">
@@ -136,7 +136,7 @@ function _printBLLegacy(bl: BonLivraison) {
           : ""}
       </td>
       <td class="r">${l.quantite.toLocaleString("fr-MA")} ${(l as any).unite || ""}</td>
-      <td class="r">${l.prixUnitaire.toLocaleString("fr-MA", {minimumFractionDigits:2})} DH</td>
+      <td class="r">${(l.prixUnitaire ?? 0).toLocaleString("fr-MA", {minimumFractionDigits:2})} DH</td>
       <td class="r" style="font-weight:700">${l.total.toLocaleString("fr-MA", {minimumFractionDigits:2})} DH</td>
     </tr>`).join("")}
   </tbody>
@@ -287,7 +287,7 @@ function _printFactureLegacy(bl: BonLivraison) {
       <td style="color:#94a3b8;font-size:9pt">${i + 1}</td>
       <td><div class="art-name">${l.articleNom}</div></td>
       <td class="r">${l.quantite.toLocaleString("fr-MA")}</td>
-      <td class="r">${l.prixUnitaire.toLocaleString("fr-MA",{minimumFractionDigits:2})} DH</td>
+      <td class="r">${(l.prixUnitaire ?? 0).toLocaleString("fr-MA",{minimumFractionDigits:2})} DH</td>
       <td class="r" style="font-weight:700">${l.total.toLocaleString("fr-MA",{minimumFractionDigits:2})} DH</td>
     </tr>`).join("")}
   </tbody>
@@ -394,8 +394,8 @@ export default function BOCash() {
 
   const filtered = bls.filter(bl => {
     if (filter.date && bl.date !== filter.date) return false
-    if (filter.livreur && !bl.livreurNom.toLowerCase().includes(filter.livreur.toLowerCase())) return false
-    if (filter.secteur && !bl.secteur.toLowerCase().includes(filter.secteur.toLowerCase())) return false
+    if (filter.livreur && !(bl.livreurNom ?? "").toLowerCase().includes(filter.livreur.toLowerCase())) return false
+    if (filter.secteur && !(bl.secteur ?? "").toLowerCase().includes(filter.secteur.toLowerCase())) return false
     if (filter.prevendeur && !bl.prevendeurNom.toLowerCase().includes(filter.prevendeur.toLowerCase())) return false
     if (filter.client && !bl.clientNom.toLowerCase().includes(filter.client.toLowerCase())) return false
     return true
@@ -410,9 +410,10 @@ export default function BOCash() {
   const secteurs = [...new Set(bls.map(b => b.secteur).filter(Boolean))]
 
   const byLivreur = filtered.reduce((acc, bl) => {
-    if (!acc[bl.livreurNom]) acc[bl.livreurNom] = { total: 0, count: 0 }
-    acc[bl.livreurNom].total += bl.montantTotal
-    acc[bl.livreurNom].count++
+    const key = bl.livreurNom ?? ""
+    if (!acc[key]) acc[key] = { total: 0, count: 0 }
+    acc[key].total += bl.montantTotal
+    acc[key].count++
     return acc
   }, {} as Record<string, { total: number; count: number }>)
 
@@ -502,7 +503,7 @@ export default function BOCash() {
                   Aucun bon de livraison pour cette sélection
                 </td></tr>
               ) : filtered.map(bl => {
-                const st = STATUT_STYLE[bl.statut] || STATUT_STYLE["émis"]
+                const st = STATUT_STYLE[bl.statut ?? "émis"] || STATUT_STYLE["émis"]
                 return (
                   <tr key={bl.id} className="border-t border-border hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">{bl.date}</td>
