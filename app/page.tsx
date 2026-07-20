@@ -22,11 +22,56 @@ function Spinner() {
   )
 }
 
+function EntryChoice({ onChoose }: { onChoose: (choice: "interne" | "externe") => void }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background p-6">
+      <div className="max-w-md w-full flex flex-col items-center gap-6">
+        <div className="text-center">
+          <p className="text-lg font-bold text-foreground">FreshLink Pro</p>
+          <p className="text-sm text-muted-foreground mt-1">Choisissez votre espace / اختر مساحتك</p>
+        </div>
+        <div className="w-full flex flex-col gap-3">
+          <button
+            onClick={() => onChoose("interne")}
+            className="w-full py-4 px-5 rounded-2xl border-2 border-border bg-card hover:border-primary transition-colors text-left flex items-center gap-4"
+          >
+            <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold text-foreground text-sm">Espace Interne</p>
+              <p className="text-xs text-muted-foreground">Équipe FreshLink — الفريق الداخلي</p>
+            </div>
+          </button>
+          <button
+            onClick={() => onChoose("externe")}
+            className="w-full py-4 px-5 rounded-2xl border-2 border-border bg-card hover:border-primary transition-colors text-left flex items-center gap-4"
+          >
+            <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-8.13a4 4 0 110 8 4 4 0 010-8zm6 8a4 4 0 10-8 0" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold text-foreground text-sm">Espace Externe</p>
+              <p className="text-xs text-muted-foreground">Clients & Fournisseurs — الشركاء الخارجيون</p>
+            </div>
+          </button>
+        </div>
+        <p className="text-center text-xs text-muted-foreground/70">Powered by Vita Tech</p>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [view, setView] = useState<"mobile" | "backoffice">("backoffice")
   const [error, setError] = useState<string | null>(null)
+  const [entryChoice, setEntryChoice] = useState<"interne" | "externe" | null>(null)
 
   useEffect(() => {
     try {
@@ -86,10 +131,27 @@ export default function App() {
   // Loading
   if (loading) return <Spinner />
 
-  // Not logged in
+  // Not logged in — ask which space first (interne staff vs externe partners)
   if (!user) {
-    // Show unified external portal — it handles login + account request internally
-    return <PortailExterne />
+    if (entryChoice === null) {
+      return <EntryChoice onChoose={setEntryChoice} />
+    }
+    const backButton = (
+      <button
+        onClick={() => setEntryChoice(null)}
+        className="fixed top-3 left-3 z-[60] flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-card border border-border shadow text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+        Changer d&apos;espace
+      </button>
+    )
+    if (entryChoice === "interne") {
+      return <>{backButton}<LoginPage onLogin={handleLogin} /></>
+    }
+    // externe — handles login + account request internally
+    return <>{backButton}<PortailExterne /></>
   }
 
   // External portal roles stay in their dedicated UI

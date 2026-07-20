@@ -257,10 +257,10 @@ export default function BOSettings({ user }: { user: { id: string; name: string;
               <div className="flex flex-col gap-1">
                 <label className="text-xs font-semibold text-foreground">Sous-titre / Slogan</label>
                 <input type="text"
-                  value={company.appSlogan ?? company.nom ?? "Empire Fresh"}
+                  value={company.appSlogan ?? company.nom ?? "Powered by Vita Tech"}
                   onChange={e => setCompany(c => ({ ...c, appSlogan: e.target.value }))}
                   className="px-3 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Empire Fresh" />
+                  placeholder="Powered by Vita Tech" />
                 <p className="text-[10px] text-muted-foreground">Texte affiché sous le nom de l&apos;application</p>
               </div>
             </div>

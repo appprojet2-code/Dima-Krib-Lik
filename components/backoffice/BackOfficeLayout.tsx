@@ -519,7 +519,7 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
           onLogout={onLogout}
           onOpenProfil={() => setShowProfil(true)}
           appName={companyBrand.appName || "FreshLink Pro"}
-          appSlogan={companyBrand.appSlogan || companyBrand.nom || "Empire Fresh"}
+          appSlogan={companyBrand.appSlogan || companyBrand.nom || "Powered by Vita Tech"}
           appLogo={companyBrand.logo || ""}
         />
       </div>
@@ -544,7 +544,7 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
               onLogout={onLogout}
               onOpenProfil={() => setShowProfil(true)}
               appName={companyBrand.appName || "FreshLink Pro"}
-              appSlogan={companyBrand.appSlogan || companyBrand.nom || "Empire Fresh"}
+              appSlogan={companyBrand.appSlogan || companyBrand.nom || "Powered by Vita Tech"}
               appLogo={companyBrand.logo || ""}
             />
           </div>

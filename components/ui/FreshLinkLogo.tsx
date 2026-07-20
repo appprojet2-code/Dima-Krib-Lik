@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const BRAND = {
-  company: "Empire Fresh",
+  company: "Powered by Vita Tech",
   companyTag: "Fruit & Vegetable Distribution Network — Morocco",
   app: "Fresh Link Pro",
   tagline: "Gestion & Distribution Intelligente",
@@ -19,18 +19,13 @@ export const BRAND = {
 
 function EFIcon({ size }: { size: number }) {
   return (
-    <svg
+    <img
+      src="/icon-512.png"
+      alt={BRAND.app}
       width={size}
       height={size}
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ borderRadius: 10, flexShrink: 0 }}
-    >
-      <rect width="48" height="48" rx="10" fill="#1a4f2a" />
-      <text x="24" y="34" textAnchor="middle" fontSize="26" fontWeight="900" fontFamily="Arial, sans-serif" fill="#b8962e">EF</text>
-      <path d="M8 38 Q24 42 40 38" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.6" />
-    </svg>
+      style={{ width: size, height: size, borderRadius: 10, flexShrink: 0, objectFit: "cover" }}
+    />
   )
 }
 
