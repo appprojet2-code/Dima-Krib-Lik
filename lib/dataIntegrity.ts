@@ -1,7 +1,7 @@
 "use client"
 
 /**
- * Data Integrity Guard — Dima Krib Lik
+ * Data Integrity Guard — Powered by Vita Tech
  *
  * Runs once on application startup to detect and recover from corrupted
  * localStorage entries before any component tries to read them.

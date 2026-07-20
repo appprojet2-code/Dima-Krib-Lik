@@ -646,7 +646,7 @@ export default function PortailClient({ user, onLogout }: Props) {
 
       <footer className="border-t border-border bg-card px-4 py-3 flex items-center justify-center">
         <p className="text-[11px] text-muted-foreground text-center">
-          &copy; 2026 <span className="font-semibold text-foreground">Dima Krib Lik</span> By{" "}
+          &copy; 2026 <span className="font-semibold text-foreground">FreshLink Pro</span> By{" "}
           <span className="font-bold text-primary">Jawad</span>
           {" "}&mdash; Tous droits reserves / جميع الحقوق محفوظة
         </p>

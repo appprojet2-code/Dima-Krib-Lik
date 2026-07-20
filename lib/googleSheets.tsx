@@ -1,5 +1,5 @@
 /**
- * Google Sheets Sync — Dima Krib Lik
+ * Google Sheets Sync — FreshLink Pro
  *
  * Architecture:
  *  - Each Google Sheet has a corresponding Google Apps Script Web App URL
@@ -254,7 +254,7 @@ export async function pushToSheet(
 
 export const APPS_SCRIPT_TEMPLATE = `
 // ============================================================
-// Dima Krib Lik — AppScript Web App
+// FreshLink Pro — AppScript Web App
 // ============================================================
 // INSTRUCTIONS :
 //  1. Ouvrir le fichier Google Sheet cible
@@ -308,7 +308,7 @@ function doPost(e) {
 // GET → renvoie une page HTML (evite l'ecran blanc dans le navigateur)
 function doGet(e) {
   const html = '<html><body style="font-family:sans-serif;padding:24px">'
-    + '<h2 style="color:#0F9D58">Dima Krib Lik — AppScript actif</h2>'
+    + '<h2 style="color:#0F9D58">FreshLink Pro — AppScript actif</h2>'
     + '<p>Ce script est correctement deploye. Utilisez POST pour synchroniser les donnees.</p>'
     + '<p style="color:#666;font-size:12px">Deploye le : ' + new Date().toLocaleString() + '</p>'
     + '</body></html>';

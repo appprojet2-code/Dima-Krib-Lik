@@ -121,10 +121,10 @@ export default function BOAchat() {
         .map(l => `• ${l.articleNom}: ${l.quantite} — PA: ${l.prixAchat.toFixed(2)} DH`)
         .join("\n")
       const msg = encodeURIComponent(
-        `🛒 Nouvelle commande Dima Krib Lik\n` +
+        `🛒 Nouvelle commande FreshLink Pro\n` +
         `Ref: ${bon.id.slice(0, 12)}\nDate: ${bon.date}\n\n` +
         `${lignesText}\n\n` +
-        `Merci de preparer la marchandise. / يرجى تجهيز البضاعة.\n— Dima Krib Lik`
+        `Merci de preparer la marchandise. / يرجى تجهيز البضاعة.\n— FreshLink Pro`
       )
       window.open(`https://wa.me/${phone}?text=${msg}`, "_blank")
     }
@@ -285,7 +285,7 @@ export default function BOAchat() {
                           </svg>
                         </div>
                         <div>
-                          <p className="text-base font-black text-sidebar tracking-tight">Dima Krib Lik</p>
+                          <p className="text-base font-black text-sidebar tracking-tight">FreshLink Pro</p>
                           <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Distribution Fruits & Legumes</p>
                         </div>
                       </div>
@@ -305,7 +305,7 @@ export default function BOAchat() {
                     {/* Acheteur / Emetteur */}
                     <div className="rounded-xl border border-border p-3 flex flex-col gap-1.5 bg-muted/20">
                       <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Commande emise par / المُصدر</p>
-                      <p className="font-bold text-foreground text-sm">Dima Krib Lik</p>
+                      <p className="font-bold text-foreground text-sm">FreshLink Pro</p>
                       <p className="text-xs text-muted-foreground">Service Achats / قسم المشتريات</p>
                       <p className="text-xs text-muted-foreground">Date: {today}</p>
                       {formEmail && <p className="text-xs text-primary font-medium">{formEmail}</p>}
@@ -478,7 +478,7 @@ export default function BOAchat() {
 
                   {/* Footer document */}
                   <p className="text-center text-[9px] text-muted-foreground pt-2 border-t border-border">
-                    Dima Krib Lik — Distribution Fruits & Legumes — &copy; 2026 By Jawad — Tous droits reserves
+                    FreshLink Pro — Distribution Fruits & Legumes — &copy; 2026 By Jawad — Tous droits reserves
                   </p>
                 </div>
 

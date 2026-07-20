@@ -1,7 +1,7 @@
 "use client"
 
 // ============================================================
-// Dima Krib Lik — SyncManager
+// FreshLink Pro — SyncManager
 // Pushes all existing localStorage data → Supabase on first login.
 // Safe to run multiple times (uses upsert). Shows a progress UI.
 // ============================================================

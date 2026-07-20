@@ -424,8 +424,8 @@ export default function BOHRDocuments({ user }: { user: User }) {
   const company = useMemo(() => {
     try {
       const cfg = JSON.parse(localStorage.getItem("fl_company_config") ?? "{}")
-      return cfg.nom ?? "Dima Krib Lik"
-    } catch { return "Dima Krib Lik" }
+      return cfg.nom ?? "FreshLink Pro"
+    } catch { return "FreshLink Pro" }
   }, [])
 
   const companyConfig = useMemo(() => {

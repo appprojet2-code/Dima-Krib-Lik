@@ -1165,7 +1165,7 @@ export default function BOBonLivraison({ user }: { user: User }) {
             <p className="text-xs font-black text-amber-800 uppercase tracking-wide mb-3">Personnalisation du modele d&apos;impression BL</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {([
-                ["nomSocieteOverride",  "Nom societe",          "Dima Krib Lik"],
+                ["nomSocieteOverride",  "Nom societe",          "FreshLink Pro"],
                 ["adresseOverride",     "Adresse",              "Rue, Ville"],
                 ["telOverride",         "Telephone",            "0522..."],
                 ["iceOverride",         "ICE societe",          "001..."],

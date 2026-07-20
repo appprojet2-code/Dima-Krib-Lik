@@ -200,7 +200,7 @@ export default function BOSourcing({ user }: { user?: { id: string; name: string
   }
 
   function formatWA(entry: SourcingEntry) {
-    const txt = `🛒 *Sourcing Dima Krib Lik*\n\n*Article:* ${entry.articleNom} (${entry.categorie})\n*Grade:* ${entry.qualiteGrade} | *Statut:* ${STATUT_LABELS[entry.statut]}\n*Prix:* ${entry.prixUnitaire} MAD/${entry.unite}\n*Qté dispo:* ${entry.quantiteDisponible} ${entry.unite}\n*Fournisseur:* ${entry.fournisseurNom}\n*Marché:* ${entry.marche} — ${entry.region}\n*Délai:* ${entry.delaiLivraison ?? "?"}`
+    const txt = `🛒 *Sourcing FreshLink Pro*\n\n*Article:* ${entry.articleNom} (${entry.categorie})\n*Grade:* ${entry.qualiteGrade} | *Statut:* ${STATUT_LABELS[entry.statut]}\n*Prix:* ${entry.prixUnitaire} MAD/${entry.unite}\n*Qté dispo:* ${entry.quantiteDisponible} ${entry.unite}\n*Fournisseur:* ${entry.fournisseurNom}\n*Marché:* ${entry.marche} — ${entry.region}\n*Délai:* ${entry.delaiLivraison ?? "?"}`
     return `https://wa.me/?text=${encodeURIComponent(txt)}`
   }
 

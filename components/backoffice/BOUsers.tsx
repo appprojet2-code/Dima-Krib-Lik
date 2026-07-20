@@ -926,11 +926,11 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
     if (u.email && u.email.includes("@")) {
       await sendEmail({
         to_email: u.email,
-        subject: `Dima Krib Lik — Nouveau mot de passe pour ${u.name}`,
+        subject: `FreshLink Pro — Nouveau mot de passe pour ${u.name}`,
         body: [
           `Bonjour ${u.name},`,
           "",
-          "Un administrateur a généré un nouveau mot de passe pour votre compte Dima Krib Lik.",
+          "Un administrateur a généré un nouveau mot de passe pour votre compte FreshLink Pro.",
           "",
           `  Identifiant : ${u.email || u.name}`,
           `  Nouveau mot de passe : ${pwd}`,

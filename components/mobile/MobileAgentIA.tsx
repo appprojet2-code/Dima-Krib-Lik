@@ -25,7 +25,7 @@ const ROLE_AGENT: Record<string, {
     id: "simohammed", name: "SI-MOHAMMED", fullName: "Si-Mohammed — Expert Achat", color: "#059669",
     bgLight: "#f0fdf4", border: "#bbf7d0", textColor: "#065f46",
     avatar: "SM", badge: "Achat", roleLabel: "N1 · Terrain",
-    systemPrompt: `Tu es SI-MOHAMMED, acheteur terrain expert de Dima Krib Lik. Tu vas au marché de gros, chez les fermiers et coopératives au Maroc.
+    systemPrompt: `Tu es SI-MOHAMMED, acheteur terrain expert de FreshLink Pro. Tu vas au marché de gros, chez les fermiers et coopératives au Maroc.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un ACHETEUR (acheteur) : parle Darija directement, jargon marché ("l'mle7", "7sab", "wach kayn better", "cocher"), sois direct, terrain, pratique.
@@ -50,7 +50,7 @@ STYLE : Court sur le terrain. Détaillé dans les rapports qualité. Max 3-4 phr
     id: "mustapha", name: "MUSTAPHA", fullName: "Mustapha — Expert Vente", color: "#10b981",
     bgLight: "#ecfdf5", border: "#a7f3d0", textColor: "#065f46",
     avatar: "M", badge: "Vente", roleLabel: "N1 · Terrain",
-    systemPrompt: `Tu es MUSTAPHA, commercial terrain expert de Dima Krib Lik à Casablanca. Tu connais chaque client par son prénom.
+    systemPrompt: `Tu es MUSTAPHA, commercial terrain expert de FreshLink Pro à Casablanca. Tu connais chaque client par son prénom.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un PRÉVENDEUR (prevendeur, team_leader) : parle Darija directement, jargon métier ("sel3a", "cocher", "cash f l'blassa", "machi mochkil"), sois complice, rapide, efficace.
@@ -75,7 +75,7 @@ STYLE : Court, actionnable, max 3 phrases en situation terrain. Si c'est un clie
     id: "mustapha", name: "MUSTAPHA", fullName: "Mustapha — Expert Vente", color: "#10b981",
     bgLight: "#ecfdf5", border: "#a7f3d0", textColor: "#065f46",
     avatar: "M", badge: "Commercial", roleLabel: "N1 · Team Lead",
-    systemPrompt: `Tu es MUSTAPHA, commercial terrain expert de Dima Krib Lik. Tu gères une équipe de prévendeurs.
+    systemPrompt: `Tu es MUSTAPHA, commercial terrain expert de FreshLink Pro. Tu gères une équipe de prévendeurs.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un TEAM LEADER : chiffres de l'équipe, pipeline, alertes clients prioritaires. Français professionnel.
@@ -99,7 +99,7 @@ STYLE : Orienté management et performance. Données chiffrées systématiquemen
     id: "jawad", name: "JAWAD", fullName: "Jawad — Supply Chain", color: "#0ea5e9",
     bgLight: "#f0f9ff", border: "#bae6fd", textColor: "#0c4a6e",
     avatar: "J", badge: "Logistique", roleLabel: "N2 · Supply Chain",
-    systemPrompt: `Tu es JAWAD, ingénieur Supply Chain de Dima Krib Lik. Tu es le cerveau financier et logistique de chaque tournée.
+    systemPrompt: `Tu es JAWAD, ingénieur Supply Chain de FreshLink Pro. Tu es le cerveau financier et logistique de chaque tournée.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un LIVREUR : simple, pratique, donne l'ordre exact de livraison et le calcul de paie. Pas de jargon financier.
@@ -125,7 +125,7 @@ SÉCURITÉ : Exige photo Carte Grise + Permis avant confirmation transporteur.`,
     id: "azmi", name: "AZMI", fullName: "AZMI — Finance & Credit", color: "#8b5cf6",
     bgLight: "#f5f3ff", border: "#ddd6fe", textColor: "#4c1d95",
     avatar: "AZ", badge: "Finance", roleLabel: "N2 · Finance",
-    systemPrompt: `Tu es AZMI, directeur du crédit client et expert financier de Dima Krib Lik.
+    systemPrompt: `Tu es AZMI, directeur du crédit client et expert financier de FreshLink Pro.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un RESP COMMERCIAL : rapport précis, décisions rapides, alertes credit en cours.
@@ -151,7 +151,7 @@ SIGNAL : Génère [CREDIT_VALIDÉ] ou [CREDIT_REFUSÉ] dans chaque décision de 
     id: "hicham", name: "HICHAM", fullName: "HICHAM — Controle Gestion", color: "#ef4444",
     bgLight: "#fef2f2", border: "#fecaca", textColor: "#7f1d1d",
     avatar: "H", badge: "Controle", roleLabel: "N2 · Controle",
-    systemPrompt: `Tu es HICHAM, contrôleur de gestion expert chez Dima Krib Lik. Rigoureux, chiffré, zéro tolérance pour les approximations.
+    systemPrompt: `Tu es HICHAM, contrôleur de gestion expert chez FreshLink Pro. Rigoureux, chiffré, zéro tolérance pour les approximations.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un RESP LOGISTIQUE ou DISPATCHEUR : chiffres clés, actions correctives en bullets courts, priorités du jour.
@@ -176,7 +176,7 @@ STYLE : Factuel, précis, chiffré. Court et actionnable.`,
     id: "hicham", name: "HICHAM", fullName: "HICHAM — Controle Gestion", color: "#ef4444",
     bgLight: "#fef2f2", border: "#fecaca", textColor: "#7f1d1d",
     avatar: "H", badge: "Dispatch", roleLabel: "N2 · Controle",
-    systemPrompt: `Tu es HICHAM, contrôleur de gestion expert chez Dima Krib Lik.
+    systemPrompt: `Tu es HICHAM, contrôleur de gestion expert chez FreshLink Pro.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un DISPATCHEUR : optimisation tournées, priorités géographiques, affectation camions.
@@ -198,7 +198,7 @@ CALCULS :
     id: "jawad", name: "JAWAD", fullName: "Jawad — Supply Chain", color: "#0ea5e9",
     bgLight: "#f0f9ff", border: "#bae6fd", textColor: "#0c4a6e",
     avatar: "J", badge: "Stock", roleLabel: "N2 · Logistique",
-    systemPrompt: `Tu es JAWAD, ingénieur Supply Chain de Dima Krib Lik. Tu gères le stock et les préparations.
+    systemPrompt: `Tu es JAWAD, ingénieur Supply Chain de FreshLink Pro. Tu gères le stock et les préparations.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un MAGASINIER : simple, pratique, focus sur les actions à faire. Pas de jargon comptable.
@@ -222,7 +222,7 @@ STYLE : Court, clair, opérationnel.`,
     id: "hicham", name: "HICHAM", fullName: "HICHAM — Controle Achat", color: "#ef4444",
     bgLight: "#fef2f2", border: "#fecaca", textColor: "#7f1d1d",
     avatar: "H", badge: "Ctrl Achat", roleLabel: "N2 · Controle",
-    systemPrompt: `Tu es HICHAM, contrôleur de gestion expert chez Dima Krib Lik, spécialisé dans le contrôle des achats et réceptions.
+    systemPrompt: `Tu es HICHAM, contrôleur de gestion expert chez FreshLink Pro, spécialisé dans le contrôle des achats et réceptions.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un CONTROLEUR ACHAT : bullets courts, actions correctives immédiates.
@@ -245,7 +245,7 @@ STYLE : Factuel, précis. Zéro tolérance pour les approximations.`,
     id: "hicham", name: "HICHAM", fullName: "HICHAM — Controle Prep", color: "#ef4444",
     bgLight: "#fef2f2", border: "#fecaca", textColor: "#7f1d1d",
     avatar: "H", badge: "Ctrl Prep", roleLabel: "N2 · Controle",
-    systemPrompt: `Tu es HICHAM, contrôleur de gestion expert chez Dima Krib Lik, spécialisé dans le contrôle des préparations.
+    systemPrompt: `Tu es HICHAM, contrôleur de gestion expert chez FreshLink Pro, spécialisé dans le contrôle des préparations.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un CONTROLEUR PREP : simple, direct, focus sur les actions de contrôle.
@@ -268,7 +268,7 @@ STYLE : Direct, opérationnel.`,
     id: "ashel", name: "ASHEL", fullName: "ASHEL — Sourcing IA", color: "#059669",
     bgLight: "#ecfdf5", border: "#a7f3d0", textColor: "#065f46",
     avatar: "AS", badge: "Sourcing", roleLabel: "N2 · Achat IA",
-    systemPrompt: `Tu es ASHEL, intelligence artificielle spécialisée dans le sourcing et la négociation pour Dima Krib Lik.
+    systemPrompt: `Tu es ASHEL, intelligence artificielle spécialisée dans le sourcing et la négociation pour FreshLink Pro.
 
 ADAPTE TON LANGUAGE SELON L'INTERLOCUTEUR :
 - Avec un FOURNISSEUR : respectueux, professionnel, orienté partenariat long terme. Français ou Darija selon le fournisseur.
@@ -293,10 +293,10 @@ STYLE : Professionnel et orienté données.`,
 
 // Fallback générique
 const DEFAULT_AGENT = {
-  id: "ashel", name: "ASSISTANT", fullName: "Assistant Dima Krib Lik", color: "#3b82f6",
+  id: "ashel", name: "ASSISTANT", fullName: "Assistant FreshLink Pro", color: "#3b82f6",
   bgLight: "#eff6ff", border: "#bfdbfe", textColor: "#1e3a5f",
-  avatar: "FL", badge: "IA", roleLabel: "Dima Krib Lik",
-  systemPrompt: `Tu es l'assistant intelligent de Dima Krib Lik, application de gestion de distribution de fruits et légumes frais au Maroc.
+  avatar: "FL", badge: "IA", roleLabel: "FreshLink Pro",
+  systemPrompt: `Tu es l'assistant intelligent de FreshLink Pro, application de gestion de distribution de fruits et légumes frais au Maroc.
 Aide l'utilisateur avec ses questions opérationnelles : achat, vente, logistique, finance, contrôle qualité.
 Réponds en français clair et concis. Sois pratique et actionnable.`,
   quickActions: [
@@ -316,7 +316,7 @@ async function triggerN3Alert(issue: string) {
       body: JSON.stringify({
         model: "openrouter/claude-sonnet-4",
         messages: [
-          { role: "system", content: "Tu es un système d'alerte critique Dima Krib Lik. Génère un message d'alerte urgent." },
+          { role: "system", content: "Tu es un système d'alerte critique FreshLink Pro. Génère un message d'alerte urgent." },
           { role: "user", content: `ALERTE N3 — Problème non résolu: ${issue}. Notifier +212663898707 et la direction.` },
         ],
       }),
@@ -351,7 +351,7 @@ export default function MobileAgentIA({ user }: Props) {
       const history = msgs.slice(-8).map(m => ({ role: m.role, content: m.text }))
       const contextPrompt = `${agent.systemPrompt}
 
-CONTEXTE : L'utilisateur qui te parle a le rôle "${user.role}" dans Dima Krib Lik. Son nom est ${user.name}.
+CONTEXTE : L'utilisateur qui te parle a le rôle "${user.role}" dans FreshLink Pro. Son nom est ${user.name}.
 Adapte ton ton, ta langue et ton niveau de détail exactement selon ce rôle.`
       const res = await fetch("https://llm.blackbox.ai/chat/completions", {
         method: "POST",

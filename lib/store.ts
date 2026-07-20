@@ -132,7 +132,7 @@ const DEFAULT_USERS: User[] = [
   {
     id:        "u-master",
     name:      "Jawad",
-    email:     "jawad@dimakriblik.ma",
+    email:     "jawad@empire.fresh.co.site",
     username:  "jawad",
     password:  "Medghaly@22",
     role:      "master_admin",
@@ -561,10 +561,10 @@ export interface CompanyConfig {
 }
 
 const DEFAULT_COMPANY_CONFIG: CompanyConfig = {
-  appName:   "Dima Krib Lik",
+  appName:   "FreshLink Pro",
   appSlogan: "Powered by Vita Tech",
   logo:      "/empire-fresh-logo.png",
-  nom:       "Dima Krib Lik",
+  nom:       "Powered by Vita Tech",
 }
 
 // Types Logistique/RH minimalistes — hors périmètre Achat/Réception/Commandes/Facturation,

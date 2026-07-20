@@ -141,19 +141,19 @@ function blCSS(accent: string) {
 }
 
 // ── Print BL ──────────────────────────────────────────────────────────────────
-// ── Default Dima Krib Lik company config ───────────────────────────────────────
+// ── Default Powered by Vita Tech company config ───────────────────────────────────────
 export const EMPIRE_FRESH_CONFIG: CompanyConfig = {
-  nom: "Dima Krib Lik",
+  nom: "Powered by Vita Tech",
   adresse: "Zone Industrielle, Casablanca",
   ville: "Casablanca, Maroc",
   telephone: "+212 5XX-XXXXXX",
-  email: "contact@dimakriblik.ma",
+  email: "contact@empirefresh.ma",
   ice: "000000000000000",
   rc: "XXXXXX",
   if_fiscal: "XXXXXXXX",
   logo: "/empire-fresh-logo.png",
   couleurEntete: "#1a4f2a",
-  mentionsBL: "Dima Krib Lik — Distribution Network, Morocco. Marchandises voyageant aux risques et perils du destinataire.",
+  mentionsBL: "Powered by Vita Tech — Fruit & Vegetable Distribution Network, Morocco. Marchandises voyageant aux risques et perils du destinataire.",
   mentionsFacture: "Merci de regler sous 30 jours. Tout retard entraine des penalites de 1,5% par mois. ICE inclus sur la presente facture.",
 }
 
@@ -161,7 +161,7 @@ export function printBL(bl: BonLivraison, company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
   const accent = cfg.couleurEntete ?? "#1a4f2a"
   const goldAccent = "#b8962e"
-  const companyNom = cfg.nom ?? "Dima Krib Lik"
+  const companyNom = cfg.nom ?? "Powered by Vita Tech"
   const now = new Date()
   const dateStr = bl.date ?? now.toLocaleDateString("fr-FR")
   const blId = (bl as unknown as { numero?: string }).numero ?? bl.id
@@ -196,10 +196,10 @@ export function printBL(bl: BonLivraison, company?: CompanyConfig) {
 <div class="doc">
   <div class="ef-header">
     <div class="ef-brand">
-      <img src="/empire-fresh-logo.png" alt="Dima Krib Lik" class="ef-logo" onerror="this.style.display='none'" />
+      <img src="/empire-fresh-logo.png" alt="Powered by Vita Tech" class="ef-logo" onerror="this.style.display='none'" />
       <div class="ef-brand-text">
-        <div class="ef-company">Dima Krib Lik</div>
-        <div class="ef-tagline">Powered by Vita Tech</div>
+        <div class="ef-company">Empire <span>Fresh</span></div>
+        <div class="ef-tagline">Fruit &amp; Vegetable Distribution Network</div>
         <div class="ef-contact">
           ${cfg.adresse ?? ""}<br>
           ${cfg.ville ?? ""}${cfg.telephone ? " &mdash; " + cfg.telephone : ""}<br>
@@ -296,7 +296,7 @@ export function printFacture(bl: BonLivraison, factureNum: string, company?: Com
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
   const accent = cfg.couleurEntete ?? "#1a4f2a"
   const goldAccent = "#b8962e"
-  const companyNom = cfg.nom ?? "Dima Krib Lik"
+  const companyNom = cfg.nom ?? "Powered by Vita Tech"
   const dateStr = bl.date ?? new Date().toLocaleDateString("fr-FR")
   const subtotal = bl.lignes.reduce((s, l) => s + l.total, 0)
   const tva = subtotal * 0.0  // adjust TVA here
@@ -393,7 +393,7 @@ export function printPurchaseOrder(po: PurchaseOrder, company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
   const accent = cfg.couleurEntete ?? "#1a4f2a"
   const goldAccent = "#b8962e"
-  const companyNom = cfg.nom ?? "Dima Krib Lik"
+  const companyNom = cfg.nom ?? "Powered by Vita Tech"
   const dateStr = po.date ?? new Date().toLocaleDateString("fr-FR")
   const total = po.total
 
@@ -415,10 +415,10 @@ export function printPurchaseOrder(po: PurchaseOrder, company?: CompanyConfig) {
 <div class="doc">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:4px solid ${accent};">
     <div style="display:flex;align-items:center;gap:12px;">
-      <img src="/empire-fresh-logo.png" alt="Dima Krib Lik" style="width:64px;height:64px;object-fit:contain;" onerror="this.style.display='none'" />
+      <img src="/empire-fresh-logo.png" alt="Powered by Vita Tech" style="width:64px;height:64px;object-fit:contain;" onerror="this.style.display='none'" />
       <div>
-        <div style="font-size:18px;font-weight:900;color:${accent};">Dima Krib Lik</div>
-        <div style="font-size:9px;font-weight:700;color:${goldAccent};letter-spacing:1.5px;text-transform:uppercase;">Powered by Vita Tech</div>
+        <div style="font-size:18px;font-weight:900;color:${accent};">Empire <span style="color:${goldAccent};">Fresh</span></div>
+        <div style="font-size:9px;font-weight:700;color:${goldAccent};letter-spacing:1.5px;text-transform:uppercase;">Fruit &amp; Vegetable Distribution</div>
         <div style="font-size:10px;color:#475569;margin-top:3px;line-height:1.5;">
           ${cfg.adresse ?? ""} — ${cfg.ville ?? ""}<br>
           Tel: ${cfg.telephone ?? ""} &mdash; ICE: ${cfg.ice ?? ""}<br>
@@ -505,7 +505,7 @@ export function printHRDoc(data: HRDocData, company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
   const accent = cfg.couleurEntete ?? "#1a4f2a"
   const goldAccent = "#b8962e"
-  const companyNom = data.societe ?? cfg.nom ?? "Dima Krib Lik"
+  const companyNom = data.societe ?? cfg.nom ?? "Powered by Vita Tech"
 
   const html = `<!DOCTYPE html>
 <html lang="fr">
@@ -544,10 +544,10 @@ export function printHRDoc(data: HRDocData, company?: CompanyConfig) {
 <div class="doc">
   <div class="letterhead">
     <div class="co-brand">
-      <img src="/empire-fresh-logo.png" alt="Dima Krib Lik" class="co-logo" onerror="this.style.display='none'" />
+      <img src="/empire-fresh-logo.png" alt="Powered by Vita Tech" class="co-logo" onerror="this.style.display='none'" />
       <div>
-        <div class="co-name">Dima Krib Lik</div>
-        <div class="co-tag">Powered by Vita Tech</div>
+        <div class="co-name">Empire <span>Fresh</span></div>
+        <div class="co-tag">Fruit &amp; Vegetable Distribution</div>
         <div class="co-meta">
           ${cfg.adresse ?? ""}${cfg.ville ? " — " + cfg.ville : ""}<br>
           ${cfg.telephone ? "Tel: " + cfg.telephone : ""}${cfg.rc ? " &mdash; RC: " + cfg.rc : ""}
@@ -598,7 +598,7 @@ export function printHRDoc(data: HRDocData, company?: CompanyConfig) {
 export function printFichePaie(salarie: Salarie | null, brut: number, periode: string, heuresSup = 0, primes = 0, modePaie = "virement", company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
   const accent = cfg.couleurEntete ?? "#1a4f2a"
-  const companyNom = cfg.nom ?? "Dima Krib Lik"
+  const companyNom = cfg.nom ?? "Powered by Vita Tech"
   const calc = calcPayroll(brut + primes)
   const totalBrut = brut + primes
   const brutSup = heuresSup > 0 ? Math.round((brut / 208) * 1.25 * heuresSup) : 0
@@ -652,7 +652,7 @@ export function printFichePaie(salarie: Salarie | null, brut: number, periode: s
   <div class="header-stripe"></div>
   <div class="slip-header">
     <div style="display:flex;align-items:center;gap:10px;">
-      <img src="/empire-fresh-logo.png" alt="Dima Krib Lik" style="width:48px;height:48px;object-fit:contain;" onerror="this.style.display='none'" />
+      <img src="/empire-fresh-logo.png" alt="Powered by Vita Tech" style="width:48px;height:48px;object-fit:contain;" onerror="this.style.display='none'" />
       <div>
         <div class="co-name">${companyNom}</div>
         <div class="co-meta">
@@ -733,7 +733,7 @@ export function printFichePaie(salarie: Salarie | null, brut: number, periode: s
 // ── Download HR Doc as Word (.doc) ────────────────────────────────────────────
 export function downloadHRDocAsWord(data: HRDocData, company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
-  const companyNom = data.societe ?? cfg.nom ?? "Dima Krib Lik"
+  const companyNom = data.societe ?? cfg.nom ?? "Powered by Vita Tech"
   const content = `<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="UTF-8"><style>body{font-family:Times New Roman,serif;font-size:12pt;line-height:1.8;margin:3cm;color:#000}h1{font-size:16pt;font-weight:bold;text-align:center;margin-bottom:20pt}h2{font-size:13pt;font-weight:bold;margin-top:14pt}.header{display:flex;justify-content:space-between;margin-bottom:30pt;padding-bottom:10pt;border-bottom:2pt solid #000}.sig{margin-top:60pt;display:grid;grid-template-columns:1fr 1fr;gap:40pt}.sig-box{text-align:center}.sig-line{border-top:1pt solid #000;padding-top:6pt;margin-top:40pt}</style></head>
 <body>
 <div class="header"><div><strong>${companyNom}</strong><br>${cfg.adresse ?? ""}<br>${cfg.telephone ? "Tel: " + cfg.telephone : ""}</div><div style="text-align:right"><strong>${data.titre ?? ""}</strong><br>Date: ${data.dateDoc ?? new Date().toLocaleDateString("fr-FR")}</div></div>
@@ -923,8 +923,8 @@ function buildBLHtml(bl: BOBonLivraison, opts: PrintBLOpts): string {
     <div class="ef-brand">
       <img src="${logo}" alt="${companyNom}" class="ef-logo" onerror="this.style.display='none'" />
       <div>
-        <div class="ef-company">${companyNom}</div>
-        <div class="ef-tagline">Powered by Vita Tech</div>
+        <div class="ef-company">${companyNom.replace("Fresh", "<span>Fresh</span>")}</div>
+        <div class="ef-tagline">Fruit &amp; Vegetable Distribution Network</div>
         <div class="ef-contact">
           ${adresse}<br>
           ${telephone ? "Tel: " + telephone + " &mdash; " : ""}ICE: ${ice}<br>

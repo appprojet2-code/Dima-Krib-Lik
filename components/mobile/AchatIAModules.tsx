@@ -173,7 +173,7 @@ export function CameraQualiteIA({ articles, fournisseurs, user }: CameraQualiteI
     const timeout = setTimeout(() => controller.abort(), 60000) // 60s timeout
 
     try {
-      const systemPrompt = `Tu es SI-MOHAMMED, expert acheteur terrain de Dima Krib Lik specialise en fruits et legumes frais.
+      const systemPrompt = `Tu es SI-MOHAMMED, expert acheteur terrain de FreshLink Pro specialise en fruits et legumes frais.
 Tu analyses des photos de produits pour evaluer leur qualite et aider l'acheteur a prendre la meilleure decision.
 
 ARTICLE A EVALUER: ${article.nom} (${article.unite})
@@ -750,7 +750,7 @@ export function ComparatifFournisseurs({ articles, fournisseurs }: ComparatifFou
   - ${histStr}`
       }).join("\n\n")
 
-      const systemPrompt = `Tu es ASHEL, expert IA en sourcing et negociation d'achat pour Dima Krib Lik.
+      const systemPrompt = `Tu es ASHEL, expert IA en sourcing et negociation d'achat pour FreshLink Pro.
 
 ARTICLE: ${article.nom} (${article.unite})
 PRIX MOYEN HISTORIQUE: ${prixMoyen} DH/${article.unite}

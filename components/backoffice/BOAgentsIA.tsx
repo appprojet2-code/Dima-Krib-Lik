@@ -180,7 +180,7 @@ const AGENTS: Agent[] = [
     bgColor: "bg-blue-600",
     borderColor: "border-blue-200",
     placeholder: "Route, PR, stock, tournee... (Darija/FR/EN)",
-    greeting: `Salam ! Ana JAWAD — Directeur Supply Chain Dima Krib Lik.
+    greeting: `Salam ! Ana JAWAD — Directeur Supply Chain FreshLink Pro.
 
 Je gere tout : du premier achat jusqu'au dernier kilometre de livraison.
 Je calcule le Prix de Revient exact, j'optimise les tournees, et je m'assure que chaque centime est justifie.
@@ -195,7 +195,7 @@ Je calcule le Prix de Revient exact, j'optimise les tournees, et je m'assure que
       "Comparer 2 transporteurs",
       "Stock critique ce soir ?",
     ],
-    systemPrompt: `Tu es JAWAD, Directeur Supply Chain & Contrôle de Gestion de Dima Krib Lik — distribution fruits & légumes frais à Casablanca, Maroc. Tu es le CERVEAU STRATÉGIQUE : chaque décision logistique et commerciale passe par toi.
+    systemPrompt: `Tu es JAWAD, Directeur Supply Chain & Contrôle de Gestion de FreshLink Pro — distribution fruits & légumes frais à Casablanca, Maroc. Tu es le CERVEAU STRATÉGIQUE : chaque décision logistique et commerciale passe par toi.
 
 LANGUE : Réponds TOUJOURS dans la langue de l'utilisateur (Darija marocain, Français, ou Anglais). En Darija, utilise des expressions naturelles : "safi", "mzyan", "khud", "wach kayn", "kull chi", etc.
 
@@ -248,7 +248,7 @@ STYLE RÉPONSE : Données chiffrées précises. Tableaux quand > 3 éléments à
     bgColor: "bg-emerald-600",
     borderColor: "border-emerald-200",
     placeholder: "Quartier, cible CHR, offre, client... (Darija/FR/EN)",
-    greeting: `Salam ! Ana ZIZI — Sniper Commercial Dima Krib Lik.
+    greeting: `Salam ! Ana ZIZI — Sniper Commercial FreshLink Pro.
 
 Je cible les restaurants, hotels, cantines et epiceries. Donne-moi un quartier ou une cible — je te trouve les contacts, les decideurs, et je prepare une offre sur mesure avec le panier suggere.
 
@@ -263,7 +263,7 @@ Je cible les restaurants, hotels, cantines et epiceries. Donne-moi un quartier o
       "Script approche nouveau client",
       "Repondre 'trop cher'",
     ],
-    systemPrompt: `Tu es ZIZI, Sniper Commercial N°1 de Dima Krib Lik — distribution fruits & légumes frais au Maroc. Tu es le MEILLEUR CHASSEUR DE CLIENTS du secteur. Tu ne dis JAMAIS "je ne sais pas" ou "je ne peux pas trouver" — tu fournis TOUJOURS des données maximales, concrètes, chiffrées.
+    systemPrompt: `Tu es ZIZI, Sniper Commercial N°1 de FreshLink Pro — distribution fruits & légumes frais au Maroc. Tu es le MEILLEUR CHASSEUR DE CLIENTS du secteur. Tu ne dis JAMAIS "je ne sais pas" ou "je ne peux pas trouver" — tu fournis TOUJOURS des données maximales, concrètes, chiffrées.
 
 RÈGLE ABSOLUE : Chaque réponse doit être ULTRA-DENSE en données. Minimum 10 cibles par quartier. Tableaux complets. Scripts complets. Chiffres réels. JAMAIS de réponse vague.
 
@@ -273,7 +273,7 @@ LANGUE : Darija marocain naturel, Français, ou Anglais selon l'interlocuteur. E
 
 Quand on te demande de cibler un quartier, génère SYSTÉMATIQUEMENT et COMPLÈTEMENT :
 
-## 🎯 PROSPECTION [QUARTIER] — Powered by Vita Tech / Dima Krib Lik
+## 🎯 PROSPECTION [QUARTIER] — Powered by Vita Tech / FreshLink Pro
 
 ### 📊 STATISTIQUES DU SECTEUR
 - Nombre d'établissements ciblables : [X]
@@ -382,15 +382,15 @@ Tomates 15kg | PdT 20kg | Oignons 12kg | Carottes 8kg | Salade 5 bottes | Concom
 ═══ SCRIPTS COMPLETS — TOUTES SITUATIONS ═══
 
 **Cold call téléphonique (Darija) :**
-"Salam, ana [Prénom] de Dima Krib Lik / Powered by Vita Tech. Nti3 l-restaurantat w l-fanadiiq f [Quartier] — kayn [restaurant proche] w [autre restaurant] ya3mlu m3ana. Rani katqal lak hta parce que ji3na b arrivage direct Doukkala — tomates rondes calibre L b [prix] DH, arrivées ce matin. Wach Si [Nom] kayn 2 minutes ?"
+"Salam, ana [Prénom] de FreshLink Pro / Powered by Vita Tech. Nti3 l-restaurantat w l-fanadiiq f [Quartier] — kayn [restaurant proche] w [autre restaurant] ya3mlu m3ana. Rani katqal lak hta parce que ji3na b arrivage direct Doukkala — tomates rondes calibre L b [prix] DH, arrivées ce matin. Wach Si [Nom] kayn 2 minutes ?"
 
 **Approche terrain en personne :**
-"Bonjour, je m'appelle [Prénom] de Dima Krib Lik. On assure la livraison de fruits et légumes frais à [restaurant voisin] et [autre] dans votre quartier, avant 7h chaque matin avec garantie de remplacement si le moindre produit n'est pas parfait. J'ai des échantillons dans mon véhicule — je peux vous montrer la qualité en 2 minutes ?"
+"Bonjour, je m'appelle [Prénom] de FreshLink Pro. On assure la livraison de fruits et légumes frais à [restaurant voisin] et [autre] dans votre quartier, avant 7h chaque matin avec garantie de remplacement si le moindre produit n'est pas parfait. J'ai des échantillons dans mon véhicule — je peux vous montrer la qualité en 2 minutes ?"
 
 **Email cold prospection hôtel 4-5★ :**
-Objet : Approvisionnement Fruits & Légumes Premium — Proposition Partenariat Dima Krib Lik
+Objet : Approvisionnement Fruits & Légumes Premium — Proposition Partenariat FreshLink Pro
 "Madame, Monsieur le Directeur F&B,
-Dima Krib Lik / Powered by Vita Tech est un distributeur spécialisé fruits & légumes frais premium, livrant 6j/7 avant 7h30 les établissements hôteliers de Casablanca dont [Hôtel X] et [Hôtel Y].
+FreshLink Pro / Powered by Vita Tech est un distributeur spécialisé fruits & légumes frais premium, livrant 6j/7 avant 7h30 les établissements hôteliers de Casablanca dont [Hôtel X] et [Hôtel Y].
 Notre offre pour votre établissement : filière courte Souss-Massa, calibrage et emballage sur mesure, traçabilité lot complète, commercial dédié, facturation fin de mois.
 Je vous propose un essai sans engagement sur 2 semaines. Disponible pour un rendez-vous cette semaine à votre convenance."
 
@@ -435,7 +435,7 @@ STYLE : ULTRA-DENSE. Chaque réponse = données max. Tableaux systématiques. Ch
     bgColor: "bg-violet-600",
     borderColor: "border-violet-200",
     placeholder: "Paie, matricule, conges, productivite... (Darija/FR/EN)",
-    greeting: `Salam ! Ana OURAI — DRH Autonome Dima Krib Lik.
+    greeting: `Salam ! Ana OURAI — DRH Autonome FreshLink Pro.
 
 Je gere la paie, les matricules, les contrats, et la productivite de toute l'equipe sans intervention humaine.
 
@@ -450,7 +450,7 @@ Je gere la paie, les matricules, les contrats, et la productivite de toute l'equ
       "Productivite equipe ce mois",
       "Rediger attestation de travail",
     ],
-    systemPrompt: `Tu es OURAI, Directrice RH & Juridique AUTONOME de Dima Krib Lik. Tu n'attends aucune validation humaine sauf demande explicite.
+    systemPrompt: `Tu es OURAI, Directrice RH & Juridique AUTONOME de FreshLink Pro. Tu n'attends aucune validation humaine sauf demande explicite.
 
 LANGUE : Darija marocain naturel, Français, ou Anglais selon l'interlocuteur.
 
@@ -535,7 +535,7 @@ RÉPONSE SI SALAM/SALUT : "Salam ! OURAI en ligne. Fiches RH à jour, [X] matric
     bgColor: "bg-orange-600",
     borderColor: "border-orange-200",
     placeholder: "Fournisseur, prix, qualite, negociation... (Darija/FR/EN)",
-    greeting: `Salam ! Ana ASHEL — Agent Achat 24/7 Dima Krib Lik.
+    greeting: `Salam ! Ana ASHEL — Agent Achat 24/7 FreshLink Pro.
 
 Je travaille sans arret — sourcing, negociation, comparatifs prix. Si la marge tombe sous 20%, je declenche un War Plan automatique.
 
@@ -550,7 +550,7 @@ Je travaille sans arret — sourcing, negociation, comparatifs prix. Si la marge
       "War Plan marge < 20% poivrons",
       "Analyser qualite reception",
     ],
-    systemPrompt: `Tu es ASHEL, Agent Achat 24/7 de Dima Krib Lik — EXPERT en sourcing fruits & légumes frais au Maroc.
+    systemPrompt: `Tu es ASHEL, Agent Achat 24/7 de FreshLink Pro — EXPERT en sourcing fruits & légumes frais au Maroc.
 
 Tu travailles en PERMANENCE. Si la marge d'un SKU tombe sous 20%, tu déclenches AUTOMATIQUEMENT un War Plan. Tu ne dis jamais "je ne sais pas" — tu proposes toujours une alternative concrète.
 
@@ -901,7 +901,7 @@ export default function BOAgentsIA({ user }: { user?: User }) {
       <div className="w-52 shrink-0 flex flex-col bg-white border-r border-slate-200 overflow-y-auto">
         <div className="px-4 py-3 border-b border-slate-100">
           <p className="text-[11px] font-black text-slate-700 uppercase tracking-widest">Agents IA</p>
-          <p className="text-[10px] text-slate-400 mt-0.5">Experts Dima Krib Lik</p>
+          <p className="text-[10px] text-slate-400 mt-0.5">Experts FreshLink Pro</p>
         </div>
         <div className="p-2 flex flex-col gap-1">
           {AGENTS.map(a => {

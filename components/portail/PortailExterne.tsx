@@ -147,7 +147,7 @@ function LoginScreen({ onLogin, onRequestAccount, onPublicOrder }: LoginScreenPr
               : <FreshLinkLogo size={52} />}
           </div>
           <div className="text-center">
-            <h1 className="text-2xl font-black text-slate-900">{company.appName ?? "Dima Krib Lik"}</h1>
+            <h1 className="text-2xl font-black text-slate-900">{company.appName ?? "FreshLink Pro"}</h1>
             <p className="text-sm text-slate-500 mt-1">Portail Clients & Fournisseurs</p>
           </div>
         </div>
@@ -217,7 +217,7 @@ function LoginScreen({ onLogin, onRequestAccount, onPublicOrder }: LoginScreenPr
           </div>
         </div>
 
-        <p className="text-center text-xs text-slate-400 mt-6">{company.nom || "Dima Krib Lik"} — Accès sécurisé partenaires</p>
+        <p className="text-center text-xs text-slate-400 mt-6">{company.nom || "FreshLink"} — Accès sécurisé partenaires</p>
       </div>
     </div>
   )
@@ -357,13 +357,13 @@ function AccountRequestForm({ onBack }: AccountRequestFormProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-amber-800">Vous avez déjà un compte Dima Krib Lik ?</p>
+                <p className="text-sm font-semibold text-amber-800">Vous avez déjà un compte FreshLink ?</p>
                 <p className="text-xs text-amber-700 mt-0.5">Si vous êtes déjà partenaire, accédez directement à votre espace.</p>
                 <button
                   onClick={() => window.open("https://f-l.vercel.app", "_blank")}
                   className="mt-2.5 flex items-center gap-2 text-xs font-bold text-blue-700 bg-white border border-blue-200 rounded-lg px-3 py-2 hover:bg-blue-50 transition-colors">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                  Accéder à mon espace Dima Krib Lik →
+                  Accéder à mon espace FreshLink →
                 </button>
               </div>
             </div>
@@ -551,7 +551,7 @@ function PublicOrderForm({ onBack }: PublicOrderFormProps) {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
             </button>
             <div>
-              <p className="text-sm font-bold text-slate-800">{company.appName ?? "Dima Krib Lik"}</p>
+              <p className="text-sm font-bold text-slate-800">{company.appName ?? "FreshLink"}</p>
               <p className="text-[10px] text-slate-400">Commander sans compte</p>
             </div>
           </div>
@@ -859,7 +859,7 @@ function ClientDashboard({ user, onLogout }: { user: User; onLogout: () => void 
               ? <img src={company.logo} alt="Logo" className="h-8 object-contain" />
               : <FreshLinkLogo size={28} />}
             <div>
-              <p className="text-sm font-bold text-slate-800">{company.appName ?? "Dima Krib Lik"}</p>
+              <p className="text-sm font-bold text-slate-800">{company.appName ?? "FreshLink"}</p>
               <p className="text-[10px] text-slate-400">Client — {user.name}</p>
             </div>
           </div>
@@ -1086,7 +1086,7 @@ function FournisseurDashboard({ user, onLogout }: { user: User; onLogout: () => 
           <div className="flex items-center gap-3">
             {company.logo ? <img src={company.logo} alt="Logo" className="h-8 object-contain" /> : <FreshLinkLogo size={28} />}
             <div>
-              <p className="text-sm font-bold text-slate-800">{company.appName ?? "Dima Krib Lik"}</p>
+              <p className="text-sm font-bold text-slate-800">{company.appName ?? "FreshLink"}</p>
               <p className="text-[10px] text-slate-400">Fournisseur — {fournisseur?.nom ?? user.name}</p>
             </div>
           </div>

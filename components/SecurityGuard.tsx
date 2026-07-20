@@ -188,7 +188,7 @@ export default function SecurityGuard({ children, skipGps = false }: Props) {
             <div>
               <h2 className="font-bold text-lg mb-1" style={{ color: "oklch(0.96 0.006 100)" }}>GPS fictif detecte</h2>
               <p className="text-sm leading-relaxed" style={{ color: "oklch(0.52 0.010 145)" }}>
-                Votre localisation GPS semble falsifiee. L&apos;application Dima Krib Lik necessite une position GPS reelle pour fonctionner correctement.
+                Votre localisation GPS semble falsifiee. L&apos;application FreshLink necessite une position GPS reelle pour fonctionner correctement.
               </p>
             </div>
             <div className="w-full rounded-xl p-4 text-left text-xs leading-relaxed space-y-1" style={{ background: "oklch(0.10 0.008 145)", color: "oklch(0.52 0.010 145)" }}>
@@ -227,7 +227,7 @@ export default function SecurityGuard({ children, skipGps = false }: Props) {
                 Acces {detail === "camera" ? "camera" : "microphone"} refuse
               </h2>
               <p className="text-sm leading-relaxed" style={{ color: "oklch(0.52 0.010 145)" }}>
-                Dima Krib Lik necessite l&apos;acces {detail === "camera" ? "a la camera" : "au microphone"} pour le controle qualite, les photos de livraison et la verification des produits.
+                FreshLink necessite l&apos;acces {detail === "camera" ? "a la camera" : "au microphone"} pour le controle qualite, les photos de livraison et la verification des produits.
               </p>
             </div>
             <div className="w-full rounded-xl p-4 text-left text-xs leading-relaxed space-y-1.5" style={{ background: "oklch(0.10 0.008 145)", color: "oklch(0.52 0.010 145)" }}>
@@ -300,14 +300,14 @@ export default function SecurityGuard({ children, skipGps = false }: Props) {
               <LeafIcon />
             </div>
             <div>
-              <h1 className="font-bold text-xl mb-1" style={{ color: "oklch(0.96 0.006 100)" }}>Dima Krib Lik</h1>
+              <h1 className="font-bold text-xl mb-1" style={{ color: "oklch(0.96 0.006 100)" }}>FreshLink Pro</h1>
               <p className="text-sm" style={{ color: "oklch(0.52 0.010 145)" }}>
                 Distribution Fruits &amp; Legumes
               </p>
             </div>
 
             <p className="text-sm leading-relaxed" style={{ color: "oklch(0.65 0.008 145)" }}>
-              Pour fonctionner correctement, Dima Krib Lik necessite l&apos;acces a votre <strong style={{ color: "oklch(0.80 0.10 100)" }}>camera</strong>, votre <strong style={{ color: "oklch(0.80 0.10 100)" }}>microphone</strong> et votre <strong style={{ color: "oklch(0.80 0.10 100)" }}>localisation GPS</strong>.
+              Pour fonctionner correctement, FreshLink necessite l&apos;acces a votre <strong style={{ color: "oklch(0.80 0.10 100)" }}>camera</strong>, votre <strong style={{ color: "oklch(0.80 0.10 100)" }}>microphone</strong> et votre <strong style={{ color: "oklch(0.80 0.10 100)" }}>localisation GPS</strong>.
             </p>
 
             {/* Feature list */}

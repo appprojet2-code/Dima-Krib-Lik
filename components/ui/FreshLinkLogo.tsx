@@ -8,9 +8,9 @@ interface Props {
 }
 
 export const BRAND = {
-  company: "Dima Krib Lik",
-  companyTag: "Powered by Vita Tech",
-  app: "Dima Krib Lik",
+  company: "Powered by Vita Tech",
+  companyTag: "Fruit & Vegetable Distribution Network — Morocco",
+  app: "Fresh Link Pro",
   tagline: "Gestion & Distribution Intelligente",
   primaryGreen: "#1a4f2a",
   accentGold: "#b8962e",
@@ -81,16 +81,16 @@ export default function FreshLinkLogo({ size = 40, variant = "full", className =
             className="font-extrabold tracking-tight"
             style={{ fontSize: Math.round(size * 0.38), color: isWhite ? "#ffffff" : BRAND.primaryGreen, letterSpacing: "-0.01em", lineHeight: 1.1 }}
           >
-            Dima{" "}
-            <span style={{ color: isWhite ? "#86efac" : BRAND.accentGold }}>Krib</span>{" "}
-            <span style={{ color: isWhite ? "#4ade80" : BRAND.primaryGreen }}>Lik</span>
+            Fresh{" "}
+            <span style={{ color: isWhite ? "#86efac" : BRAND.accentGold }}>Link</span>{" "}
+            <span style={{ color: isWhite ? "#4ade80" : BRAND.primaryGreen }}>Pro</span>
           </span>
         )}
         <span
           className="font-bold tracking-wide"
           style={{ fontSize: Math.round(size * 0.2), color: isWhite ? "rgba(255,255,255,0.65)" : BRAND.accentGold, letterSpacing: "0.04em", lineHeight: 1.2, textTransform: "uppercase" }}
         >
-          {BRAND.companyTag}
+          {BRAND.company}
         </span>
       </div>
     </div>
