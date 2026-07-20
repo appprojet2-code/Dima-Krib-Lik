@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'FreshLink Pro — Powered by Vita Tech',
-  description: 'Distribution Fruits & Légumes — Gestion bout en bout',
+  title: 'Dima Krib Lik',
+  description: 'Distribution — Gestion bout en bout',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

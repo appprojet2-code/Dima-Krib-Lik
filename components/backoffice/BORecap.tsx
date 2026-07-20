@@ -211,7 +211,7 @@ export default function BORecap() {
     autoTimerRef.current = setTimeout(async () => {
       const result = await sendEmail({
         to_email: recapTo,
-        subject:  `Récap journalier FreshLink — ${today}`,
+        subject:  `Récap journalier Dima Krib Lik — ${today}`,
         body:     buildRecapJournalier(stats),
       })
       showFeedback(result.ok ? "ok" : "err", result.ok
@@ -232,7 +232,7 @@ export default function BORecap() {
     setSendingRecap(true)
     const result = await sendEmail({
       to_email: recapTo,
-      subject:  `Récap journalier FreshLink Pro — ${stats.date}`,
+      subject:  `Récap journalier Dima Krib Lik — ${stats.date}`,
       body:     buildRecapJournalier(stats),
     })
     setSendingRecap(false)
@@ -287,7 +287,7 @@ export default function BORecap() {
       const body = buildBesoinAchatEmail(rowsWithBesoin, { date: store.today() })
       const { sent, failed } = await sendEmailMulti(
         recipients,
-        `Besoin d'achat net FreshLink Pro — ${store.today()}`,
+        `Besoin d'achat net Dima Krib Lik — ${store.today()}`,
         body
       )
       totalSent = sent.length
@@ -457,7 +457,7 @@ export default function BORecap() {
               {/* WhatsApp — open chat with recap text */}
               <button
                 onClick={() => {
-                  const text = encodeURIComponent(`*Recap journalier FreshLink — ${stats.date}*\n\nCommandes: ${stats.totalCommandes.toLocaleString("fr-MA")} DH (${stats.nbCommandes})\nLivraisons: ${stats.totalLivraisons.toLocaleString("fr-MA")} DH (${stats.nbLivraisons})\nCash: ${stats.totalCash.toLocaleString("fr-MA")} DH\nMarge: ${stats.marge.toLocaleString("fr-MA")} DH`)
+                  const text = encodeURIComponent(`*Recap journalier Dima Krib Lik — ${stats.date}*\n\nCommandes: ${stats.totalCommandes.toLocaleString("fr-MA")} DH (${stats.nbCommandes})\nLivraisons: ${stats.totalLivraisons.toLocaleString("fr-MA")} DH (${stats.nbLivraisons})\nCash: ${stats.totalCash.toLocaleString("fr-MA")} DH\nMarge: ${stats.marge.toLocaleString("fr-MA")} DH`)
                   const url = `https://wa.me/?text=${text}`
                   const a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer"; document.body.appendChild(a); a.click(); document.body.removeChild(a)
                 }}

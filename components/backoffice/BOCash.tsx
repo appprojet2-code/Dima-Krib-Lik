@@ -14,7 +14,7 @@ function _printBLLegacy(bl: BonLivraison) {
   const company = typeof window !== "undefined" ? (() => {
     try { return JSON.parse(localStorage.getItem("fl_company") || "{}") } catch { return {} }
   })() : {}
-  const companyNom = company.nom || "FreshLink Maroc"
+  const companyNom = company.nom || "Dima Krib Lik Maroc"
   const companyEmail = company.email || "contact@freshlink.ma"
   const companyTel = company.telephone || ""
   const companyAdresse = company.adresse || ""
@@ -157,7 +157,7 @@ function _printBLLegacy(bl: BonLivraison) {
   <div class="sig-box"><div class="sig-label">Signature Client</div><div class="sig-line"></div></div>
   <div class="sig-box"><div class="sig-label">Signature Livreur</div><div class="sig-line"></div></div>
   <div class="watermark">
-    <p>FreshLink Pro — Gestion Distribution</p>
+    <p>Dima Krib Lik — Gestion Distribution</p>
     <p>Imprimé le ${fmtDate()}</p>
   </div>
 </div>
@@ -171,7 +171,7 @@ function _printFactureLegacy(bl: BonLivraison) {
   const company = typeof window !== "undefined" ? (() => {
     try { return JSON.parse(localStorage.getItem("fl_company") || "{}") } catch { return {} }
   })() : {}
-  const companyNom = company.nom || "FreshLink Maroc"
+  const companyNom = company.nom || "Dima Krib Lik Maroc"
   const companyEmail = company.email || "contact@freshlink.ma"
   const companyTel = company.telephone || ""
   const companyAdresse = company.adresse || ""
@@ -310,7 +310,7 @@ function _printFactureLegacy(bl: BonLivraison) {
   <div class="sig"><div class="sig-label">Signature Client</div><div class="line"></div></div>
   <div class="sig"><div class="sig-label">Cachet &amp; Signature Vendeur</div><div class="line"></div></div>
   <div class="watermark">
-    <p>FreshLink Pro — Gestion Distribution</p>
+    <p>Dima Krib Lik — Gestion Distribution</p>
     <p>Imprimé le ${fmtDate()}</p>
   </div>
 </div>

@@ -50,7 +50,7 @@ function openPrintPrep(bon: BonPreparation, commandes: Commande[]) {
   const company = (() => {
     try { return JSON.parse(localStorage.getItem("fl_company") || "{}") } catch { return {} }
   })()
-  const companyNom = company.nom || "FreshLink Maroc"
+  const companyNom = company.nom || "Dima Krib Lik Maroc"
   const companyLogo = company.logo || null
   const companyEmail = company.email || ""
   const companyTel = company.telephone || ""
@@ -248,7 +248,7 @@ function openPrintPrep(bon: BonPreparation, commandes: Commande[]) {
   <div class="sig"><div class="sig-label">Responsable</div><div class="sig-line"></div></div>
   <div class="sig"><div class="sig-label">Date &amp; Heure</div><div class="sig-line"></div></div>
 </div>
-<div class="watermark">FreshLink Pro — Gestion Distribution — Imprimé le ${new Date().toLocaleString("fr-MA")}</div>
+<div class="watermark">Dima Krib Lik — Gestion Distribution — Imprimé le ${new Date().toLocaleString("fr-MA")}</div>
 <script>window.onload=function(){window.print()}</script>
 </body></html>`)
   win.document.close()

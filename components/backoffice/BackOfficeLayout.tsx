@@ -245,23 +245,6 @@ const NAV_GROUPS: NavGroup[] = [
       },
     ],
   },
-  // ── AGENTS IA ─────────────────────────────────────────────────────────────
-  {
-    label: "Agents IA", labelAr: "عملاء الذكاء",
-    items: [
-      { id: "gps_tracker", label: "GPS Livreurs & Commerciaux", labelAr: "تتبع GPS", icon: (
-        <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      )},
-      { id: "agents_ia",   label: "Tous les Agents IA",       labelAr: "عملاء الذكاء",    icon: <Icon d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1 .03 2.694-1.338 2.694H4.136c-1.368 0-2.337-1.694-1.338-2.694L4 15.3" /> },
-      { id: "ashel_market", label: "ASHEL — Achat Marche",       labelAr: "شيل الشراء",       icon: <Icon d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /> },
-      { id: "azmi_agent",   label: "AZMI — Finance",             labelAr: "عزمي المالي",      icon: <Icon d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 13v-1m0-2c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> },
-      { id: "hicham_agent", label: "HICHAM — Controle",          labelAr: "هشام المراقب",     icon: <Icon d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /> },
-      { id: "ourai_agent",  label: "OURAI — RH & Paie",          labelAr: "أوراي الموارد البشرية", permKey: "canViewRH" as keyof User, icon: <Icon d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /> },
-    ],
-  },
   // ── COMMUNICATION & AVIS ─────────────────────────────────────────────────
   {
     label: "Avis & Retours", labelAr: "الآراء والتقييمات",
@@ -518,7 +501,7 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
           navigate={navigate}
           onLogout={onLogout}
           onOpenProfil={() => setShowProfil(true)}
-          appName={companyBrand.appName || "FreshLink Pro"}
+          appName={companyBrand.appName || "Dima Krib Lik"}
           appSlogan={companyBrand.appSlogan || companyBrand.nom || "Powered by Vita Tech"}
           appLogo={companyBrand.logo || ""}
         />
@@ -543,7 +526,7 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
               navigate={navigate}
               onLogout={onLogout}
               onOpenProfil={() => setShowProfil(true)}
-              appName={companyBrand.appName || "FreshLink Pro"}
+              appName={companyBrand.appName || "Dima Krib Lik"}
               appSlogan={companyBrand.appSlogan || companyBrand.nom || "Powered by Vita Tech"}
               appLogo={companyBrand.logo || ""}
             />
@@ -728,12 +711,10 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
         <footer className="shrink-0 border-t border-slate-200 bg-white px-6 py-2.5 flex items-center justify-between">
           <p className="text-[11px] text-slate-500">
             &copy; 2026{" "}
-            <span className="font-black" style={{ color: "#1a4f2a" }}>Empire<span style={{ color: "#b8962e" }}>Fresh</span></span>
-            {" "}&mdash;{" "}
-            <span className="font-bold" style={{ color: "#1a4f2a" }}>Fresh Link Pro</span>
+            <span className="font-black" style={{ color: "#1a4f2a" }}>Dima<span style={{ color: "#b8962e" }}> Krib Lik</span></span>
           </p>
           <p className="text-[11px] text-slate-400 hidden sm:block">
-            جميع الحقوق محفوظة — Fruit &amp; Vegetable Distribution
+            جميع الحقوق محفوظة — Powered by Vita Tech
           </p>
         </footer>
       </div>

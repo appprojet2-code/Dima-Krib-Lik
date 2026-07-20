@@ -346,7 +346,7 @@ export default function PortailFournisseur({ user, onLogout }: Props) {
       return
     }
     const msg = encodeURIComponent(
-      `Confirmation commande FreshLink Pro\n\n` +
+      `Confirmation commande Dima Krib Lik\n\n` +
       `Ref: ${po.id}\n` +
       `Article: ${po.articleNom}\n` +
       `Quantite: ${po.quantite} ${po.articleUnite}\n` +
@@ -768,7 +768,7 @@ export default function PortailFournisseur({ user, onLogout }: Props) {
 
       <footer className="border-t border-border bg-card px-4 py-3 flex items-center justify-center">
         <p className="text-[11px] text-muted-foreground text-center">
-          &copy; 2026 <span className="font-semibold text-foreground">FreshLink Pro</span> By{" "}
+          &copy; 2026 <span className="font-semibold text-foreground">Dima Krib Lik</span> By{" "}
           <span className="font-bold text-primary">Jawad</span>
           {" "}&mdash; Tous droits reserves / جميع الحقوق محفوظة
         </p>

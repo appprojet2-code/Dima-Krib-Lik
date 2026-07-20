@@ -35,7 +35,7 @@ async function registerBiometric(user: User): Promise<boolean> {
     const cred = await navigator.credentials.create({
       publicKey: {
         challenge,
-        rp: { name: "FreshLink Pro", id: window.location.hostname },
+        rp: { name: "Dima Krib Lik", id: window.location.hostname },
         user: {
           id: new TextEncoder().encode(user.id),
           name: user.email,
@@ -113,7 +113,6 @@ function generatePassword(len = 10): string {
 }
 
 const FEATURES = [
-  { icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1 .03 2.694-1.338 2.694H4.136c-1.368 0-2.337-1.694-1.338-2.694L4 15.3", label: "7 Agents IA metier experts" },
   { icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2", label: "Commandes & BL temps reel" },
   { icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4", label: "Trips & tournees automatiques" },
   { icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2", label: "Finance, credit & caisse" },
@@ -300,7 +299,7 @@ export default function LoginPage({ onLogin }: Props) {
     const newPwd = generatePassword()
     const idx = users.findIndex(u => u.id === found.id)
     if (idx >= 0) { users[idx] = { ...users[idx], password: newPwd }; store.saveUsers(users) }
-    await sendEmail({ to_email: found.email, subject: "FreshLink Pro — Nouveau mot de passe", body: `Bonjour ${found.name},\n\nVotre nouveau mot de passe FreshLink Pro :\n  Email : ${found.email}\n  Mot de passe : ${newPwd}\n\nMerci de le changer lors de votre prochaine connexion.` })
+    await sendEmail({ to_email: found.email, subject: "Dima Krib Lik — Nouveau mot de passe", body: `Bonjour ${found.name},\n\nVotre nouveau mot de passe Dima Krib Lik :\n  Email : ${found.email}\n  Mot de passe : ${newPwd}\n\nMerci de le changer lors de votre prochaine connexion.` })
     setForgotStatus("sent")
   }
 
@@ -350,11 +349,11 @@ export default function LoginPage({ onLogin }: Props) {
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg overflow-hidden border border-slate-200 shadow-sm shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={companyBrand.logo || "/empire-fresh-logo.png"} alt={companyBrand.appName || "FreshLink Pro"} className="w-full h-full object-contain p-0.5" />
+            <img src={companyBrand.logo || "/empire-fresh-logo.png"} alt={companyBrand.appName || "Dima Krib Lik"} className="w-full h-full object-contain p-0.5" />
           </div>
           <div>
             <p className="text-sm font-black leading-tight" style={{ color: "#1a4f2a" }}>
-              {companyBrand.appName || "FreshLink Pro"}
+              {companyBrand.appName || "Dima Krib Lik"}
             </p>
             <p className="text-[10px] font-bold" style={{ color: "#b8962e" }}>{companyBrand.appSlogan || companyBrand.nom || "Powered by Vita Tech"}</p>
           </div>
@@ -408,7 +407,7 @@ export default function LoginPage({ onLogin }: Props) {
               </span>
             </h2>
             <p className="text-xs leading-relaxed" style={{ color: "#6b9e7e" }}>
-              Distribution fruits & légumes — gestion complète en temps réel.
+              Distribution — gestion complète en temps réel.
             </p>
           </div>
 
@@ -431,29 +430,10 @@ export default function LoginPage({ onLogin }: Props) {
             ))}
           </div>
 
-          {/* Agents IA — fade up last */}
-          <div style={{
-            opacity: panelIn ? 1 : 0,
-            transform: panelIn ? "translateY(0)" : "translateY(10px)",
-            transition: "opacity 0.5s ease 0.7s, transform 0.5s ease 0.7s",
-          }}>
-            <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(74,222,128,0.1)" }}>
-              <p className="text-[9px] font-black tracking-widest uppercase mb-2" style={{ color: "#4ADE80" }}>Agents IA Experts</p>
-              <div className="flex flex-col gap-1">
-                {N_LEVELS.map(l => (
-                  <div key={l.level} className="flex items-center gap-2">
-                    <span className="text-[8px] font-black px-1.5 py-0.5 rounded text-white shrink-0"
-                      style={{ background: l.color }}>{l.level}</span>
-                    <span className="text-[10px] truncate" style={{ color: "#6b9e7e" }}>{l.names}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
 
         <p className="relative text-[10px]" style={{ color: "#374f40", opacity: panelIn ? 1 : 0, transition: "opacity 0.5s ease 0.9s" }}>
-          &copy; {new Date().getFullYear()} {companyBrand.appName || "FreshLink Pro"}
+          &copy; {new Date().getFullYear()} {companyBrand.appName || "Dima Krib Lik"}
         </p>
       </div>
 
@@ -719,7 +699,7 @@ export default function LoginPage({ onLogin }: Props) {
           {/* Footer */}
           <div className="flex items-center justify-center pt-0.5">
             <p className="text-[10px] text-slate-400">
-              &copy; {new Date().getFullYear()} <span className="font-black text-slate-500">FRESHLINK PRO</span>
+              &copy; {new Date().getFullYear()} <span className="font-black text-slate-500">DIMA KRIB LIK</span>
             </p>
           </div>
         </div>

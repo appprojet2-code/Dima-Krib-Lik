@@ -1,5 +1,5 @@
 // ============================================================
-// EmailJS Integration — FreshLink Pro
+// EmailJS Integration — Dima Krib Lik
 // Uses EmailJS browser SDK loaded dynamically (no npm install needed)
 // Configure via Paramètres → EmailJS dans le back-office.
 //
@@ -159,7 +159,7 @@ export async function testEmailJSConnection(): Promise<SendResult> {
   }
   return sendEmail({
     to_email: "test@freshlink.test",
-    subject:  "Test connexion EmailJS — FreshLink Pro",
+    subject:  "Test connexion EmailJS — Dima Krib Lik",
     body:     "Ce message est un test automatique pour vérifier la configuration EmailJS.",
   })
 }
@@ -192,7 +192,7 @@ export function buildRecapJournalier(data: {
   const line = "─".repeat(48)
   return [
     line,
-    "     RÉCAP JOURNALIER — FreshLink Pro",
+    "     RÉCAP JOURNALIER — Dima Krib Lik",
     `     Date : ${data.date}`,
     line,
     "",
@@ -205,7 +205,7 @@ export function buildRecapJournalier(data: {
     `  Marge brute estimée   : ${fmt(data.marge)} DH`,
     "",
     line,
-    "  Rapport généré par FreshLink Pro",
+    "  Rapport généré par Dima Krib Lik",
     line,
   ].join("\n")
 }
@@ -282,7 +282,7 @@ export function buildBesoinAchatEmail(
 
   const header = [
     line,
-    `  BESOIN D'ACHAT NET — FreshLink Pro`,
+    `  BESOIN D'ACHAT NET — Dima Krib Lik`,
     `  Date : ${d}`,
     `  Calcul : Commandes prévendeurs − Stock − Retours validés`,
     line,
@@ -330,7 +330,7 @@ export function buildBesoinAchatParFournisseur(
       return {
         fournisseurNom:   g.fournisseurNom,
         fournisseurEmail: g.fournisseurEmail,
-        subject: `Commande d'approvisionnement FreshLink — ${g.fournisseurNom} — ${d}`,
+        subject: `Commande d'approvisionnement Dima Krib Lik — ${g.fournisseurNom} — ${d}`,
         body: buildBesoinAchatEmail(
           lignesAvecBesoin.map(l => ({ ...l, fournisseurNom: undefined })),
           { date: d, titre: `Commande pour ${g.fournisseurNom}` }

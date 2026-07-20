@@ -206,7 +206,6 @@ export default function BOSettings({ user }: { user: { id: string; name: string;
     { id: "contenants" as const, label: "Poids contenants", labelAr: "أوزان الحاويات" },
     { id: "dataguard" as const,  label: "DataGuard", labelAr: "حماية البيانات" },
 { id: "vercel" as const,     label: "Deploiement Vercel", labelAr: "النشر على Vercel" },
-    { id: "ai_config" as const,  label: "IA & Modeles", labelAr: "الذكاء الاصطناعي" },
     { id: "alertes" as const,        label: "Alertes Email",         labelAr: "تنبيهات البريد" },
     { id: "transporteurs" as const,  label: "Transporteurs",          labelAr: "شركات النقل" },
   ]
@@ -248,10 +247,10 @@ export default function BOSettings({ user }: { user: { id: string; name: string;
               <div className="flex flex-col gap-1">
                 <label className="text-xs font-semibold text-foreground">Nom de l&apos;application</label>
                 <input type="text"
-                  value={company.appName ?? "FreshLink Pro"}
+                  value={company.appName ?? "Dima Krib Lik"}
                   onChange={e => setCompany(c => ({ ...c, appName: e.target.value }))}
                   className="px-3 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="FreshLink Pro" />
+                  placeholder="Dima Krib Lik" />
                 <p className="text-[10px] text-muted-foreground">Nom principal affiché en haut de la sidebar</p>
               </div>
               <div className="flex flex-col gap-1">
@@ -321,7 +320,7 @@ export default function BOSettings({ user }: { user: { id: string; name: string;
             <h3 className="font-semibold text-sm">Informations générales / المعلومات العامة</h3>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {[
-                { f: "nom", label: "Raison sociale / الاسم التجاري", placeholder: "FreshLink Maroc" },
+                { f: "nom", label: "Raison sociale / الاسم التجاري", placeholder: "Dima Krib Lik Maroc" },
                 { f: "telephone", label: "Téléphone", placeholder: "0522 000 000" },
                 { f: "email", label: "Email", placeholder: "contact@freshlink.ma" },
                 { f: "siteWeb", label: "Site web (optionnel)", placeholder: "www.freshlink.ma" },

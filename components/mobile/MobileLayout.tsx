@@ -87,7 +87,7 @@ export default function MobileLayout({ user, onLogout }: Props) {
       {/* Header — pro light mobile — full width, adapts to all screen sizes */}
       <header className="px-4 pt-safe-top pb-3 flex items-center justify-between sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
         <div className="flex items-center gap-2.5">
-          {/* FreshLink Pro brand */}
+          {/* Dima Krib Lik brand */}
           <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-sm" style={{ background: "#1B4332" }}>
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
               <path d="M12 3 C12 3 19 7 19 13 C19 17.4 16 20 12 20 C8 20 5 17.4 5 13 C5 7 12 3 12 3Z" fill="#4ADE80" opacity="0.9" />

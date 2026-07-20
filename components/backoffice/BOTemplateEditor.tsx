@@ -218,7 +218,7 @@ export default function BOTemplateEditor({ user }: Props) {
       nom: "ALAMI", prenom: "Youssef", civilite: "M.", poste: "Responsable Logistique",
       departement: "Logistique", dateEmbauche: "01/01/2023", salaireBrut: "8 000,00",
       salaireNet: "6 750,00", totalRetenues: "1 250,00", typeContrat: "CDI",
-      datefinCdd: "", ville: "Casablanca", societe: "Powered by Vita Tech",
+      datefinCdd: "", ville: "Casablanca", societe: "Dima Krib Lik",
       dateDoc: new Date().toLocaleDateString("fr-FR"), cin: "AB123456",
       cnss: "12345678", modePaie: "Virement", periode: "Mai 2026",
       motif: "Absences repetees et non justifiees", clientNom: "Epicerie Al Baraka",

@@ -27,7 +27,7 @@ function EntryChoice({ onChoose }: { onChoose: (choice: "interne" | "externe") =
     <div className="min-h-screen flex items-center justify-center bg-background p-6">
       <div className="max-w-md w-full flex flex-col items-center gap-6">
         <div className="text-center">
-          <p className="text-lg font-bold text-foreground">FreshLink Pro</p>
+          <p className="text-lg font-bold text-foreground">Dima Krib Lik</p>
           <p className="text-sm text-muted-foreground mt-1">Choisissez votre espace / اختر مساحتك</p>
         </div>
         <div className="w-full flex flex-col gap-3">
@@ -42,7 +42,7 @@ function EntryChoice({ onChoose }: { onChoose: (choice: "interne" | "externe") =
             </div>
             <div>
               <p className="font-bold text-foreground text-sm">Espace Interne</p>
-              <p className="text-xs text-muted-foreground">Équipe FreshLink — الفريق الداخلي</p>
+              <p className="text-xs text-muted-foreground">Équipe Dima Krib Lik — الفريق الداخلي</p>
             </div>
           </button>
           <button

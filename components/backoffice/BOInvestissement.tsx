@@ -3,8 +3,8 @@
 import { useState } from "react"
 
 const LANG_LABELS = {
-  fr: { title: "Dossier Investisseur", sub: "FreshLink Pro — Powered by Vita Tech" },
-  en: { title: "Investor Dossier", sub: "FreshLink Pro — Powered by Vita Tech" },
+  fr: { title: "Dossier Investisseur", sub: "Dima Krib Lik — Powered by Vita Tech" },
+  en: { title: "Investor Dossier", sub: "Dima Krib Lik — Powered by Vita Tech" },
   ar: { title: "ملف المستثمر", sub: "فريشلينك برو — توزيع إمبير فريش" },
 }
 
@@ -19,14 +19,14 @@ const SECTIONS = [
     label: { fr: "Résumé Exécutif", en: "Executive Summary", ar: "الملخص التنفيذي" },
     content: {
       fr: [
-        { tag: "Vision", text: "FreshLink Pro est la première plateforme ERP tout-en-un dédiée à la distribution de fruits et légumes au Maroc, développée par et pour les opérateurs locaux." },
-        { tag: "Traction", text: "Déjà déployée chez Powered by Vita Tech (Casablanca), l'application gère en temps réel : commandes terrain, stock, logistique, finance et agents IA commerciaux." },
+        { tag: "Vision", text: "Dima Krib Lik est la première plateforme ERP tout-en-un dédiée à la distribution de produits de grande consommation au Maroc, développée par et pour les opérateurs locaux." },
+        { tag: "Traction", text: "Déjà déployée chez Dima Krib Lik (Casablanca), l'application gère en temps réel : commandes terrain, stock, logistique, finance et agents IA commerciaux." },
         { tag: "Modèle", text: "SaaS B2B modulaire — abonnement mensuel par utilisateur. Premier client actif. Expansion prévue vers 50+ distributeurs au Maroc dès 2026." },
         { tag: "Levée", text: "Recherche de 2 à 5 M MAD (seed) pour accélérer la commercialisation, l'équipe commerciale et l'hébergement cloud." },
       ],
       en: [
-        { tag: "Vision", text: "FreshLink Pro is Morocco's first all-in-one ERP platform dedicated to fruit & vegetable distribution, built by and for local operators." },
-        { tag: "Traction", text: "Already live at Powered by Vita Tech (Casablanca), managing in real-time: field orders, stock, logistics, finance, and AI commercial agents." },
+        { tag: "Vision", text: "Dima Krib Lik is Morocco's first all-in-one ERP platform dedicated to consumer goods distribution, built by and for local operators." },
+        { tag: "Traction", text: "Already live at Dima Krib Lik (Casablanca), managing in real-time: field orders, stock, logistics, finance, and AI commercial agents." },
         { tag: "Model", text: "Modular B2B SaaS — monthly per-user subscription. First active client. Expansion target: 50+ Moroccan distributors by 2026." },
         { tag: "Raise", text: "Seeking 2–5 M MAD (seed) to accelerate commercialization, sales team, and cloud infrastructure." },
       ],
@@ -317,7 +317,7 @@ export default function BOInvestissement() {
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
             +212 663 898 707
           </a>
-          <a href={`https://wa.me/212663898707?text=${encodeURIComponent("Bonjour Jawad, je souhaite en savoir plus sur FreshLink Pro — dossier investisseur.")}`}
+          <a href={`https://wa.me/212663898707?text=${encodeURIComponent("Bonjour Jawad, je souhaite en savoir plus sur Dima Krib Lik — dossier investisseur.")}`}
             target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-green-500 text-white text-xs font-bold hover:bg-green-600 transition-colors">
             <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347" /></svg>
@@ -329,9 +329,9 @@ export default function BOInvestissement() {
       {/* Footer note */}
       <p className="text-[10px] text-muted-foreground text-center pb-2">
         {lang === "fr"
-          ? "Document confidentiel — FreshLink Pro © 2026 Powered by Vita Tech. Tous droits réservés."
+          ? "Document confidentiel — Dima Krib Lik © 2026 Powered by Vita Tech. Tous droits réservés."
           : lang === "en"
-          ? "Confidential document — FreshLink Pro © 2026 Powered by Vita Tech. All rights reserved."
+          ? "Confidential document — Dima Krib Lik © 2026 Powered by Vita Tech. All rights reserved."
           : "وثيقة سرية — فريشلينك برو © 2026 إمبير فريش للتوزيع. جميع الحقوق محفوظة."}
       </p>
     </div>

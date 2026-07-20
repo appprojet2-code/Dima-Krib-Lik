@@ -27,7 +27,7 @@ function _printPOLegacy(po: PurchaseOrder) {
   const company = typeof window !== "undefined" ? (() => {
     try { return JSON.parse(localStorage.getItem("fl_company") || "{}") } catch { return {} }
   })() : {}
-  const companyNom = company.nom || "FreshLink Maroc"
+  const companyNom = company.nom || "Dima Krib Lik Maroc"
   const companyEmail = company.email || "contact@freshlink.ma"
   const companyTel = company.telephone || ""
   const companyAdresse = company.adresse || ""
@@ -156,7 +156,7 @@ ${po.notes ? `<div class="notes-box"><h4>Notes &amp; Observations</h4><p>${po.no
   <div class="sig-box"><div class="sig-label">Signature Acheteur</div><div class="sig-line"></div></div>
   <div class="sig-box"><div class="sig-label">Signature Fournisseur</div><div class="sig-line"></div></div>
   <div class="watermark">
-    <p>FreshLink Pro — Gestion Distribution</p>
+    <p>Dima Krib Lik — Gestion Distribution</p>
     <p>Imprimé le ${fmtDate()}</p>
   </div>
 </div>
@@ -245,14 +245,14 @@ export default function BoPurchaseOrders() {
     const phone = fou.telephone?.replace(/\D/g, "") ?? ""
     if (phone) {
       const msg = encodeURIComponent(
-        `📦 Commande FreshLink Pro\n` +
+        `📦 Commande Dima Krib Lik\n` +
         `Ref: ${po.id.slice(0, 12)}\nDate: ${po.date}\n\n` +
         `Article: ${art.nom}\n` +
         `Quantite: ${po.quantite} ${art.unite}\n` +
         `Prix unitaire: ${po.prixUnitaire.toFixed(2)} DH\n` +
         `Total: ${po.total.toFixed(2)} DH\n\n` +
         (fNotes ? `Notes: ${fNotes}\n\n` : "") +
-        `Merci de confirmer la disponibilite. / يرجى تاكيد التوفر.\n— FreshLink Pro`
+        `Merci de confirmer la disponibilite. / يرجى تاكيد التوفر.\n— Dima Krib Lik`
       )
       window.open(`https://wa.me/${phone}?text=${msg}`, "_blank")
     }

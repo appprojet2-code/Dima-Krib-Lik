@@ -184,7 +184,7 @@ export default function DeployGuidePanel() {
               </div>
 
               <Info>
-                Ce guide vous explique comment connecter votre application FreshLink Pro a une vraie base de donnees (Supabase)
+                Ce guide vous explique comment connecter votre application Dima Krib Lik a une vraie base de donnees (Supabase)
                 et la deployer en ligne (Vercel). Vous n&apos;avez pas besoin de coder. Suivez les etapes dans l&apos;ordre.
               </Info>
 
@@ -205,7 +205,7 @@ export default function DeployGuidePanel() {
               </div>
 
               <div className="p-4 rounded-xl bg-slate-800 text-slate-200 text-xs leading-relaxed mb-4">
-                <p className="font-black text-white mb-2">Vos identifiants FreshLink Pro</p>
+                <p className="font-black text-white mb-2">Vos identifiants Dima Krib Lik</p>
                 <p className="mb-1"><span className="text-slate-400">URL Supabase :</span><br/>
                   <span className="font-mono text-emerald-400 text-[11px] break-all">https://nphrncmuxbwahqnzdyxp.supabase.co</span>
                 </p>
@@ -596,7 +596,7 @@ ON CONFLICT DO NOTHING;`} />
               <div className="mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200">
                 <p className="text-sm font-black text-emerald-800 mb-1">Felicitations !</p>
                 <p className="text-xs text-emerald-700 leading-relaxed">
-                  Si vous avez suivi toutes les etapes, votre application FreshLink Pro est maintenant connectee
+                  Si vous avez suivi toutes les etapes, votre application Dima Krib Lik est maintenant connectee
                   a Supabase et deployee sur Vercel. Vos donnees sont sauvegardees dans une vraie base de donnees cloud.
                 </p>
               </div>
