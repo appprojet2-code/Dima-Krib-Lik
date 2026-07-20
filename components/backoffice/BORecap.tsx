@@ -23,19 +23,10 @@ interface DailyStats {
   totalRetours: number
   totalCash: number
   marge: number
-  margePct: number
   nbBonsAchat: number
   nbCommandes: number
   nbLivraisons: number
   nbRetours: number
-}
-
-interface MonthlyStats {
-  mois: string // "YYYY-MM"
-  totalAchats: number
-  totalLivraisons: number
-  marge: number
-  margePct: number
 }
 
 interface BesoinRow extends BesoinLigneEmail {
@@ -63,34 +54,12 @@ function computeStats(date: string): DailyStats {
   }, 0), 0)
   const totalCash = bls.filter(b => b.statut === "encaissé").reduce((s, b) => s + b.montantTotal, 0)
   const marge     = totalLivraisons - totalAchats
-  const margePct  = totalLivraisons > 0 ? (marge / totalLivraisons) * 100 : 0
 
   return {
-    date, totalAchats, totalCommandes, totalLivraisons, totalRetours, totalCash, marge, margePct,
+    date, totalAchats, totalCommandes, totalLivraisons, totalRetours, totalCash, marge,
     nbBonsAchat: bonsAchat.length, nbCommandes: commandes.length,
     nbLivraisons: bls.length, nbRetours: retours.length,
   }
-}
-
-/** Retourne la date d'hier (YYYY-MM-DD) par rapport à la date donnée */
-function yesterdayOf(date: string): string {
-  const d = new Date(date + "T00:00:00")
-  d.setDate(d.getDate() - 1)
-  return d.toISOString().slice(0, 10)
-}
-
-/** Agrège les stats du 1er du mois de `date` jusqu'à `date` inclus */
-function computeMonthlyStats(date: string): MonthlyStats {
-  const mois = date.slice(0, 7) // "YYYY-MM"
-  const bonsAchat = store.getBonsAchat().filter(b => b.date.startsWith(mois) && b.date <= date)
-  const bls       = store.getBonsLivraison().filter(b => b.date.startsWith(mois) && b.date <= date)
-
-  const totalAchats     = bonsAchat.reduce((s, b) => s + b.lignes.reduce((ls, l) => ls + l.quantite * l.prixAchat, 0), 0)
-  const totalLivraisons = bls.reduce((s, b) => s + b.montantTotal, 0)
-  const marge     = totalLivraisons - totalAchats
-  const margePct  = totalLivraisons > 0 ? (marge / totalLivraisons) * 100 : 0
-
-  return { mois, totalAchats, totalLivraisons, marge, margePct }
 }
 
 /** Retourne le fournisseur habituel d'un article (basé sur l'historique des bons d'achat) */
@@ -184,8 +153,6 @@ export default function BORecap() {
 
   const [selectedDate, setSelectedDate]   = useState(today)
   const [stats, setStats]                 = useState<DailyStats>(() => computeStats(today))
-  const [statsHier, setStatsHier]         = useState<DailyStats>(() => computeStats(yesterdayOf(today)))
-  const [statsMois, setStatsMois]         = useState<MonthlyStats>(() => computeMonthlyStats(today))
   const [rows, setRows]                   = useState<BesoinRow[]>(() => computeBesoinRows())
   const [activeTab, setActiveTab]         = useState<"recap" | "besoin" | "config">("recap")
 
@@ -218,8 +185,6 @@ export default function BORecap() {
 
   const refreshAll = useCallback(() => {
     setStats(computeStats(selectedDate))
-    setStatsHier(computeStats(yesterdayOf(selectedDate)))
-    setStatsMois(computeMonthlyStats(selectedDate))
     setRows(computeBesoinRows())
   }, [selectedDate])
 
@@ -462,31 +427,6 @@ export default function BORecap() {
                 )}
               </div>
             ))}
-          </div>
-
-          {/* Taux de bénéfice (jour / mois) + Caisse d'hier */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className={`rounded-xl border border-border p-4 ${stats.margePct >= 0 ? "bg-green-50" : "bg-red-50"}`}>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Taux de bénéfice — jour</p>
-              <p className={`text-xl font-bold ${stats.margePct >= 0 ? "text-green-700" : "text-red-600"}`}>
-                {stats.margePct.toLocaleString("fr-MA", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">{selectedDate}</p>
-            </div>
-            <div className={`rounded-xl border border-border p-4 ${statsMois.margePct >= 0 ? "bg-green-50" : "bg-red-50"}`}>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Taux de bénéfice — mois</p>
-              <p className={`text-xl font-bold ${statsMois.margePct >= 0 ? "text-green-700" : "text-red-600"}`}>
-                {statsMois.margePct.toLocaleString("fr-MA", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">{statsMois.mois} — {statsMois.totalLivraisons.toLocaleString("fr-MA")} DH CA</p>
-            </div>
-            <div className="rounded-xl border border-border p-4 bg-slate-50">
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Caisse d&apos;hier</p>
-              <p className="text-xl font-bold text-slate-700">
-                {statsHier.totalCash.toLocaleString("fr-MA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} DH
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">{yesterdayOf(selectedDate)} — encaissé</p>
-            </div>
           </div>
 
           {/* Email preview */}

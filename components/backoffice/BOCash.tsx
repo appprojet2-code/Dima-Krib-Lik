@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { store, type BonLivraison, DEFAULT_CAISSE_PRICING, type CaissePricing, DEFAULT_FRAIS_BL, type FraisBlConfig } from "@/lib/store"
-import { printBL, printFacture as printFactureLib, printTicket80mm, printTicket58mm, printTicket50mm } from "@/lib/print"
+import { printBL, printFacture as printFactureLib } from "@/lib/print"
 
 // ── FMT ──────────────────────────────────────────────────────────────────
 const fmtDH = (n: number) => n.toLocaleString("fr-MA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " DH"
@@ -683,39 +683,24 @@ export default function BOCash() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <p className="text-[11px] font-semibold text-muted-foreground">Format d&apos;impression</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <button onClick={() => {
-                    printBL({
-                      ...(bl as Parameters<typeof printBL>[0]),
-                      fraisImpressionParFeuille: fraisConfig.fraisImpressionParFeuille,
-                      nbFeuilles: fraisConfig.nbFeuilles,
-                      fraisServiceParCaisse: fraisConfig.fraisServiceParCaisse,
-                    } as Parameters<typeof printBL>[0])
-                    setPrintFraisId(null)
-                  }}
-                    className="py-2.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-1.5"
-                    style={{ background: "oklch(0.38 0.2 260)" }}>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-                    A4
-                  </button>
-                  <button onClick={() => { printTicket80mm(bl); setPrintFraisId(null) }}
-                    className="py-2.5 rounded-xl text-sm font-bold text-foreground border border-border hover:bg-muted flex items-center justify-center gap-1.5">
-                    Ticket 80mm
-                  </button>
-                  <button onClick={() => { printTicket58mm(bl); setPrintFraisId(null) }}
-                    className="py-2.5 rounded-xl text-sm font-bold text-foreground border border-border hover:bg-muted flex items-center justify-center gap-1.5">
-                    Ticket 58mm
-                  </button>
-                  <button onClick={() => { printTicket50mm(bl); setPrintFraisId(null) }}
-                    className="py-2.5 rounded-xl text-sm font-bold text-foreground border border-border hover:bg-muted flex items-center justify-center gap-1.5">
-                    Ticket 50mm
-                  </button>
-                </div>
+              <div className="flex gap-2">
                 <button onClick={() => setPrintFraisId(null)}
-                  className="py-2 rounded-xl border border-border text-sm font-semibold text-muted-foreground hover:bg-muted">
+                  className="flex-1 py-2.5 rounded-xl border border-border text-sm font-semibold text-foreground hover:bg-muted">
                   Annuler
+                </button>
+                <button onClick={() => {
+                  printBL({
+                    ...(bl as Parameters<typeof printBL>[0]),
+                    fraisImpressionParFeuille: fraisConfig.fraisImpressionParFeuille,
+                    nbFeuilles: fraisConfig.nbFeuilles,
+                    fraisServiceParCaisse: fraisConfig.fraisServiceParCaisse,
+                  } as Parameters<typeof printBL>[0])
+                  setPrintFraisId(null)
+                }}
+                  className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-1.5"
+                  style={{ background: "oklch(0.38 0.2 260)" }}>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                  Imprimer BL
                 </button>
               </div>
             </div>
