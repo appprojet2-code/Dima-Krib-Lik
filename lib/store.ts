@@ -36,6 +36,8 @@ export type UserRole =
   | "ctrl_retour"
   | "fournisseur"
   | "client"
+  | "admin"
+  | "team_leader"
 
 export const ROLE_LABELS: Record<UserRole, string> = {
   master_admin:         "Master Admin (Jawad)",
@@ -69,6 +71,8 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   ctrl_retour:          "Contrôleur Retour",
   fournisseur:          "Fournisseur",
   client:               "Client",
+  admin:                "Administrateur",
+  team_leader:          "Team Leader",
 }
 
 export type UserType = "interne" | "externe"
@@ -86,6 +90,35 @@ export interface User {
   biometricId?:      string
   biometricPrompted?: boolean
   createdAt?:        string
+  accessType?:       string
+  secteur?:          string
+  phone?:            string
+  actif?:            boolean
+  photoUrl?:         string
+  canViewAchat?:            boolean
+  canViewCommercial?:       boolean
+  canViewLogistique?:       boolean
+  canViewStock?:            boolean
+  canViewCash?:             boolean
+  canViewFinance?:          boolean
+  canViewRecap?:            boolean
+  canViewDatabase?:         boolean
+  objectifClients?:              number
+  objectifTonnage?:              number
+  objectifJournalierCA?:         number
+  objectifHebdomadaireCA?:       number
+  objectifMensuelCA?:            number
+  objectifJournalierClients?:    number
+  objectifHebdomadaireClients?:  number
+  objectifMensuelClients?:       number
+  notifAchat?:       boolean
+  notifCommercial?:  boolean
+  notifLivraison?:   boolean
+  notifRecap?:       boolean
+  notifBesoinAchat?: boolean
+  fournisseurId?:    string
+  clientId?:         string
+  depotId?:          string
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -171,6 +204,351 @@ function deleteCookie(name: string) {
   if (typeof document === "undefined") return
   document.cookie = `${name}=; path=/; max-age=0`
 }
+
+// ════════════════════════════════════════════════════════════════════════════
+// DOMAIN TYPES — Achat / Réception / Commandes / Facturation
+// ════════════════════════════════════════════════════════════════════════════
+
+export interface ItinerairePoint {
+  nom: string
+  lat?: number
+  lng?: number
+  jour?: string
+  heureDepart?: string
+  heureArrivee?: string
+}
+
+export interface Fournisseur {
+  id: string
+  nom: string
+  contact: string
+  telephone?: string
+  email: string
+  adresse?: string
+  ville?: string
+  region?: string
+  specialites: string[]
+  modalitePaiement?: ModalitePaiement
+  delaiPaiement?: number
+  ice?: string
+  rc?: string
+  notes?: string
+  itineraires?: ItinerairePoint[]
+}
+
+export interface HistoriquePrixAchat {
+  date: string
+  fournisseurId?: string
+  fournisseurNom: string
+  prixAchat: number
+  quantite?: number
+}
+
+export interface Article {
+  id: string
+  nom: string
+  nomAr: string
+  famille: string
+  unite: string
+  um?: string
+  colisageParUM?: number
+  colisageCaisses?: number
+  colisageDemiCaisses?: number
+  stockDisponible: number
+  stockDefect: number
+  prixAchat: number
+  pvMethode: "pourcentage" | "montant" | "manuel"
+  pvValeur: number
+  photo?: string
+  actif?: boolean
+  catalogueVisible?: boolean
+  shelfLifeJours?: number
+  historiquePrixAchat?: HistoriquePrixAchat[]
+}
+
+export interface LigneAchat {
+  articleId: string
+  articleNom: string
+  quantite: number
+  prixAchat: number
+}
+
+export interface BonAchat {
+  id: string
+  date: string
+  acheteurId: string
+  acheteurNom: string
+  fournisseurId: string
+  fournisseurNom: string
+  lignes: LigneAchat[]
+  statut: "brouillon" | "validé" | "receptionné"
+  emailDestinataire: string
+  depotId?: string
+  depotNom?: string
+}
+
+export interface PurchaseOrder {
+  id: string
+  date: string
+  articleId: string
+  articleNom: string
+  articleUnite: string
+  fournisseurId: string
+  fournisseurNom: string
+  fournisseurEmail?: string
+  quantite: number
+  prixUnitaire: number
+  total: number
+  statut: "ouvert" | "envoyé" | "receptionné" | "annulé"
+  notes?: string
+  createdBy: string
+  depotId?: string
+  depotNom?: string
+}
+
+export interface DemandeAchat {
+  id: string
+  date: string
+  articleNom: string
+  articleUnite: string
+  quantite: number
+  fournisseurNom?: string
+  statut: "ouverte" | "en_cours" | "traitee" | "annulee"
+  poId: string
+  assigneNom?: string
+  traiteeAt?: string
+}
+
+export interface LigneReception {
+  articleId: string
+  articleNom: string
+  quantiteCommandee: number
+  quantiteRecue: number
+  quantiteBrute?: number
+  nbCaisseGros?: number
+  nbCaisseDemi?: number
+  typePoids?: "brut" | "net"
+  prixAchat?: number
+  motifReliquat?: string
+}
+
+export interface Reception {
+  id: string
+  date: string
+  bonAchatId: string
+  purchaseOrderId?: string
+  source: "bon_achat" | "purchase_order" | "manuel"
+  fournisseurNom: string
+  lignes: LigneReception[]
+  statut: "en_attente" | "stand_by" | "partielle" | "validée"
+  operateurId: string
+  notes?: string
+}
+
+export interface ContenantTare {
+  id: string
+  nom: string
+  poidsKg: number
+  actif: boolean
+}
+
+export interface Client {
+  id: string
+  nom: string
+  secteur?: string
+  zone?: string
+  type: string
+  typeAutre?: string
+  taille: string
+  typeProduits?: string
+  rotation?: string
+  telephone?: string
+  email?: string
+  adresse?: string
+  gpsLat?: number
+  gpsLng?: number
+  notes?: string
+  createdBy?: string
+  createdAt?: string
+  prevendeurId?: string
+  defaultHeureLivraison?: string
+  delaiRecouvrement?: DelaiRecouvrement
+  creditAutorise?: boolean
+  creditStatut?: string
+  creditSolde?: number
+  teamLeadId?: string
+}
+
+export interface LigneCommande {
+  articleId: string
+  articleNom: string
+  unite: string
+  um?: string
+  colisageParUM?: number
+  quantiteUM?: number
+  quantite: number
+  prixUnitaire: number
+  prixVente: number
+  prixUM?: number
+  total: number
+}
+
+export interface Commande {
+  id: string
+  date: string
+  commercialId?: string
+  commercialNom?: string
+  clientId: string
+  clientNom: string
+  secteur?: string
+  zone?: string
+  gpsLat?: number
+  gpsLng?: number
+  lignes: LigneCommande[]
+  heurelivraison: string
+  statut: string
+  emailDestinataire?: string
+  teamLeadId?: string
+  teamLeadNom?: string
+  notes?: string
+  motifRefus?: string
+}
+
+export interface Visite {
+  id: string
+  date: string
+  prevendeurId: string
+  prevendeurNom: string
+  clientId: string
+  clientNom: string
+  commandeId?: string
+  resultat: string
+  gpsLat?: number
+  gpsLng?: number
+}
+
+export interface CaisseVide {
+  id: string
+  libelle: string
+  type: "gros" | "demi"
+  capaciteKg: number
+  stock: number
+  enCirculation: number
+}
+
+export interface AnalyseAchat {
+  article: string
+  qteAchat: number
+  valeurAchat: number
+  qteReception: number
+  valeurReception: number
+  valeurRetenue: number
+  montantDonne: number
+  montantRendu: number
+  ecart: number
+}
+
+export interface CmdVsFacturation {
+  article: string
+  client: string
+  qteCmdee: number
+  prixCmd: number
+  qteFact: number
+  prixFact: number
+  ecartQte: number
+  ecartValeur: number
+}
+
+export interface BonLivraison {
+  id: string
+  date: string
+  commandeId?: string
+  clientId?: string
+  clientNom: string
+  secteur?: string
+  livreurNom?: string
+  statut?: string
+  valideMagasinier?: boolean
+  montantTotal: number
+  lignes: { articleId?: string; articleNom: string; quantite: number; total: number }[]
+}
+
+export type PriceEntryType = "fournisseur" | "client"
+export type PriceSource = "visite" | "telephone" | "whatsapp" | "email" | "marche" | "autre"
+export type PriceEvolution = "hausse" | "baisse" | "stable"
+
+export interface PriceEntry {
+  id: string
+  createdAt: string
+  updatedAt: string
+  userId: string
+  userName: string
+  articleId?: string
+  articleNom: string
+  categorie: string
+  type: PriceEntryType
+  fournisseurNom?: string
+  fournisseurTel?: string
+  region?: string
+  marche?: string
+  clientNom?: string
+  clientTel?: string
+  clientRegion?: string
+  prixUnitaire: number
+  unite: string
+  prixMin?: number
+  prixMax?: number
+  qualiteGrade?: string
+  source: PriceSource
+  date: string
+  notes?: string
+  prixPrecedent?: number
+  evolution?: PriceEvolution
+}
+
+interface BesoinNetEntry {
+  articleId: string
+  articleNom: string
+  unite: string
+  commandeQty: number
+  stockQty: number
+  besoinNet: number
+}
+
+interface VirtualStock {
+  physical: number
+  available: number
+  pending: number
+}
+
+export interface WorkflowConfig {
+  validationCommande: "direct" | "approval" | string
+  [key: string]: any
+}
+
+export interface EmailConfig {
+  achat: string
+  commercial: string
+  [key: string]: string
+}
+
+export interface Depot {
+  id: string
+  nom: string
+  actif?: boolean
+  [key: string]: any
+}
+
+// Types Logistique/RH minimalistes — hors périmètre Achat/Réception/Commandes/Facturation,
+// déclarés juste pour satisfaire la compilation partagée de lib/supabase/db.ts
+export interface Trip { id: string; [key: string]: any }
+export interface Retour { id: string; [key: string]: any }
+export interface BonPreparation { id: string; [key: string]: any }
+export interface TransfertStock { id: string; [key: string]: any }
+export interface Livreur { id: string; [key: string]: any }
+export interface MotifRetour { id: string; [key: string]: any }
+export interface Message { id: string; [key: string]: any }
+export interface Notice { id: string; [key: string]: any }
 
 // ════════════════════════════════════════════════════════════════════════════
 // STORE
@@ -334,40 +712,95 @@ export const store = {
   },
 
   // ── Données (placeholders) ────────────────────────────────────────────────
-  getClients()            { return [] },
+  getClients(): Client[]            { return [] },
   saveClients(_: any)     {},
-  getArticles()           { return [] },
+  getArticles(): Article[]           { return [] },
   saveArticles(_: any)    {},
-  getFournisseurs()       { return [] },
+  getFournisseurs(): Fournisseur[]       { return [] },
   saveFournisseurs(_: any){},
-  getCommandes()          { return [] },
+  getCommandes(): Commande[]          { return [] },
   saveCommandes(_: any)   {},
-  getBonsLivraison()      { return [] },
+  getBonsLivraison(): BonLivraison[]      { return [] },
   saveBonsLivraison(_: any){},
-  getPurchaseOrders()     { return [] },
+  getPurchaseOrders(): PurchaseOrder[]     { return [] },
   savePurchaseOrders(_: any){},
-  getReceptions()         { return [] },
+  getReceptions(): Reception[]         { return [] },
   saveReceptions(_: any)  {},
-  getTrips()              { return [] },
+  getTrips(): Trip[]              { return [] },
   saveTrips(_: any)       {},
-  getVisites()            { return [] },
+  getVisites(): Visite[]            { return [] },
   saveVisites(_: any)     {},
-  getRetours()            { return [] },
+  getRetours(): Retour[]            { return [] },
   saveRetours(_: any)     {},
-  getBonsAchat()          { return [] },
+  getBonsAchat(): BonAchat[]          { return [] },
   saveBonsAchat(_: any)   {},
-  getBonsPreparation()    { return [] },
+  getBonsPreparation(): BonPreparation[]    { return [] },
   saveBonsPreparation(_: any){},
-  getTransferts()         { return [] },
+  getTransferts(): TransfertStock[]         { return [] },
   saveTransferts(_: any)  {},
-  getLivreurs()           { return [] },
+  getLivreurs(): Livreur[]           { return [] },
   saveLivreurs(_: any)    {},
-  getMotifs()             { return [] },
+  getMotifs(): MotifRetour[]             { return [] },
   saveMotifs(_: any)      {},
-  getMessages()           { return [] },
+  getMessages(): Message[]           { return [] },
   saveMessages(_: any)    {},
-  getNotices()            { return [] },
+  getNotices(): Notice[]            { return [] },
   saveNotices(_: any)     {},
+
+  // ── Achat / Fournisseurs ───────────────────────────────────────────────────
+  addFournisseur(_: any) {},
+  updateFournisseur(_id: string, _patch: any) {},
+  deleteFournisseur(_id: string) {},
+  addBonAchat(_: any) {},
+  updateBonAchat(_id: string, _patch: any) {},
+  addHistoriquePrixAchat(_articleId: string, _entry: any) {},
+  getEmailConfig(): EmailConfig { return { achat: "", commercial: "" } },
+  saveEmailConfig(_: any) {},
+  getDemandesAchat(): DemandeAchat[] { return [] },
+  updateDemandeAchat(_id: string, _patch: any) {},
+  getPendingPOsForAcheteur(): PurchaseOrder[] { return [] },
+  refuserPO(_poId: string, _userId: string, _userName: string, _motif: string): DemandeAchat | null { return null },
+  autoGeneratePOsFromBesoin(): PurchaseOrder[] { return [] },
+  computeBesoinNet(): BesoinNetEntry[] { return [] },
+  getDepots() { return [DEFAULT_DEPOT] },
+  getContenantsConfig(): ContenantTare[] { return [] },
+  getCaissesVides(): CaisseVide[] { return [] },
+  updateCaisseVide(_id: string, _patch: any) {},
+  sortieCaissesVides(_id: string, _nb: number) {},
+  retourCaissesVides(_id: string, _nb: number) {},
+  addCaisseMouvement(_: any) {},
+
+  // ── Purchase Orders ──────────────────────────────────────────────────────
+  addPurchaseOrder(_: any) {},
+  updatePurchaseOrder(_id: string, _patch: any) {},
+
+  // ── Réception ────────────────────────────────────────────────────────────
+  addReception(_: any) {},
+  getVirtualStock(_articleId: string): VirtualStock { return { physical: 0, available: 0, pending: 0 } },
+  updateStock(_articleId: string, _qty: number, _isDefect?: boolean) {},
+
+  // ── Commandes / Clients ──────────────────────────────────────────────────
+  addClient(_: any) {},
+  addCommande(_: any) {},
+  deleteCommande(_id: string) {},
+  addVisite(_: any) {},
+  computePV(_article: Article): number { return 0 },
+  updateBonLivraison(_id: string, _patch: any) {},
+
+  // ── Pricing ──────────────────────────────────────────────────────────────
+  getPriceEntries(): PriceEntry[] { return [] },
+  addPriceEntry(_: any) {},
+  updatePriceEntry(_: any) {},
+  deletePriceEntry(_id: string) {},
+
+  // ── Workflow config ──────────────────────────────────────────────────────
+  getWorkflowConfig(): WorkflowConfig { return { validationCommande: "approval" } },
+
+  // ── Générateurs d'identifiants ───────────────────────────────────────────
+  genId(): string { return `id-${Date.now()}-${Math.random().toString(36).slice(2, 8)}` },
+  genBL(): string { return `BL-${Date.now()}` },
+  genCommande(): string { return `CMD-${Date.now()}` },
+  today(): string { return new Date().toISOString().slice(0, 10) },
 }
 
 export function getUserInterface(user: User): "mobile" | "backoffice" | "client" | "both" {
@@ -422,13 +855,17 @@ export const ROLE_COLORS: Record<UserRole, string> = {
   ctrl_retour:          "bg-rose-700",
   fournisseur:          "bg-slate-600",
   client:               "bg-teal-600",
+  admin:                "bg-violet-600",
+  team_leader:          "bg-blue-600",
 }
 
 // ════════════════════════════════════════════════════════════════════════════
 // LOOKUP DICTIONARIES — referenced by BackOffice components
 // ════════════════════════════════════════════════════════════════════════════
 
-export const MODALITE_LABELS: Record<string, string> = {
+export type ModalitePaiement = "cash" | "cheque" | "virement" | "traite_30" | "traite_60" | "traite_90" | "credit_7" | "credit_15" | "credit_30"
+
+export const MODALITE_LABELS: Record<ModalitePaiement, string> = {
   cash:      "Cash / نقدا",
   cheque:    "Chèque",
   virement:  "Virement bancaire",
@@ -440,7 +877,9 @@ export const MODALITE_LABELS: Record<string, string> = {
   credit_30: "Crédit 30j",
 }
 
-export const DELAI_RECOUVREMENT_LABELS: Record<string, string> = {
+export type DelaiRecouvrement = "jour_meme" | "24h" | "48h" | "1_semaine" | "1_mois" | "a_definir"
+
+export const DELAI_RECOUVREMENT_LABELS: Record<DelaiRecouvrement, string> = {
   jour_meme:  "La journée même",
   "24h":      "24 heures",
   "48h":      "48 heures",
