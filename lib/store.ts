@@ -38,6 +38,7 @@ export type UserRole =
   | "client"
   | "admin"
   | "team_leader"
+  | "rh_manager"
 
 export const ROLE_LABELS: Record<UserRole, string> = {
   master_admin:         "Master Admin (Jawad)",
@@ -73,6 +74,7 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   client:               "Client",
   admin:                "Administrateur",
   team_leader:          "Team Leader",
+  rh_manager:           "Manager RH",
 }
 
 export type UserType = "interne" | "externe"
@@ -119,6 +121,7 @@ export interface User {
   fournisseurId?:    string
   clientId?:         string
   depotId?:          string
+  civilite?:         Civilite
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -484,16 +487,49 @@ export interface Salarie {
   nom: string
   prenom: string
   poste: string
+  departement?: string
   telephone?: string
+  email?: string
+  adresse?: string
+  ville?: string
   cin?: string
   cnss?: string
+  nationalite?: string
+  dateNaissance?: string
+  lieuNaissance?: string
+  diplome?: string
+  experienceAns?: number
+  statutFamilial?: string
+  nbEnfants?: number
   dateEmbauche: string
   typeContrat: TypeContrat
+  datefinCdd?: string
   salaireBrut: number
+  salaireNet?: number
   avances: number
+  modePaiement?: string
+  numCompteBancaire?: string
+  banque?: string
   statut: StatutSalarie
+  notes?: string
+  dossierComplet?: boolean
   createdBy?: string
   createdAt?: string
+  updatedBy?: string
+  updatedAt?: string
+}
+
+export interface RHNotification {
+  id: string
+  type: string
+  titre: string
+  message: string
+  salarieNom?: string
+  lu: boolean
+  traite: boolean
+  userId?: string
+  createdAt: string
+  createdBy: string
 }
 
 export interface PaiementSalaire {
@@ -1041,6 +1077,9 @@ export const store = {
   addReserveSnap(_: ReserveCaisseSnap) {},
   getCutoffs(): CutoffNotification[] { return DEFAULT_CUTOFFS },
   saveCutoffs(_: any) {},
+  getRHNotifications(): RHNotification[] { return [] },
+  markRHNotifLu(_id: string) {},
+  markRHNotifTraite(_id: string) {},
   isReadOnly(): boolean { return false },
 
   // ── Purchase Orders ──────────────────────────────────────────────────────
@@ -1130,6 +1169,7 @@ export const ROLE_COLORS: Record<UserRole, string> = {
   client:               "bg-teal-600",
   admin:                "bg-violet-600",
   team_leader:          "bg-blue-600",
+  rh_manager:           "bg-pink-600",
 }
 
 // ════════════════════════════════════════════════════════════════════════════
