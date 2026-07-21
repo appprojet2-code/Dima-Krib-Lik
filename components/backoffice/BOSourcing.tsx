@@ -89,7 +89,7 @@ export default function BOSourcing({ user }: { user?: { id: string; name: string
       if (
         !e.articleNom.toLowerCase().includes(q) &&
         !e.fournisseurNom.toLowerCase().includes(q) &&
-        !e.marche.toLowerCase().includes(q)
+        !(e.marche ?? "").toLowerCase().includes(q)
       ) return false
     }
     return true

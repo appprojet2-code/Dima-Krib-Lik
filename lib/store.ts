@@ -267,6 +267,7 @@ export interface Article {
   colisageDemiCaisses?: number
   stockDisponible: number
   stockDefect: number
+  stockTheorique?: number
   prixAchat: number
   pvMethode: "pourcentage" | "montant" | "manuel"
   pvValeur: number
@@ -274,6 +275,11 @@ export interface Article {
   actif?: boolean
   catalogueVisible?: boolean
   shelfLifeJours?: number
+  alerteShelfLifeJours?: number
+  lots?: { lotId: string; dateReception: string; quantite: number; fournisseurNom?: string }[]
+  stockReel?: number
+  stockReelDate?: string
+  stockReelSaisiPar?: string
   historiquePrixAchat?: HistoriquePrixAchat[]
   marketplaceActif?: boolean
   marketplaceStatut?: "disponible" | "hors_saison" | "out_of_stock" | "short_stock" | "nouveau" | "promo"
@@ -331,6 +337,10 @@ export interface PurchaseOrder {
   createdBy: string
   depotId?: string
   depotNom?: string
+  montantPaye?: number
+  statutPaiement?: string
+  datePaiement?: string
+  genereAuto?: boolean
 }
 
 export interface DemandeAchat {
@@ -357,6 +367,9 @@ export interface LigneReception {
   typePoids?: "brut" | "net"
   prixAchat?: number
   prixFacture?: number
+  quantiteFacturee?: number
+  ecartQte?: number
+  ecartPrix?: number
   motifReliquat?: string
 }
 
@@ -409,6 +422,9 @@ export interface Client {
   ice?: string
   modalitePaiement?: ModalitePaiement
   plafondCredit?: number
+  segment?: ClientSegment
+  loyaltyPoints?: number
+  loyaltyOptIn?: boolean
 }
 
 export interface LigneCommande {
@@ -733,6 +749,54 @@ export interface ReserveCaisseSnap {
   createdBy: string
 }
 
+export type FeedbackSource = "client" | "fournisseur" | "equipe"
+export type FeedbackStatut = "nouveau" | "lu" | "traite"
+
+export interface Feedback {
+  id: string
+  source: FeedbackSource
+  auteur: string
+  sujet: string
+  message: string
+  note: number
+  date: string
+  statut: FeedbackStatut
+}
+
+export type SourcingGrade = "A+" | "A" | "B" | "C"
+export type SourcingStatut = "disponible" | "epuise" | "commande" | "annule"
+
+export interface SourcingEntry {
+  id: string
+  createdAt: string
+  updatedAt: string
+  userId: string
+  userName: string
+  articleId?: string
+  articleNom: string
+  categorie: string
+  fournisseurNom: string
+  fournisseurTel?: string
+  fournisseurContact?: string
+  region: string
+  marche?: string
+  adresse?: string
+  gpsLat?: number
+  gpsLng?: number
+  prixUnitaire: number
+  prixNegociable: boolean
+  prixMin?: number
+  unite: string
+  quantiteDisponible: number
+  quantiteMin?: number
+  qualiteGrade: SourcingGrade
+  photoUrls: string[]
+  disponibleJusquA?: string
+  delaiLivraison: string
+  notes?: string
+  statut: SourcingStatut
+}
+
 export interface AnalyseAchat {
   article: string
   qteAchat: number
@@ -768,7 +832,7 @@ export interface BonLivraison {
   valideMagasinier?: boolean
   montantTotal: number
   montantTTC?: number
-  lignes: { articleId?: string; articleNom: string; quantite: number; total: number; prixUnitaire?: number }[]
+  lignes: { articleId?: string; articleNom: string; quantite: number; total: number; prixUnitaire?: number; unite?: string }[]
   [key: string]: any
 }
 
@@ -1209,6 +1273,13 @@ export const store = {
   addHRTemplate(_: HRCustomTemplate) {},
   updateHRTemplate(_id: string, _patch: Partial<HRCustomTemplate>) {},
   deleteHRTemplate(_id: string) {},
+  getSourcingEntries(): SourcingEntry[] { return [] },
+  addSourcingEntry(_: SourcingEntry) {},
+  updateSourcingEntry(_: SourcingEntry) {},
+  deleteSourcingEntry(_id: string) {},
+  getFeedbacks(): Feedback[] { return [] },
+  addFeedback(_: Feedback) {},
+  updateFeedbackStatus(_id: string, _statut: FeedbackStatut) {},
 
   // ── Login helpers ─────────────────────────────────────────────────────────
 
@@ -1263,6 +1334,7 @@ export const store = {
   saveBonsPreparation(_: any){},
   addBonPreparation(_: BonPreparation) {},
   getTransferts(): TransfertStock[]         { return [] },
+  addTransfert(_: TransfertStock) {},
   saveTransferts(_: any)  {},
   getLivreurs(): Livreur[]           { return [] },
   saveLivreurs(_: any)    {},
@@ -1292,6 +1364,7 @@ export const store = {
   getDepots(): Depot[] { return [DEFAULT_DEPOT] },
   getContenantsConfig(): ContenantTare[] { return [] },
   saveContenantsConfig(_: any) {},
+  updateContenant(_id: string, _patch: Partial<ContenantTare>) {},
   getCaissesVides(): CaisseVide[] { return [] },
   updateCaisseVide(_id: string, _patch: any) {},
   getCaisseEntries(): CaisseEntry[] { return [] },
@@ -1556,6 +1629,11 @@ export const DEFAULT_DEPOT = {
   nom:  "Dépôt Principal",
   actif: true,
 }
+
+export const DEFAULT_CONTENANTS_TARE: ContenantTare[] = [
+  { id: "caisse-grosse", nom: "Grosse caisse", poidsKg: 2.5, actif: true },
+  { id: "caisse-demi",   nom: "Demi caisse",   poidsKg: 1.5, actif: true },
+]
 
 export const DEFAULT_WORKFLOW_STEPS: WorkflowStep[] = [
   { id: "order_placement", label: "Prise de Commande",          labelAr: "استلام الطلب",          enabled: true,  mandatory: true,  canBypass: false },

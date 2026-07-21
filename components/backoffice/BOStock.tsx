@@ -930,9 +930,10 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
         // Synthèse par livreur
         const ecartParLivreur: Record<string, { nom: string; gros: number; demi: number; retourGros: number; retourDemi: number; ecartGros: number; ecartDemi: number }> = {}
         todayBLs.forEach(bl => {
-          if (!ecartParLivreur[bl.livreurNom]) ecartParLivreur[bl.livreurNom] = { nom: bl.livreurNom, gros: 0, demi: 0, retourGros: 0, retourDemi: 0, ecartGros: 0, ecartDemi: 0 }
-          ecartParLivreur[bl.livreurNom].gros += bl.nbCaisseGros ?? 0
-          ecartParLivreur[bl.livreurNom].demi += bl.nbCaisseDemi ?? 0
+          const livreurNom = bl.livreurNom ?? ""
+          if (!ecartParLivreur[livreurNom]) ecartParLivreur[livreurNom] = { nom: livreurNom, gros: 0, demi: 0, retourGros: 0, retourDemi: 0, ecartGros: 0, ecartDemi: 0 }
+          ecartParLivreur[livreurNom].gros += bl.nbCaisseGros ?? 0
+          ecartParLivreur[livreurNom].demi += bl.nbCaisseDemi ?? 0
         })
         todayMvts.filter(m => m.sens === "entree" && m.operateurNom).forEach(m => {
           if (!ecartParLivreur[m.operateurNom]) return
