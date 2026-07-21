@@ -519,6 +519,124 @@ export interface Salarie {
   updatedAt?: string
 }
 
+export type DiscountScope = "client" | "article" | "famille" | "segment" | "global"
+export type DiscountType = "pourcentage" | "montant_fixe" | "article_offert"
+export type ClientSegment = "standard" | "vip" | "grossiste" | "fidele"
+
+export type BonusCriteria = "zero_retard" | "zero_retour" | "zero_qualite"
+
+export interface DriverBonusConfig {
+  actif?: boolean
+  cycleBonus?: string
+  bonusZeroRetard: number
+  bonusExterneZeroRetard: number
+  bonusZeroRetour: number
+  bonusExterneZeroRetour: number
+  bonusZeroQualite: number
+  bonusExterneZeroQualite: number
+  bonusParfait: number
+  bonusExterneParfait: number
+  updatedBy?: string
+  updatedAt?: string
+}
+
+export interface DriverBonusRecord {
+  id: string
+  livreurId: string
+  livreurNom: string
+  driverType: "interne" | "externe"
+  tripId: string
+  date: string
+  zeroRetard: boolean
+  zeroRetour: boolean
+  zeroQualite: boolean
+  montantBonus: number
+  criteriaRemplis: BonusCriteria[]
+  statut: "calcule" | "valide" | "paye"
+  validePar?: string
+  createdAt: string
+}
+
+export interface ShareholderDistribution {
+  id: string
+  periode: string
+  cycleType: "journalier" | "hebdomadaire" | "mensuel"
+  beneficeNet: number
+  totalDistribue: number
+  lignes: {
+    actionnaireId: string
+    actionnaireNom: string
+    cotisation: number
+    part: number
+    montant: number
+    statut: "en_attente" | "paye"
+    datePaiement?: string
+  }[]
+  statut: "brouillon" | "valide" | "distribue"
+  validePar?: string
+  createdBy: string
+  createdAt: string
+  notes?: string
+}
+
+export interface DiscountRule {
+  id: string
+  nom: string
+  actif: boolean
+  scope: DiscountScope
+  clientId?: string
+  clientNom?: string
+  articleId?: string
+  articleNom?: string
+  famille?: string
+  segment?: ClientSegment
+  type: DiscountType
+  valeur: number
+  articleOffertId?: string
+  articleOffertNom?: string
+  articleOffertQte?: number
+  codePromo?: string
+  commandeMinDH?: number
+  dateDebut?: string
+  dateFin?: string
+  messageWhatsApp?: string
+  appOnly?: boolean
+  createdBy: string
+  createdAt: string
+  updatedAt?: string
+}
+
+export interface LoyaltyConfig {
+  actif: boolean
+  pointsParDH: number
+  bonusAppOrder: number
+  bonusZeroRetour: number
+  expirationJours?: number
+  pointsParRemiseDH: number
+  minimumPointsRachat: number
+  pointsArticleCadeau: number
+  articleCadeauNom?: string
+  articleCadeauId?: string
+  articleCadeauQte?: number
+  updatedBy?: string
+  updatedAt?: string
+}
+
+export interface LoyaltyTransaction {
+  id: string
+  clientId: string
+  clientNom: string
+  type: "gain" | "rachat"
+  points: number
+  motif?: string
+  redemptionType?: "remise_monetaire" | "article_offert"
+  redemptionValeur?: number
+  redemptionArticleId?: string
+  statut: string
+  createdBy: string
+  createdAt: string
+}
+
 export interface RHNotification {
   id: string
   type: string
@@ -1081,6 +1199,35 @@ export const store = {
   markRHNotifLu(_id: string) {},
   markRHNotifTraite(_id: string) {},
   isReadOnly(): boolean { return false },
+  getDiscountRules(): DiscountRule[] { return [] },
+  addDiscountRule(_: DiscountRule) {},
+  updateDiscountRule(_id: string, _patch: Partial<DiscountRule>) {},
+  deleteDiscountRule(_id: string) {},
+  getLoyaltyConfig(): LoyaltyConfig {
+    return {
+      actif: true, pointsParDH: 1, bonusAppOrder: 5, bonusZeroRetour: 10,
+      pointsParRemiseDH: 100, minimumPointsRachat: 100, pointsArticleCadeau: 500,
+    }
+  },
+  saveLoyaltyConfig(_: any) {},
+  getLoyaltyTransactions(): LoyaltyTransaction[] { return [] },
+  getClientPoints(_clientId: string): number { return 0 },
+  addLoyaltyTransaction(_: LoyaltyTransaction) {},
+  getDriverBonusConfig(): DriverBonusConfig {
+    return {
+      bonusZeroRetard: 0, bonusExterneZeroRetard: 0,
+      bonusZeroRetour: 0, bonusExterneZeroRetour: 0,
+      bonusZeroQualite: 0, bonusExterneZeroQualite: 0,
+      bonusParfait: 0, bonusExterneParfait: 0,
+    }
+  },
+  saveDriverBonusConfig(_: any) {},
+  getDriverBonusRecords(): DriverBonusRecord[] { return [] },
+  addDriverBonusRecord(_: DriverBonusRecord) {},
+  saveDriverBonusRecords(_: any) {},
+  getShareholderDistributions(): ShareholderDistribution[] { return [] },
+  addShareholderDistribution(_: ShareholderDistribution) {},
+  saveShareholderDistributions(_: any) {},
 
   // ── Purchase Orders ──────────────────────────────────────────────────────
   addPurchaseOrder(_: any) {},
