@@ -416,7 +416,7 @@ function ArticleCard({ article, preview = false, onClick }: { article: Article; 
             {hasPromo ? (
               <>
                 <span className="text-xs line-through text-slate-400">{prix.toFixed(2)} DH</span>
-                <p className="text-sm font-black text-purple-700">{article.marketplacePromo!.prixPromo.toFixed(2)} DH</p>
+                <p className="text-sm font-black text-purple-700">{(article.marketplacePromo!.prixPromo ?? 0).toFixed(2)} DH</p>
               </>
             ) : (
               <p className="text-sm font-black text-slate-900">{prix.toFixed(2)} DH</p>

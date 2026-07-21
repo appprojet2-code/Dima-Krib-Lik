@@ -275,6 +275,22 @@ export interface Article {
   catalogueVisible?: boolean
   shelfLifeJours?: number
   historiquePrixAchat?: HistoriquePrixAchat[]
+  marketplaceActif?: boolean
+  marketplaceStatut?: "disponible" | "hors_saison" | "out_of_stock" | "short_stock" | "nouveau" | "promo"
+  marketplaceCommentaire?: string
+  marketplacePrixPublic?: number
+  marketplaceDescription?: string
+  marketplaceDescriptionAr?: string
+  marketplaceSeuilShortStock?: number
+  marketplaceTags?: string[]
+  marketplaceOrdre?: number
+  marketplacePromo?: {
+    actif?: boolean
+    prixPromo?: number
+    etiquette?: string
+    dateDebut?: string
+    dateFin?: string
+  }
 }
 
 export interface LigneAchat {
