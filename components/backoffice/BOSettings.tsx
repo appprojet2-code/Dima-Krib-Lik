@@ -81,7 +81,7 @@ export default function BOSettings({ user }: { user: { id: string; name: string;
   const [seeding, setSeeding] = useState(false)
 
   // Access check — computed AFTER hooks
-  const canAccess = user.role === "super_super_admin" || user.role === "admin" || user.role === "super_admin"
+  const canAccess = user.role === "master_admin" || user.role === "super_super_admin" || user.role === "admin" || user.role === "super_admin"
   const canEditEmails = canAccess
 
   useEffect(() => {
@@ -1368,7 +1368,7 @@ To: {{to_email}}
               ))}
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Ajoute des données marocaines réalistes (fruits & légumes, Casablanca) sans écraser les données existantes. Idéal pour explorer toutes les fonctionnalités. Les données portent le préfixe <code className="bg-muted px-1 rounded font-mono">seed-</code> et peuvent être supprimées via &quot;Effacer toutes les données&quot;.
+              Ajoute des données marocaines réalistes (Casablanca) sans écraser les données existantes. Idéal pour explorer toutes les fonctionnalités. Les données portent le préfixe <code className="bg-muted px-1 rounded font-mono">seed-</code> et peuvent être supprimées via &quot;Effacer toutes les données&quot;.
             </p>
             {seedMsg && (
               <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-xs ${seedMsg.ok ? "bg-green-50 border-green-200 text-green-800" : "bg-red-50 border-red-200 text-red-800"}`}>

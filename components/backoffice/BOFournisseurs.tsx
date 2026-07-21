@@ -284,7 +284,7 @@ export default function BOFournisseurs({ user }: { user: { id: string; role: str
               {/* SPECIALITES */}
               {activeTab === "specialites" && (
                 <div className="flex flex-col gap-3">
-                  <p className="text-xs text-muted-foreground">Sélectionnez les fruits et légumes fournis par ce fournisseur :</p>
+                  <p className="text-xs text-muted-foreground">Sélectionnez les produits fournis par ce fournisseur :</p>
                   <div className="flex flex-wrap gap-2">
                     {SPECIALITES_FRUITS_LEGUMES.map(s => (
                       <button key={s} onClick={() => toggleSpecialite(s)} type="button"

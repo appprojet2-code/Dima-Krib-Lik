@@ -143,23 +143,23 @@ function blCSS(accent: string) {
 // ── Print BL ──────────────────────────────────────────────────────────────────
 // ── Default Empire Fresh company config ───────────────────────────────────────
 export const EMPIRE_FRESH_CONFIG: CompanyConfig = {
-  nom: "Empire Fresh",
+  nom: "Dima Krib Lik",
   adresse: "Zone Industrielle, Casablanca",
   ville: "Casablanca, Maroc",
   telephone: "+212 5XX-XXXXXX",
-  email: "contact@empirefresh.ma",
+  email: "contact@dimakriblik.ma",
   ice: "000000000000000",
   rc: "XXXXXX",
   if_fiscal: "XXXXXXXX",
   logo: "/empire-fresh-logo.png",
-  couleurEntete: "#0B3D1F",
-  mentionsBL: "Empire Fresh — Fruit & Vegetable Distribution Network, Morocco. Marchandises voyageant aux risques et perils du destinataire.",
+  couleurEntete: "#0F3460",
+  mentionsBL: "Dima Krib Lik by Vita Agro Capital — Distribution Network, Morocco. Marchandises voyageant aux risques et perils du destinataire.",
   mentionsFacture: "Merci de regler sous 30 jours. Tout retard entraine des penalites de 1,5% par mois. ICE inclus sur la presente facture.",
 }
 
 export function printBL(bl: BonLivraison, company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
-  const accent = cfg.couleurEntete ?? "#0B3D1F"
+  const accent = cfg.couleurEntete ?? "#0F3460"
   const goldAccent = "#F2811F"
   const companyNom = cfg.nom ?? "Empire Fresh"
   const now = new Date()
@@ -294,7 +294,7 @@ export function printBL(bl: BonLivraison, company?: CompanyConfig) {
 // ── Print Ultra-Pro Invoice ───────────────────────────────────────────────────
 export function printFacture(bl: BonLivraison, factureNum: string, company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
-  const accent = cfg.couleurEntete ?? "#0B3D1F"
+  const accent = cfg.couleurEntete ?? "#0F3460"
   const goldAccent = "#F2811F"
   const companyNom = cfg.nom ?? "Empire Fresh"
   const dateStr = bl.date ?? new Date().toLocaleDateString("fr-FR")
@@ -391,7 +391,7 @@ export function printFacture(bl: BonLivraison, factureNum: string, company?: Com
 // ── Print Ultra-Pro Purchase Order ────────────────────────────────────────────
 export function printPurchaseOrder(po: PurchaseOrder, company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
-  const accent = cfg.couleurEntete ?? "#0B3D1F"
+  const accent = cfg.couleurEntete ?? "#0F3460"
   const goldAccent = "#F2811F"
   const companyNom = cfg.nom ?? "Empire Fresh"
   const dateStr = po.date ?? new Date().toLocaleDateString("fr-FR")
@@ -503,7 +503,7 @@ export function printPurchaseOrder(po: PurchaseOrder, company?: CompanyConfig) {
 // ── Print HR Document ─────────────────────────────────────────────────────────
 export function printHRDoc(data: HRDocData, company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
-  const accent = cfg.couleurEntete ?? "#0B3D1F"
+  const accent = cfg.couleurEntete ?? "#0F3460"
   const goldAccent = "#F2811F"
   const companyNom = data.societe ?? cfg.nom ?? "Empire Fresh"
 
@@ -597,7 +597,7 @@ export function printHRDoc(data: HRDocData, company?: CompanyConfig) {
 // ── Print Payslip (Fiche de paie ultra-pro) ───────────────────────────────────
 export function printFichePaie(salarie: Salarie | null, brut: number, periode: string, heuresSup = 0, primes = 0, modePaie = "virement", company?: CompanyConfig) {
   const cfg = { ...EMPIRE_FRESH_CONFIG, ...company }
-  const accent = cfg.couleurEntete ?? "#0B3D1F"
+  const accent = cfg.couleurEntete ?? "#0F3460"
   const companyNom = cfg.nom ?? "Empire Fresh"
   const calc = calcPayroll(brut + primes)
   const totalBrut = brut + primes
@@ -884,7 +884,7 @@ interface BOBonLivraison {
 
 function buildBLHtml(bl: BOBonLivraison, opts: PrintBLOpts): string {
   const cfg = { ...EMPIRE_FRESH_CONFIG }
-  const accent = cfg.couleurEntete ?? "#0B3D1F"
+  const accent = cfg.couleurEntete ?? "#0F3460"
   const goldAccent = "#F2811F"
   const companyNom = opts.nomSocieteOverride || cfg.nom
   const adresse = opts.adresseOverride || cfg.adresse || ""

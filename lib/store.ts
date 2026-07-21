@@ -1297,9 +1297,9 @@ export const store = {
   getCompanyConfig(): CompanyConfig {
     return {
       appName:   "FreshLink Pro",
-      appSlogan: "Distribution & IA",
+      appSlogan: "Powered by Vita Tech",
       logo:      "/empire-fresh-logo.png",
-      nom:       "Empire Fresh",
+      nom:       "Dima Krib Lik",
     }
   },
   saveCompanyConfig(_: CompanyConfig) {},

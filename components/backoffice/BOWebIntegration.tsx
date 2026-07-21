@@ -6,7 +6,7 @@ import { store, type User, type WebIntegrationConfig } from "@/lib/store"
 interface Props { user: User }
 
 function canAccess(u: User) {
-  return ["super_super_admin", "super_admin", "admin"].includes(u.role)
+  return ["master_admin", "super_super_admin", "super_admin", "admin"].includes(u.role)
 }
 
 function CopyBtn({ text }: { text: string }) {

@@ -20,7 +20,7 @@ const STATUT_CFG: Record<string, { label: string; cls: string }> = {
 
 function canAccess(user: User): boolean {
   return [
-    "super_super_admin", "super_admin", "admin",
+    "master_admin", "super_super_admin", "super_admin", "admin",
     "resp_commercial", "resp_logistique", "resp_achat",
   ].includes(user.role)
 }

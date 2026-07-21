@@ -8,11 +8,11 @@ interface Props {
 }
 
 export const BRAND = {
-  company: "Empire Fresh",
-  companyTag: "Fruit & Vegetable Distribution Network — Morocco",
+  company: "Dima Krib Lik",
+  companyTag: "by Vita Agro Capital",
   app: "Fresh Link Pro",
-  tagline: "Gestion & Distribution Intelligente",
-  primaryGreen: "#0B3D1F",
+  tagline: "powered by Vita Tech",
+  primaryGreen: "#0F3460",
   accentGold: "#F2811F",
   logoPath: "/empire-fresh-logo.png",
 }

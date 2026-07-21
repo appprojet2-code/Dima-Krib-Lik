@@ -790,7 +790,7 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
   // resp_logistique  → can create/edit magasinier + dispatcheur + livreur only (their team)
   // others           → read-only: name, phone, email, secteur only
   const isJawadUser = currentUser.role === "super_super_admin"
-  const isFullAdmin = currentUser.role === "super_super_admin" || currentUser.role === "super_admin" || currentUser.role === "admin"
+  const isFullAdmin = currentUser.role === "master_admin" || currentUser.role === "super_super_admin" || currentUser.role === "super_admin" || currentUser.role === "admin"
 
   const TEAM_LEADER_ALLOWED: Record<string, UserRole[]> = {
     resp_commercial: ["prevendeur", "team_leader"],

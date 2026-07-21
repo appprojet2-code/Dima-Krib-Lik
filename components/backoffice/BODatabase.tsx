@@ -87,7 +87,7 @@ export default function BODatabase({ user }: { user: { id: string; role?: string
   const [importing, setImporting] = useState(false)
   const [importResult, setImportResult] = useState<{ inserted: number; updated: number; errors: number } | null>(null)
   const csvRef = useRef<HTMLInputElement>(null)
-  const canAccess = user.role === "super_super_admin" || user.role === "admin" || user.role === "super_admin"
+  const canAccess = user.role === "master_admin" || user.role === "super_super_admin" || user.role === "admin" || user.role === "super_admin"
 
   // ALL useEffects MUST be before any conditional return
   useEffect(() => {

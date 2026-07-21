@@ -9,7 +9,7 @@ import {
 interface Props { user: User }
 
 const DH = (n: number) => `${n.toLocaleString("fr-MA", { maximumFractionDigits: 0 })} DH`
-const KG = (n: number) => `${n.toLocaleString("fr-MA", { maximumFractionDigits: 1 })} kg`
+const KG = (n: number) => `${n.toLocaleString("fr-MA", { maximumFractionDigits: 0 })} u.`
 // Fresh produce palette: emerald, amber, sky, lime, tomato, teal, orange, yellow, red, green
 const CHART_COLORS = ["#10b981", "#f59e0b", "#0ea5e9", "#84cc16", "#ef4444", "#14b8a6", "#f97316", "#eab308", "#dc2626", "#22c55e"]
 
@@ -496,7 +496,7 @@ export default function BODashboard({ user }: Props) {
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
             {[
               {
-                label: "Tonnage jour",
+                label: "Unites jour",
                 v: KG(tonnageToday),
                 clr: "oklch(0.80 0.18 72)",
                 sub: <Delta current={tonnageToday} previous={tonnageYday} label="vs J-1" />,
@@ -509,7 +509,7 @@ export default function BODashboard({ user }: Props) {
                 sub: <Delta current={visitesToday} previous={visitesYday} label="vs J-1" />,
                 sub2: <Delta current={visitesToday} previous={visitesLastWk} label="vs S-1" />,
               },
-              { label: "Retours (kg/j)",  v: KG(totalRetourKgToday), clr: "oklch(0.65 0.22 27)", sub: null, sub2: null },
+              { label: "Retours (u/j)",  v: KG(totalRetourKgToday), clr: "oklch(0.65 0.22 27)", sub: null, sub2: null },
               { label: "Taux retour",     v: `${tauxRetour}%`, clr: tauxRetour > 10 ? "oklch(0.65 0.22 27)" : tauxRetour > 5 ? "oklch(0.80 0.18 72)" : "oklch(0.72 0.18 148)", sub: null, sub2: null },
               { label: "Cmds en attente", v: String(cmdsEnAttente), clr: "oklch(0.75 0.18 55)", sub: null, sub2: null },
               { label: "Stock faible",    v: String(stockFaible), clr: stockFaible > 0 ? "oklch(0.65 0.22 27)" : "oklch(0.65 0.18 148)", sub: null, sub2: null },
@@ -651,7 +651,7 @@ export default function BODashboard({ user }: Props) {
               <table className="w-full text-sm">
                 <thead style={{ background: "oklch(0.965 0.005 240)" }}>
                   <tr>
-                    {["ID", "Date", "Commercial", "Client", "Secteur", "Tonnage", "Total", "Statut"].map(h => (
+                    {["ID", "Date", "Commercial", "Client", "Secteur", "Unites", "Total", "Statut"].map(h => (
                       <th key={h} className="text-left px-3 py-2.5 font-semibold text-xs text-muted-foreground uppercase tracking-wide">{h}</th>
                     ))}
                   </tr>
@@ -709,7 +709,7 @@ export default function BODashboard({ user }: Props) {
                 {/* CA + Tonnage evolution 14j */}
                 <div className="rounded-2xl p-5" style={CARD_STYLE}>
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-sm font-bold" style={{ color: "oklch(0.88 0.006 100)" }}>Evolution CA &amp; Tonnage — 14 derniers jours</h3>
+                    <h3 className="text-sm font-bold" style={{ color: "oklch(0.88 0.006 100)" }}>Evolution CA &amp; Unites — 14 derniers jours</h3>
                     <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: "oklch(0.18 0.020 148)", color: "oklch(0.65 0.18 148)" }}>14j</span>
                   </div>
                   <ResponsiveContainer width="100%" height={260}>
@@ -721,7 +721,7 @@ export default function BODashboard({ user }: Props) {
                       <Tooltip contentStyle={TT_STYLE} formatter={(v: unknown, name: unknown) => (name as string) === "ca" ? DH(v as number) : KG(v as number)} />
                       <Legend wrapperStyle={{ fontSize: 12, color: "oklch(0.62 0.008 145)" }} />
                       <Line yAxisId="ca" type="monotone" dataKey="ca" stroke="#10b981" strokeWidth={2.5} dot={false} name="CA (DH)" />
-                      <Line yAxisId="ton" type="monotone" dataKey="tonnage" stroke="#f59e0b" strokeWidth={2} dot={false} strokeDasharray="5 3" name="Tonnage (kg)" />
+                      <Line yAxisId="ton" type="monotone" dataKey="tonnage" stroke="#f59e0b" strokeWidth={2} dot={false} strokeDasharray="5 3" name="Unites" />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -729,7 +729,7 @@ export default function BODashboard({ user }: Props) {
                 {/* CA par prevendeur */}
                 {pvChartData.length > 0 && (
                   <div className="rounded-2xl p-5" style={CARD_STYLE}>
-                    <h3 className="text-sm font-bold mb-4" style={{ color: "oklch(0.88 0.006 100)" }}>CA &amp; Tonnage par prevendeur — aujourd&apos;hui</h3>
+                    <h3 className="text-sm font-bold mb-4" style={{ color: "oklch(0.88 0.006 100)" }}>CA &amp; Unites par prevendeur — aujourd&apos;hui</h3>
                     <ResponsiveContainer width="100%" height={220}>
                       <BarChart data={pvChartData} margin={{ top: 4, right: 16, left: 0, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="4 3" stroke={GRID} />
@@ -739,7 +739,7 @@ export default function BODashboard({ user }: Props) {
                         <Tooltip contentStyle={TT_STYLE} formatter={(v: unknown, name: unknown) => (name as string) === "ca" ? DH(v as number) : KG(v as number)} />
                         <Legend wrapperStyle={{ fontSize: 12, color: "oklch(0.62 0.008 145)" }} />
                         <Bar yAxisId="ca" dataKey="ca" fill="#10b981" name="CA (DH)" radius={[6, 6, 0, 0]} />
-                        <Bar yAxisId="ton" dataKey="tonnage" fill="#f59e0b" name="Tonnage (kg)" radius={[6, 6, 0, 0]} />
+                        <Bar yAxisId="ton" dataKey="tonnage" fill="#f59e0b" name="Unites" radius={[6, 6, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -748,14 +748,14 @@ export default function BODashboard({ user }: Props) {
                 {/* Top articles kg — horizontal bars */}
                 {artChartData.length > 0 && (
                   <div className="rounded-2xl p-5" style={CARD_STYLE}>
-                    <h3 className="text-sm font-bold mb-4" style={{ color: "oklch(0.88 0.006 100)" }}>Top 10 articles — Tonnage vendu (kg)</h3>
+                    <h3 className="text-sm font-bold mb-4" style={{ color: "oklch(0.88 0.006 100)" }}>Top 10 articles — Unites vendues</h3>
                     <ResponsiveContainer width="100%" height={240}>
                       <BarChart data={artChartData} layout="vertical" margin={{ top: 4, right: 56, left: 70, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="4 3" stroke={GRID} horizontal={false} />
                         <XAxis type="number" tick={TICK_SM} axisLine={{ stroke: GRID }} tickLine={false} tickFormatter={v => `${v}kg`} />
                         <YAxis type="category" dataKey="name" tick={TICK_SM} axisLine={false} tickLine={false} width={70} />
                         <Tooltip contentStyle={TT_STYLE} formatter={(v: unknown) => KG(v as number)} />
-                        <Bar dataKey="kg" name="Tonnage" radius={[0, 6, 6, 0]}>
+                        <Bar dataKey="kg" name="Unites" radius={[0, 6, 6, 0]}>
                           {artChartData.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}
                         </Bar>
                       </BarChart>
@@ -930,7 +930,7 @@ export default function BODashboard({ user }: Props) {
           {/* Retour chart */}
           {topArticlesRetour.length > 0 && (
             <div className="bg-card rounded-xl border border-border p-4">
-              <h3 className="text-sm font-bold text-foreground mb-4">Articles retournes — Tonnage (kg)</h3>
+              <h3 className="text-sm font-bold text-foreground mb-4">Articles retournes — Unites</h3>
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={topArticlesRetour.map(([, a]) => ({ name: a.nom, kg: Math.round(a.kg) }))}
                   layout="vertical" margin={{ top: 4, right: 48, left: 80, bottom: 0 }}>
@@ -938,7 +938,7 @@ export default function BODashboard({ user }: Props) {
                   <XAxis type="number" tick={{ fontSize: 10 }} tickFormatter={v => `${v}kg`} />
                   <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} width={80} />
                   <Tooltip formatter={(v: unknown) => KG(v as number)} />
-                  <Bar dataKey="kg" fill="#ef4444" name="Retour (kg)" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="kg" fill="#ef4444" name="Retour (u.)" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -991,7 +991,7 @@ export default function BODashboard({ user }: Props) {
                           <p className="text-sm font-bold text-emerald-400">{DH(s.caM)}</p>
                         </div>
                         <div className="text-center px-2 border-l" style={{ borderColor: "oklch(0.22 0.03 260)" }}>
-                          <p className="text-xs" style={{ color: "oklch(0.48 0.04 245)" }}>Tonnage J</p>
+                          <p className="text-xs" style={{ color: "oklch(0.48 0.04 245)" }}>Unites J</p>
                           <p className="text-sm font-bold text-amber-400">{KG(s.tonnageJ)}</p>
                         </div>
                       </div>

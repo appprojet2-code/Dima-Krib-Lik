@@ -162,7 +162,7 @@ export default function MobileDashboard({ user }: Props) {
             <StatCard label="Clients visités" labelAr="الزبائن" value={uniqueClients} unit="clients"
               progress={pctClients} progressLabel={`${pctClients.toFixed(0)}% de l'objectif (${objClients})`}
               colorClass="text-blue-600" />
-            <StatCard label="Tonnage" labelAr="الوزن" value={totalTonnage.toLocaleString("fr-MA")} unit="kg" colorClass="text-amber-600" />
+            <StatCard label="Unites" labelAr="الوحدات" value={totalTonnage.toLocaleString("fr-MA")} unit="u." colorClass="text-amber-600" />
             <StatCard label="SKUs vendus" labelAr="مرجع الأصناف" value={uniqueSKUs} unit="réf." colorClass="text-purple-600" />
           </div>
 
@@ -223,7 +223,7 @@ export default function MobileDashboard({ user }: Props) {
                         </span>
                       </div>
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <span>{c.lignes.length} art. · {tonnage} kg</span>
+                        <span>{c.lignes.length} art. · {tonnage} u.</span>
                         <span>Livr. {c.heurelivraison}</span>
                         <span className="font-bold text-primary mr-auto">
                           {total.toLocaleString("fr-MA", { minimumFractionDigits: 2 })} DH

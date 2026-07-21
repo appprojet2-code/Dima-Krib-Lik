@@ -180,8 +180,6 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "reception",        label: "Réception Achat",     labelAr: "الاستلام",              permKey: "canViewAchat", icon: <Icon d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /> },
       { id: "analyse_achat",       label: "Analyse Achat",       labelAr: "تحليل المشتريات",    permKey: "canViewAchat", icon: <Icon d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /> },
       { id: "analyse_reception",   label: "Analyse Reception",   labelAr: "تحليل الاستلام",     permKey: "canViewAchat", icon: <Icon d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /> },
-      { id: "sourcing",            label: "Sourcing Marché",     labelAr: "تحديد المصادر",       permKey: "canViewAchat", icon: <Icon d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /> },
-      { id: "pricing",             label: "Relevé de Prix",      labelAr: "رصد الأسعار",          permKey: "canViewAchat", icon: <Icon d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /> },
     ],
   },
   // ── COMMERCIAL ────────────────────────────────────────────────────────────
@@ -191,8 +189,6 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "commercial",   label: "Commandes",          labelAr: "الطلبيات",         permKey: "canViewCommercial", icon: <Icon d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /> },
       { id: "affectation",  label: "Affectation",        labelAr: "التوزيع التجاري", permKey: "canViewCommercial", icon: <Icon d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /> },
       { id: "cash",         label: "Cash & BL",          labelAr: "النقديات",         permKey: "canViewCash",       icon: <Icon d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /> },
-      { id: "prospection",       label: "Prospection IA",        labelAr: "الاستهداف الذكي",   permKey: "canViewCommercial", icon: <Icon d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /> },
-      { id: "intelligence_prix", label: "Intelligence Prix",      labelAr: "استخبارات الأسعار", permKey: "canViewCommercial", icon: <Icon d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /> },
     ],
   },
   // ── LOGISTIQUE ────────────────────────────────────────────────────────────
@@ -200,13 +196,10 @@ const NAV_GROUPS: NavGroup[] = [
     label: "Logistique", labelAr: "اللوجستيك",
     items: [
       { id: "stock",        label: "Stock & Inventaire",  labelAr: "المخزون",         permKey: "canViewStock",      icon: <Icon d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /> },
-      { id: "shelf_life",   label: "Shelf Life & DLC",    labelAr: "تاريخ الصلاحية",  permKey: "canViewStock",      icon: <Icon d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /> },
       { id: "forecast",     label: "Forecast & Achat Auto", labelAr: "التوقعات",      permKey: "canViewStock",      icon: <Icon d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /> },
       { id: "dispatch",     label: "Dispatch & Livreurs", labelAr: "التوزيع",         permKey: "canViewLogistique", icon: <Icon d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /> },
       { id: "preparation",  label: "Preparation",         labelAr: "وصولات التحضير",  permKey: "canViewLogistique", icon: <Icon d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /> },
       { id: "retour",       label: "Retours",             labelAr: "المرتجعات",       permKey: "canViewLogistique", icon: <Icon d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /> },
-      { id: "trip_charges", label: "Charges Trip",        labelAr: "مصاريف الرحلة",   permKey: "canViewLogistique", icon: <Icon d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M12 7h.01M15 7h.01M9 7H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M7 7V5a2 2 0 012-2h8a2 2 0 012 2v2" /> },
-      { id: "caisses_vides", label: "Caisses Vides",      labelAr: "الصناديق الفارغة", permKey: "canViewLogistique", icon: <Icon d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /> },
       { id: "bon_livraison", label: "Bons de Livraison",  labelAr: "وصولات التوصيل",  permKey: "canViewLogistique", icon: <Icon d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /> },
       { id: "gps_tracker", label: "GPS Livreurs & Commerciaux", labelAr: "تتبع GPS", permKey: "canViewLogistique", icon: (
         <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -275,38 +268,13 @@ const NAV_GROUPS: NavGroup[] = [
       },
     ],
   },
-  // ── RESSOURCES HUMAINES ───────────────────────────────────────────────────
-  {
-    label: "Ressources Humaines", labelAr: "الموارد البشرية",
-    items: [
-      { id: "rh_productivite", label: "RH — Ourai (Productivite & Salaires)", labelAr: "الموارد البشرية",  permKey: "canViewRH" as keyof User, icon: <Icon d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /> },
-      { id: "rh_comptabilite", label: "Comptabilite RH — Azmi",               labelAr: "محاسبة الموارد",    permKey: "canViewRH" as keyof User, icon: <Icon d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M12 7h.01M15 7h.01M9 7H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M7 7V5a2 2 0 012-2h8a2 2 0 012 2v2" /> },
-      { id: "hr_documents",    label: "Docs & Paie Multi-Cycles",             labelAr: "وثائق الموارد البشرية", permKey: "canViewRH" as keyof User, icon: <Icon d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /> },
-      { id: "template_editor" as Tab, label: "Editeur de Templates", labelAr: "محرر النماذج", permKey: "canViewRH" as keyof User, icon: <Icon d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /> },
-    ],
-  },
   // ── ADMINISTRATION ────────────────────────────────────────────────────────
   {
     label: "Administration", labelAr: "الإدارة",
     items: [
       { id: "users",        label: "Utilisateurs & Roles", labelAr: "المستخدمون",       permKey: "canViewDatabase", icon: <Icon d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /> },
-      { id: "depots",       label: "Multi-Depots",          labelAr: "المستودعات",       permKey: "canViewDatabase", icon: <Icon d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /> },
-      { id: "camera_perms", label: "Droits Caméra",        labelAr: "صلاحيات الكاميرا", permKey: "canViewDatabase", icon: <Icon d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z" /> },
-      { id: "cutoffs",      label: "Notifications Cut-off", labelAr: "إشعارات الإيقاف",  permKey: "canViewDatabase", icon: <Icon d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /> },
       { id: "database",     label: "Base de donnees",       labelAr: "قاعدة البيانات",  permKey: "canViewDatabase", icon: <Icon d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /> },
       { id: "settings",     label: "Parametres",            labelAr: "الإعدادات",        permKey: "canViewDatabase", icon: <Icon d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /> },
-      { id: "deploy_guide",   label: "Deploiement Vercel",   labelAr: "النشر على Vercel",   permKey: "canViewDatabase", icon: <Icon d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /> },
-      { id: "investissement", label: "Dossier Investisseur",  labelAr: "ملف المستثمر",       permKey: "canViewDatabase", icon: <Icon d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /> },
-      {
-        id: "gsheets", label: "Google Sheets", labelAr: "جوجل شيتس", permKey: "canViewDatabase" as keyof User,
-        icon: (
-          <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" strokeWidth="1.8" />
-            <path d="M8 7h8M8 11h8M8 15h5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            <path d="M4 6h16" stroke="currentColor" strokeWidth="1.8" />
-          </svg>
-        ),
-      },
     ],
   },
 ]
@@ -707,13 +675,14 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
         {/* ── Footer ─────────────────────────────────────── */}
         <footer className="shrink-0 border-t border-slate-200 bg-white px-6 py-2.5 flex items-center justify-between">
           <p className="text-[11px] text-slate-500">
-            &copy; 2026{" "}
-            <span className="font-black" style={{ color: "#0B3D1F" }}>Empire<span style={{ color: "#F2811F" }}>Fresh</span></span>
+            <span className="font-black" style={{ color: "#1B4C7A" }}>Dima Krib Lik</span>
+            <span className="text-slate-400"> by Vita Agro Capital</span>
             {" "}&mdash;{" "}
-            <span className="font-bold" style={{ color: "#0B3D1F" }}>Fresh Link Pro</span>
+            <span className="font-bold" style={{ color: "#1B4C7A" }}>Fresh Link Pro</span>
+            <span className="text-slate-400"> powered by Vita Tech</span>
           </p>
           <p className="text-[11px] text-slate-400 hidden sm:block">
-            جميع الحقوق محفوظة — Fruit &amp; Vegetable Distribution
+            جميع الحقوق محفوظة
           </p>
         </footer>
       </div>
@@ -776,7 +745,7 @@ function SidebarContent({
         </div>
         {!sidebarCollapsed && (
           <div className="min-w-0">
-            <p className="font-black text-sm leading-tight truncate" style={{ color: "#0B3D1F" }}>
+            <p className="font-black text-sm leading-tight truncate" style={{ color: "#0F3460" }}>
               {appName}
             </p>
             <p className="text-[10px] font-bold truncate" style={{ color: "#F2811F" }}>{appSlogan}</p>
@@ -1101,7 +1070,7 @@ function ProfilModal({ user, profilPhoto, setProfilPhoto, onClose, canUseCamera 
 
           <button onClick={onClose}
             className="w-full py-2.5 rounded-xl font-semibold text-sm transition-all active:scale-95"
-            style={{ background: "#0B3D1F", color: "white" }}>
+            style={{ background: "#0F3460", color: "white" }}>
             Fermer
           </button>
         </div>

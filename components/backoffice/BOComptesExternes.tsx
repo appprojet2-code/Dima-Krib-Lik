@@ -5,7 +5,7 @@ import { store, type User, type Client, type Fournisseur } from "@/lib/store"
 
 interface Props { user: User }
 
-const ALLOWED_ROLES = ["super_super_admin", "super_admin", "admin", "resp_commercial", "ctrl_achat"]
+const ALLOWED_ROLES = ["master_admin", "super_super_admin", "super_admin", "admin", "resp_commercial", "ctrl_achat"]
 
 function genPassword(len = 10) {
   const chars = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789!@#"

@@ -318,7 +318,7 @@ export default function LoginPage({ onLogin }: Props) {
               Back Office — Bureau
             </button>
             <button onClick={() => onLogin(pendingUser, "mobile")}
-              className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-green-600 text-white font-semibold text-sm hover:bg-green-700 transition-colors">
+              className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition-colors">
               <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
@@ -346,14 +346,14 @@ export default function LoginPage({ onLogin }: Props) {
             <img src={companyBrand.logo || "/empire-fresh-logo.png"} alt={companyBrand.appName || "FreshLink Pro"} className="w-full h-full object-contain p-0.5" />
           </div>
           <div>
-            <p className="text-sm font-black leading-tight" style={{ color: "#0B3D1F" }}>
+            <p className="text-sm font-black leading-tight" style={{ color: "#0F3460" }}>
               {companyBrand.appName || "FreshLink Pro"}
             </p>
             <p className="text-[10px] font-bold" style={{ color: "#F2811F" }}>{companyBrand.appSlogan || companyBrand.nom || "Empire Fresh"}</p>
           </div>
         </div>
         <div className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold border"
-          style={{ background: "rgba(26,79,42,0.06)", borderColor: "rgba(26,79,42,0.2)", color: "#0B3D1F" }}>
+          style={{ background: "rgba(26,79,42,0.06)", borderColor: "rgba(26,79,42,0.2)", color: "#0F3460" }}>
           <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#F2811F" }} />
           Maroc
         </div>
@@ -364,7 +364,7 @@ export default function LoginPage({ onLogin }: Props) {
 
       {/* ── Left brand panel — md+ ─────────────────────────────────────────────── */}
       <div className="flex flex-col justify-between w-[200px] sm:w-[240px] md:w-[260px] lg:w-[310px] shrink-0 px-5 py-7 lg:px-8 lg:py-9 relative overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #0a1f14 0%, #0d2a1a 60%, #112d1c 100%)", borderRight: "1px solid rgba(74,222,128,0.08)" }}>
+        style={{ background: "linear-gradient(160deg, #0a1420 0%, #0d2038 60%, #11253d 100%)", borderRight: "1px solid rgba(74,144,226,0.08)" }}>
 
         {/* Grid texture */}
         <div className="absolute inset-0 opacity-[0.035]"
@@ -400,8 +400,8 @@ export default function LoginPage({ onLogin }: Props) {
                 )}
               </span>
             </h2>
-            <p className="text-xs leading-relaxed" style={{ color: "#6b9e7e" }}>
-              Distribution fruits & légumes — gestion complète en temps réel.
+            <p className="text-xs leading-relaxed" style={{ color: "#6b85a8" }}>
+              Distribution rapide et fiable — gestion complète en temps réel.
             </p>
           </div>
 
@@ -414,7 +414,7 @@ export default function LoginPage({ onLogin }: Props) {
                 transition: `opacity 0.4s ease ${0.3 + i * 0.07}s, transform 0.4s ease ${0.3 + i * 0.07}s`,
               }}>
                 <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
-                  style={{ background: "rgba(74,222,128,0.12)", border: "1px solid rgba(74,222,128,0.2)" }}>
+                  style={{ background: "rgba(74,144,226,0.12)", border: "1px solid rgba(74,144,226,0.2)" }}>
                   <svg className="w-3 h-3" fill="none" stroke="#F2811F" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={feat.icon} />
                   </svg>
@@ -426,7 +426,7 @@ export default function LoginPage({ onLogin }: Props) {
 
         </div>
 
-        <p className="relative text-[10px]" style={{ color: "#374f40", opacity: panelIn ? 1 : 0, transition: "opacity 0.5s ease 0.9s" }}>
+        <p className="relative text-[10px]" style={{ color: "#374a5f", opacity: panelIn ? 1 : 0, transition: "opacity 0.5s ease 0.9s" }}>
           &copy; {new Date().getFullYear()} {companyBrand.appName || "FreshLink Pro"}
         </p>
       </div>
@@ -451,11 +451,11 @@ export default function LoginPage({ onLogin }: Props) {
           {/* Mode switcher */}
           <div className="flex rounded-xl overflow-hidden p-1 bg-white border border-slate-200 shadow-sm">
             <button type="button" onClick={() => { setClientMode(false); setError("") }}
-              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${!clientMode ? "bg-green-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
+              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${!clientMode ? "bg-blue-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
               Personnel / Equipe
             </button>
             <button type="button" onClick={() => { setClientMode(true); setError("") }}
-              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${clientMode ? "bg-green-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
+              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${clientMode ? "bg-blue-600 text-white shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
               Externe / خارجي
             </button>
           </div>
@@ -472,7 +472,7 @@ export default function LoginPage({ onLogin }: Props) {
                 value={identifier}
                 onChange={e => { setIdentifier(e.target.value); setError("") }}
                 placeholder={clientMode ? "Nom du client" : "Email ou identifiant"}
-                className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm border border-slate-200 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all shadow-sm"
+                className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm border border-slate-200 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
                 autoComplete="off"
                 data-lpignore="true"
               />
@@ -490,13 +490,13 @@ export default function LoginPage({ onLogin }: Props) {
                     value={password}
                     onChange={e => { setPassword(e.target.value); setError("") }}
                     placeholder="••••••••"
-                    className="w-full pl-9 pr-20 py-2.5 rounded-xl text-sm border border-slate-200 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all shadow-sm"
+                    className="w-full pl-9 pr-20 py-2.5 rounded-xl text-sm border border-slate-200 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
                     autoComplete="off"
                     data-lpignore="true"
                   />
                   <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                     <button type="button" onClick={() => { setShowForgot(true); setForgotStatus("idle") }}
-                      className="text-[10px] text-green-600 hover:text-green-700 font-bold px-1.5 transition-colors">
+                      className="text-[10px] text-blue-600 hover:text-blue-700 font-bold px-1.5 transition-colors">
                       Oublié?
                     </button>
                     <button type="button" onClick={() => setShowPwd(v => !v)}
@@ -524,7 +524,7 @@ export default function LoginPage({ onLogin }: Props) {
             {/* Submit */}
             <button type="submit" disabled={loading}
               className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all disabled:opacity-60 flex items-center justify-center gap-2 active:scale-[0.98]"
-              style={{ background: "linear-gradient(135deg, #145C31 0%, #0B3D1F 100%)", boxShadow: "0 4px 14px rgba(11,61,31,0.35)" }}>
+              style={{ background: "linear-gradient(135deg, #1B5C94 0%, #0F3460 100%)", boxShadow: "0 4px 14px rgba(11,61,31,0.35)" }}>
               {loading ? (
                 <>
                   <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -566,8 +566,8 @@ export default function LoginPage({ onLogin }: Props) {
             <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
               <div className="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-sm p-6 flex flex-col gap-5">
                 <div className="flex flex-col items-center gap-3 text-center">
-                  <div className="w-12 h-12 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
                         d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
                     </svg>
@@ -591,7 +591,7 @@ export default function LoginPage({ onLogin }: Props) {
                   <button
                     onClick={handleRegisterBiometric}
                     disabled={biometricLoading}
-                    className="flex-1 py-2.5 rounded-xl text-xs font-bold bg-green-600 text-white hover:bg-green-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+                    className="flex-1 py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
                     {biometricLoading && <span className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />}
                     {biometricLoading ? "Enregistrement..." : "Activer"}
                   </button>
@@ -630,7 +630,7 @@ export default function LoginPage({ onLogin }: Props) {
                 <div className="flex bg-slate-50">
                   {DEMO_GROUPS.map(g => (
                     <button key={g} type="button" onClick={() => setSelectedGroup(g)}
-                      className={`flex-1 py-1.5 text-[10px] font-bold transition-colors border-b-2 ${selectedGroup === g ? "border-green-600 text-green-700 bg-white" : "border-transparent text-slate-400 hover:text-slate-600"}`}>
+                      className={`flex-1 py-1.5 text-[10px] font-bold transition-colors border-b-2 ${selectedGroup === g ? "border-blue-600 text-blue-700 bg-white" : "border-transparent text-slate-400 hover:text-slate-600"}`}>
                       {g}
                     </button>
                   ))}
@@ -642,9 +642,9 @@ export default function LoginPage({ onLogin }: Props) {
                         setIdentifier(acc.identifier); setPassword(acc.password)
                         setClientMode(false); setError(""); setShowDemo(false)
                       }}
-                      className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-green-50 transition-colors text-left">
+                      className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-blue-50 transition-colors text-left">
                       <div className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0"
-                        style={{ background: "linear-gradient(135deg, #145C31, #0B3D1F)" }}>
+                        style={{ background: "linear-gradient(135deg, #1B5C94, #0F3460)" }}>
                         {acc.label.charAt(0)}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -672,17 +672,17 @@ export default function LoginPage({ onLogin }: Props) {
                   value={forgotEmail}
                   onChange={e => { setForgotEmail(e.target.value); setForgotStatus("idle") }}
                   placeholder="votre@email.com"
-                  className="w-full px-4 py-2.5 rounded-xl text-sm border border-slate-200 bg-slate-50 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl text-sm border border-slate-200 bg-slate-50 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
                 />
                 {forgotStatus === "notfound" && <p className="text-xs text-red-600 font-medium">Email non trouvé dans le système.</p>}
-                {forgotStatus === "sent" && <p className="text-xs text-green-700 font-medium">Nouveau mot de passe envoyé par email.</p>}
+                {forgotStatus === "sent" && <p className="text-xs text-blue-700 font-medium">Nouveau mot de passe envoyé par email.</p>}
                 <div className="flex gap-2">
                   <button onClick={() => { setShowForgot(false); setForgotEmail(""); setForgotStatus("idle") }}
                     className="flex-1 py-2.5 rounded-xl text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors">
                     Annuler
                   </button>
                   <button onClick={handleForgotPassword} disabled={forgotStatus === "sending" || forgotStatus === "sent"}
-                    className="flex-1 py-2.5 rounded-xl text-xs font-bold bg-green-600 text-white hover:bg-green-700 transition-colors disabled:opacity-60">
+                    className="flex-1 py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-60">
                     {forgotStatus === "sending" ? "Envoi..." : "Envoyer"}
                   </button>
                 </div>
