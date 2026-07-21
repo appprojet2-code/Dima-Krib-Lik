@@ -413,9 +413,9 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
     return () => window.removeEventListener("fl_company_updated", reload)
   }, [])
   const isJawad          = user.id === JAWAD_ID || isSuperSuperAdmin(user)
-  const isSuperAdmin     = user.role === "super_super_admin" || user.role === "super_admin" || user.role === "admin"
-  const isStrictSuperAdmin = user.role === "super_super_admin" || user.role === "super_admin"
-  const isAdminOrAbove   = user.role === "super_super_admin" || user.role === "super_admin" || user.role === "admin"
+  const isSuperAdmin     = user.role === "master_admin" || user.role === "super_super_admin" || user.role === "super_admin" || user.role === "admin"
+  const isStrictSuperAdmin = user.role === "master_admin" || user.role === "super_super_admin" || user.role === "super_admin"
+  const isAdminOrAbove   = user.role === "master_admin" || user.role === "super_super_admin" || user.role === "super_admin" || user.role === "admin"
 
   // Supabase connectivity check
   useEffect(() => {
