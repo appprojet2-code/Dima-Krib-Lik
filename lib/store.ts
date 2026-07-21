@@ -39,6 +39,7 @@ export type UserRole =
   | "admin"
   | "team_leader"
   | "rh_manager"
+  | "super_super_admin"
 
 export const ROLE_LABELS: Record<UserRole, string> = {
   master_admin:         "Master Admin (Jawad)",
@@ -75,6 +76,7 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   admin:                "Administrateur",
   team_leader:          "Team Leader",
   rh_manager:           "Manager RH",
+  super_super_admin:    "Super Super Admin",
 }
 
 export type UserType = "interne" | "externe"
@@ -122,6 +124,12 @@ export interface User {
   clientId?:         string
   depotId?:          string
   civilite?:         Civilite
+  canViewRH?:            boolean
+  canViewExternal?:      boolean
+  canCreateCommandeBO?:  boolean
+  passwordMobile?:   string
+  passwordBO?:       string
+  requireCameraAuth?: boolean
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -637,6 +645,9 @@ export interface LoyaltyTransaction {
   createdAt: string
 }
 
+export type UserAccessType = "mobile" | "backoffice" | "both"
+export type GranularPermissions = Record<string, boolean | undefined>
+
 export interface RHNotification {
   id: string
   type: string
@@ -807,6 +818,8 @@ export interface Depot {
   id: string
   nom: string
   actif?: boolean
+  ville?: string
+  responsableNom?: string
   [key: string]: any
 }
 
@@ -1166,7 +1179,7 @@ export const store = {
   refuserPO(_poId: string, _userId: string, _userName: string, _motif: string): DemandeAchat | null { return null },
   autoGeneratePOsFromBesoin(): PurchaseOrder[] { return [] },
   computeBesoinNet(): BesoinNetEntry[] { return [] },
-  getDepots() { return [DEFAULT_DEPOT] },
+  getDepots(): Depot[] { return [DEFAULT_DEPOT] },
   getContenantsConfig(): ContenantTare[] { return [] },
   getCaissesVides(): CaisseVide[] { return [] },
   updateCaisseVide(_id: string, _patch: any) {},
@@ -1196,6 +1209,10 @@ export const store = {
   getCutoffs(): CutoffNotification[] { return DEFAULT_CUTOFFS },
   saveCutoffs(_: any) {},
   getRHNotifications(): RHNotification[] { return [] },
+  addRHNotification(_: RHNotification) {},
+  // Fail-closed: no permission is granted unless explicitly present and true.
+  getGranularPerms(_userId: string): GranularPermissions { return {} },
+  saveGranularPerms(_userId: string, _perms: GranularPermissions) {},
   markRHNotifLu(_id: string) {},
   markRHNotifTraite(_id: string) {},
   isReadOnly(): boolean { return false },
@@ -1316,6 +1333,7 @@ export const ROLE_COLORS: Record<UserRole, string> = {
   client:               "bg-teal-600",
   admin:                "bg-violet-600",
   team_leader:          "bg-blue-600",
+  super_super_admin:    "bg-yellow-700",
   rh_manager:           "bg-pink-600",
 }
 

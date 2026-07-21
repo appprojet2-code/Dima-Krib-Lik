@@ -582,7 +582,7 @@ const BACKOFFICE_PERM_SECTIONS: PermSection[] = [
 const PERM_SECTIONS: PermSection[] = [...MOBILE_PERM_SECTIONS, ...BACKOFFICE_PERM_SECTIONS]
 
 const EMPTY_USER: Omit<User, "id"> = {
-  name: "", email: "", password: "1234", role: "prevendeur", accessType: undefined, secteur: "", depotId: undefined,
+  name: "", email: "", password: "1234", role: "prevendeur", type: "interne", interface: "mobile", accessType: undefined, secteur: "", depotId: undefined,
   phone: "", actif: true,
   canViewAchat: false, canViewCommercial: false, canViewLogistique: false,
   canViewStock: false, canViewCash: false, canViewFinance: false, canViewRecap: false,
@@ -845,7 +845,7 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
     if (!canEditUser(u)) return
     setEditing(u)
     setForm({
-      name: u.name, email: u.email, password: u.password, role: u.role, accessType: u.accessType,
+      name: u.name, email: u.email, password: u.password, role: u.role, type: u.type, interface: u.interface, accessType: u.accessType,
       secteur: u.secteur || "", depotId: u.depotId, phone: u.phone || "", actif: u.actif,
       canViewAchat: u.canViewAchat || false, canViewCommercial: u.canViewCommercial || false,
       canViewLogistique: u.canViewLogistique || false, canViewStock: u.canViewStock || false,
