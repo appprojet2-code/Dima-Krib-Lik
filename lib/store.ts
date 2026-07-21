@@ -362,6 +362,7 @@ export interface ContenantTare {
   nom: string
   poidsKg: number
   actif: boolean
+  notes?: string
 }
 
 export interface Client {
@@ -803,15 +804,98 @@ interface VirtualStock {
   pending: number
 }
 
+export interface WorkflowStep {
+  id: string
+  label: string
+  labelAr?: string
+  description?: string
+  enabled: boolean
+  mandatory: boolean
+  canBypass: boolean
+  bypassed?: boolean
+  gate?: boolean
+}
+
 export interface WorkflowConfig {
   validationCommande: "direct" | "approval" | string
+  steps?: WorkflowStep[]
   [key: string]: any
+}
+
+export type ProcessMode = "prevendeur_direct" | "commercial_classique" | "full_process"
+
+export interface ProcessConfig {
+  mode: ProcessMode
+  enableAchat: boolean
+  enableReception: boolean
+  enablePreparation: boolean
+  enableLogistiqueValidation: boolean
+  enableBLPrint: boolean
+  enableTripDispatch: boolean
+  enableCaisse: boolean
+  enableQualiteControle: boolean
+  enableControlAchat: boolean
+  enableControlPreparation: boolean
+  enableControlExpedition: boolean
+  enableDispatchCommandes: boolean
+  notes?: string
+}
+
+export const DEFAULT_PROCESS_CONFIG: ProcessConfig = {
+  mode: "prevendeur_direct",
+  enableAchat: false,
+  enableReception: false,
+  enablePreparation: false,
+  enableLogistiqueValidation: false,
+  enableBLPrint: false,
+  enableTripDispatch: false,
+  enableCaisse: false,
+  enableQualiteControle: false,
+  enableControlAchat: false,
+  enableControlPreparation: false,
+  enableControlExpedition: false,
+  enableDispatchCommandes: false,
 }
 
 export interface EmailConfig {
   achat: string
   commercial: string
-  [key: string]: string
+  recapAuto?: boolean
+  recapHeure?: string
+  besoinAuto?: boolean
+  besoinHeure?: string
+  besoinPushAuto?: boolean
+  besoinDelaiMinutes?: number
+  [key: string]: any
+}
+
+export type HRTemplateType = "contrat" | "attestation_travail" | "attestation_salaire" | "fiche_paie" | "avertissement" | "mise_en_demeure" | "bon_livraison" | "facture" | "purchase_order"
+
+export interface HRCustomTemplate {
+  id: string
+  nom: string
+  type: HRTemplateType
+  description?: string
+  contenu: string
+  variables: string[]
+  actif: boolean
+  createdBy: string
+  createdAt: string
+  updatedAt?: string
+}
+
+export interface CompanyConfig {
+  appName?: string
+  appSlogan?: string
+  nom?: string
+  logo?: string
+  couleurEntete?: string
+  adresse?: string
+  ville?: string
+  telephone?: string
+  email?: string
+  siteWeb?: string
+  [key: string]: any
 }
 
 export interface Depot {
@@ -1091,7 +1175,7 @@ export const store = {
 
   // ── Company config ────────────────────────────────────────────────────────
 
-  getCompanyConfig() {
+  getCompanyConfig(): CompanyConfig {
     return {
       appName:   "FreshLink Pro",
       appSlogan: "Distribution & IA",
@@ -1099,6 +1183,16 @@ export const store = {
       nom:       "Empire Fresh",
     }
   },
+  saveCompanyConfig(_: CompanyConfig) {},
+  getProcessConfig(): ProcessConfig { return DEFAULT_PROCESS_CONFIG },
+  saveProcessConfig(_: any) {},
+  getProcessSubSteps(): Record<string, Record<string, boolean>> { return {} },
+  saveProcessSubSteps(_: any) {},
+  saveWorkflowConfig(_: any) {},
+  getHRTemplates(): HRCustomTemplate[] { return [] },
+  addHRTemplate(_: HRCustomTemplate) {},
+  updateHRTemplate(_id: string, _patch: Partial<HRCustomTemplate>) {},
+  deleteHRTemplate(_id: string) {},
 
   // ── Login helpers ─────────────────────────────────────────────────────────
 
@@ -1181,6 +1275,7 @@ export const store = {
   computeBesoinNet(): BesoinNetEntry[] { return [] },
   getDepots(): Depot[] { return [DEFAULT_DEPOT] },
   getContenantsConfig(): ContenantTare[] { return [] },
+  saveContenantsConfig(_: any) {},
   getCaissesVides(): CaisseVide[] { return [] },
   updateCaisseVide(_id: string, _patch: any) {},
   getCaisseEntries(): CaisseEntry[] { return [] },
@@ -1270,7 +1365,7 @@ export const store = {
   deletePriceEntry(_id: string) {},
 
   // ── Workflow config ──────────────────────────────────────────────────────
-  getWorkflowConfig(): WorkflowConfig { return { validationCommande: "approval" } },
+  getWorkflowConfig(): WorkflowConfig { return { validationCommande: "approval", steps: DEFAULT_WORKFLOW_STEPS } },
 
   // ── Générateurs d'identifiants ───────────────────────────────────────────
   genId(): string { return `id-${Date.now()}-${Math.random().toString(36).slice(2, 8)}` },
@@ -1446,10 +1541,7 @@ export const DEFAULT_DEPOT = {
   actif: true,
 }
 
-export const DEFAULT_WORKFLOW_STEPS: {
-  id: string; label: string; labelAr?: string; description?: string;
-  enabled: boolean; mandatory: boolean; canBypass: boolean; bypassed?: boolean; gate?: boolean
-}[] = [
+export const DEFAULT_WORKFLOW_STEPS: WorkflowStep[] = [
   { id: "order_placement", label: "Prise de Commande",          labelAr: "استلام الطلب",          enabled: true,  mandatory: true,  canBypass: false },
   { id: "procurement",     label: "Achat Marché de Gros",       labelAr: "الشراء من سوق الجملة",  enabled: true,  mandatory: true,  canBypass: false },
   { id: "market_qc",       label: "Contrôle Qualité Marché",    labelAr: "مراقبة الجودة",         enabled: true,  mandatory: false, canBypass: true,  bypassed: false, gate: true },

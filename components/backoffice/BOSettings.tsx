@@ -1039,7 +1039,7 @@ export default function BOSettings({ user }: { user: { id: string; name: string;
                   <div className="w-20 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-2 rounded-xl text-center">
                     {config.besoinDelaiMinutes === 0
                       ? "Immediat"
-                      : config.besoinDelaiMinutes < 60
+                      : (config.besoinDelaiMinutes ?? 0) < 60
                         ? `${config.besoinDelaiMinutes} min`
                         : `${Math.floor((config.besoinDelaiMinutes ?? 0) / 60)}h${(config.besoinDelaiMinutes ?? 0) % 60 > 0 ? `${(config.besoinDelaiMinutes ?? 0) % 60}min` : ""}`
                     }
