@@ -27,6 +27,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [view, setView] = useState<"mobile" | "backoffice">("backoffice")
   const [error, setError] = useState<string | null>(null)
+  const [entry, setEntry] = useState<"interne" | "externe" | null>(null)
 
   useEffect(() => {
     try {
@@ -86,10 +87,66 @@ export default function App() {
   // Loading
   if (loading) return <Spinner />
 
-  // Not logged in
+  // Not logged in — choose Interne (equipe) or Externe (client/fournisseur) first
   if (!user) {
-    // Show unified external portal — it handles login + account request internally
-    return <PortailExterne />
+    if (entry === "interne") {
+      return (
+        <>
+          <LoginPage onLogin={handleLogin} />
+          <button
+            onClick={() => setEntry(null)}
+            className="fixed top-3 left-3 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-500 bg-white/90 border border-slate-200 shadow-sm hover:text-slate-700 hover:bg-white transition-colors">
+            ← Changer d&apos;espace
+          </button>
+        </>
+      )
+    }
+    if (entry === "externe") {
+      return (
+        <>
+          <PortailExterne onInternalLogin={handleLogin} />
+          <button
+            onClick={() => setEntry(null)}
+            className="fixed top-3 left-3 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-slate-500 bg-white/90 border border-slate-200 shadow-sm hover:text-slate-700 hover:bg-white transition-colors">
+            ← Changer d&apos;espace
+          </button>
+        </>
+      )
+    }
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-6">
+        <div className="w-full max-w-sm flex flex-col gap-4">
+          <div className="text-center mb-2">
+            <p className="text-lg font-bold text-foreground">Bienvenue</p>
+            <p className="text-sm text-muted-foreground mt-1">Choisissez votre espace de connexion</p>
+          </div>
+          <button
+            onClick={() => setEntry("interne")}
+            className="w-full flex items-center gap-3 px-5 py-4 rounded-2xl text-white font-semibold text-sm shadow-sm hover:opacity-90 transition-opacity"
+            style={{ background: "oklch(0.38 0.2 260)" }}>
+            <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <span className="flex-1 text-left">
+              Espace Interne
+              <span className="block text-[11px] font-normal opacity-80">Equipe — connexion mot de passe</span>
+            </span>
+          </button>
+          <button
+            onClick={() => setEntry("externe")}
+            className="w-full flex items-center gap-3 px-5 py-4 rounded-2xl text-white font-semibold text-sm shadow-sm hover:opacity-90 transition-opacity"
+            style={{ background: "oklch(0.52 0.16 145)" }}>
+            <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-2.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a4 4 0 10-4-4" />
+            </svg>
+            <span className="flex-1 text-left">
+              Espace Externe
+              <span className="block text-[11px] font-normal opacity-80">Clients &amp; fournisseurs</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    )
   }
 
   // External portal roles stay in their dedicated UI
