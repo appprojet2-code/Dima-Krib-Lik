@@ -85,7 +85,7 @@ export default function PWAInstall() {
         style={{ boxShadow: "0 -4px 40px rgba(26,79,42,0.18), 0 8px 32px rgba(0,0,0,0.12)" }}
       >
         {/* Top accent bar */}
-        <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #1a4f2a, #4ADE80, #b8962e)" }} />
+        <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #0B3D1F, #4ADE80, #F2811F)" }} />
 
         <div className="p-4 flex items-start gap-3">
           {/* App Icon */}
@@ -110,7 +110,7 @@ export default function PWAInstall() {
                 <button
                   onClick={handleInstall}
                   className="flex-1 py-2 rounded-xl text-xs font-bold text-white transition-all active:scale-95"
-                  style={{ background: "linear-gradient(135deg, #1a4f2a, #16a34a)" }}
+                  style={{ background: "linear-gradient(135deg, #0B3D1F, #16a34a)" }}
                 >
                   Installer
                 </button>

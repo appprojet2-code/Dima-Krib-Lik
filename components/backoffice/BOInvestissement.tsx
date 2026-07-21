@@ -221,7 +221,7 @@ export default function BOInvestissement() {
     <div className="flex flex-col gap-6 max-w-4xl mx-auto">
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#0a1f14] to-[#1a4f2a] rounded-2xl p-6 text-white relative overflow-hidden">
+      <div className="bg-gradient-to-br from-[#0a1f14] to-[#0B3D1F] rounded-2xl p-6 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]"
           style={{ backgroundImage: "radial-gradient(circle at 1px 1px, #4ADE80 1px, transparent 0)", backgroundSize: "20px 20px" }} />
         <div className="absolute -top-16 -right-10 w-48 h-48 rounded-full opacity-10"

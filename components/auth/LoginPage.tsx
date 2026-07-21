@@ -113,17 +113,10 @@ function generatePassword(len = 10): string {
 }
 
 const FEATURES = [
-  { icon: "M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1 .03 2.694-1.338 2.694H4.136c-1.368 0-2.337-1.694-1.338-2.694L4 15.3", label: "7 Agents IA metier experts" },
   { icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2", label: "Commandes & BL temps reel" },
   { icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4", label: "Trips & tournees automatiques" },
   { icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2", label: "Finance, credit & caisse" },
   { icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z", label: "Dashboard & KPIs avances" },
-]
-
-const N_LEVELS = [
-  { level: "N1", names: "Mustapha · Si-Mohammed", color: "#10b981", bg: "#f0fdf4", border: "#bbf7d0" },
-  { level: "N2", names: "Jawad · Zizi · Azmi · Hicham · Ashel", color: "#3b82f6", bg: "#eff6ff", border: "#bfdbfe" },
-  { level: "N3", names: "Admin Alert +212663898707", color: "#f59e0b", bg: "#fffbeb", border: "#fde68a" },
 ]
 
 export default function LoginPage({ onLogin }: Props) {
@@ -353,15 +346,15 @@ export default function LoginPage({ onLogin }: Props) {
             <img src={companyBrand.logo || "/empire-fresh-logo.png"} alt={companyBrand.appName || "FreshLink Pro"} className="w-full h-full object-contain p-0.5" />
           </div>
           <div>
-            <p className="text-sm font-black leading-tight" style={{ color: "#1a4f2a" }}>
+            <p className="text-sm font-black leading-tight" style={{ color: "#0B3D1F" }}>
               {companyBrand.appName || "FreshLink Pro"}
             </p>
-            <p className="text-[10px] font-bold" style={{ color: "#b8962e" }}>{companyBrand.appSlogan || companyBrand.nom || "Empire Fresh"}</p>
+            <p className="text-[10px] font-bold" style={{ color: "#F2811F" }}>{companyBrand.appSlogan || companyBrand.nom || "Empire Fresh"}</p>
           </div>
         </div>
         <div className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold border"
-          style={{ background: "rgba(26,79,42,0.06)", borderColor: "rgba(26,79,42,0.2)", color: "#1a4f2a" }}>
-          <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#4ADE80" }} />
+          style={{ background: "rgba(26,79,42,0.06)", borderColor: "rgba(26,79,42,0.2)", color: "#0B3D1F" }}>
+          <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#F2811F" }} />
           Maroc
         </div>
       </div>
@@ -375,10 +368,10 @@ export default function LoginPage({ onLogin }: Props) {
 
         {/* Grid texture */}
         <div className="absolute inset-0 opacity-[0.035]"
-          style={{ backgroundImage: "radial-gradient(circle at 1px 1px, #4ADE80 1px, transparent 0)", backgroundSize: "20px 20px" }} />
+          style={{ backgroundImage: "radial-gradient(circle at 1px 1px, #F2811F 1px, transparent 0)", backgroundSize: "20px 20px" }} />
         {/* Glow accents */}
         <div className="absolute -top-20 -right-10 w-48 h-48 rounded-full opacity-[0.15]"
-          style={{ background: "radial-gradient(circle, #4ADE80 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, #F2811F 0%, transparent 70%)" }} />
         <div className="absolute -bottom-16 -left-8 w-40 h-40 rounded-full opacity-[0.08]"
           style={{ background: "radial-gradient(circle, #22c55e 0%, transparent 70%)" }} />
 
@@ -400,10 +393,10 @@ export default function LoginPage({ onLogin }: Props) {
           }}>
             <h2 className="text-xl font-black text-white leading-snug mb-2">
               Pilotez vos flux<br/>
-              <span style={{ color: "#4ADE80" }}>
+              <span style={{ color: "#F2811F" }}>
                 {typedText}
                 {typedText.length < TYPED_TARGET.length && (
-                  <span className="inline-block w-[2px] h-[1em] ml-0.5 align-middle rounded-sm animate-pulse" style={{ background: "#4ADE80" }} />
+                  <span className="inline-block w-[2px] h-[1em] ml-0.5 align-middle rounded-sm animate-pulse" style={{ background: "#F2811F" }} />
                 )}
               </span>
             </h2>
@@ -422,7 +415,7 @@ export default function LoginPage({ onLogin }: Props) {
               }}>
                 <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
                   style={{ background: "rgba(74,222,128,0.12)", border: "1px solid rgba(74,222,128,0.2)" }}>
-                  <svg className="w-3 h-3" fill="none" stroke="#4ADE80" viewBox="0 0 24 24">
+                  <svg className="w-3 h-3" fill="none" stroke="#F2811F" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={feat.icon} />
                   </svg>
                 </div>
@@ -431,25 +424,6 @@ export default function LoginPage({ onLogin }: Props) {
             ))}
           </div>
 
-          {/* Agents IA — fade up last */}
-          <div style={{
-            opacity: panelIn ? 1 : 0,
-            transform: panelIn ? "translateY(0)" : "translateY(10px)",
-            transition: "opacity 0.5s ease 0.7s, transform 0.5s ease 0.7s",
-          }}>
-            <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(74,222,128,0.1)" }}>
-              <p className="text-[9px] font-black tracking-widest uppercase mb-2" style={{ color: "#4ADE80" }}>Agents IA Experts</p>
-              <div className="flex flex-col gap-1">
-                {N_LEVELS.map(l => (
-                  <div key={l.level} className="flex items-center gap-2">
-                    <span className="text-[8px] font-black px-1.5 py-0.5 rounded text-white shrink-0"
-                      style={{ background: l.color }}>{l.level}</span>
-                    <span className="text-[10px] truncate" style={{ color: "#6b9e7e" }}>{l.names}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
 
         <p className="relative text-[10px]" style={{ color: "#374f40", opacity: panelIn ? 1 : 0, transition: "opacity 0.5s ease 0.9s" }}>
@@ -550,7 +524,7 @@ export default function LoginPage({ onLogin }: Props) {
             {/* Submit */}
             <button type="submit" disabled={loading}
               className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all disabled:opacity-60 flex items-center justify-center gap-2 active:scale-[0.98]"
-              style={{ background: "linear-gradient(135deg, #16a34a 0%, #15803d 100%)", boxShadow: "0 4px 14px rgba(22,163,74,0.35)" }}>
+              style={{ background: "linear-gradient(135deg, #145C31 0%, #0B3D1F 100%)", boxShadow: "0 4px 14px rgba(11,61,31,0.35)" }}>
               {loading ? (
                 <>
                   <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -670,7 +644,7 @@ export default function LoginPage({ onLogin }: Props) {
                       }}
                       className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-green-50 transition-colors text-left">
                       <div className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0"
-                        style={{ background: "linear-gradient(135deg, #16a34a, #15803d)" }}>
+                        style={{ background: "linear-gradient(135deg, #145C31, #0B3D1F)" }}>
                         {acc.label.charAt(0)}
                       </div>
                       <div className="flex-1 min-w-0">
