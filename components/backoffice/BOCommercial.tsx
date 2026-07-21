@@ -19,7 +19,7 @@ export default function BOCommercial({ user }: Props) {
   // Approval permissions
   const workflow = store.getWorkflowConfig()
   const canApprove = (() => {
-    if (user.role === "super_admin" || user.role === "admin") return true
+    if (user.role === "super_admin" || user.role === "master_admin" || user.role === "admin") return true
     if (user.role === "resp_commercial") return true
     // team_leader can approve commandes where teamLeadId === user.id
     if (user.role === "team_leader") return true
@@ -27,7 +27,7 @@ export default function BOCommercial({ user }: Props) {
   })()
 
   const canApproveCommande = (cmd: Commande): boolean => {
-    if (user.role === "super_admin" || user.role === "admin" || user.role === "resp_commercial") return true
+    if (user.role === "super_admin" || user.role === "master_admin" || user.role === "admin" || user.role === "resp_commercial") return true
     if (user.role === "team_leader") return !cmd.teamLeadId || cmd.teamLeadId === user.id
     return false
   }
@@ -136,7 +136,7 @@ export default function BOCommercial({ user }: Props) {
   const prevendeurs = [...new Set(commandes.map(c => c.commercialNom))]
 
   // Only resp_commercial + admin can create orders from BO
-  const canCreateBO = user.canCreateCommandeBO || user.role === "super_admin" || user.role === "admin" || user.role === "resp_commercial"
+  const canCreateBO = user.canCreateCommandeBO || user.role === "super_admin" || user.role === "master_admin" || user.role === "admin" || user.role === "resp_commercial"
 
   // BO commandes show only "commercial" clients (not fournisseur/client portal accounts)
   const boClients = store.getClients().filter(c => {

@@ -26,7 +26,7 @@ export default function BODepots({ user }: { user: User }) {
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState<{ msg: string; type: "ok" | "err" } | null>(null)
 
-  const isSuperAdmin = user.role === "super_admin"
+  const isSuperAdmin = user.role === "super_admin" || user.role === "master_admin"
 
   const notify = (msg: string, type: "ok" | "err" = "ok") => {
     setToast({ msg, type })

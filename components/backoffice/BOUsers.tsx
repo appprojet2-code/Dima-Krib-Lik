@@ -777,7 +777,7 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
   const [showRoles, setShowRoles] = useState(false)
 
   // Access check — computed AFTER hooks
-  const canAccess = currentUser.role === "super_super_admin" || currentUser.role === "admin" || currentUser.role === "super_admin"
+  const canAccess = currentUser.role === "master_admin" || currentUser.role === "super_super_admin" || currentUser.role === "admin" || currentUser.role === "super_admin"
 
   useEffect(() => { if (canAccess) setUsers(store.getUsers()) }, [canAccess])
 

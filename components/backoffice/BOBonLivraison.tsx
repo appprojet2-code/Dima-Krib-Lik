@@ -740,7 +740,7 @@ function BLEditor({
 type BLMainTab = "en_cours" | "historique"
 
 // Roles allowed to transfer a BL to invoice
-const FACTURE_ROLES = ["cash_man", "finance", "admin", "super_admin"]
+const FACTURE_ROLES = ["cash_man", "finance", "admin", "super_admin", "master_admin"]
 
 // BL "en cours" = not yet delivered or cancelled
 const EN_COURS_STATUTS: BLStatut[] = ["brouillon", "valide", "en_livraison", "retour_partiel"]
@@ -792,7 +792,7 @@ export default function BOBonLivraison({ user }: { user: User }) {
 
   useEffect(() => { setBLs(getBLs()) }, [])
 
-  const canEdit = user.role === "admin" || user.role === "super_admin" ||
+  const canEdit = user.role === "admin" || user.role === "super_admin" || user.role === "master_admin" ||
     user.role === "resp_logistique" || user.role === "dispatcheur" || user.role === "magasinier"
   const canFacture = FACTURE_ROLES.includes(user.role)
 

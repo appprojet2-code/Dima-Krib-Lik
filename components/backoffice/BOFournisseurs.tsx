@@ -25,7 +25,7 @@ export default function BOFournisseurs({ user }: { user: { id: string; role: str
   const [saved, setSaved] = useState("")
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
 
-  const canEdit = ["super_admin","admin"].includes(user.role)
+  const canEdit = ["super_admin","master_admin","admin"].includes(user.role)
 
   useEffect(() => { setFournisseurs(store.getFournisseurs()) }, [])
 

@@ -5,7 +5,7 @@ import { store, User, ROLE_LABELS } from "@/lib/store"
 import { Camera, Lock, Unlock, Shield } from "lucide-react"
 
 export default function CameraPermissionsPanel({ currentUser }: { currentUser: User }) {
-  const isSuperAdmin = currentUser.role === "super_admin"
+  const isSuperAdmin = currentUser.role === "super_admin" || currentUser.role === "master_admin"
   const [users, setUsers] = useState<User[]>(() => store.getUsers())
   const [perms, setPerms] = useState<Record<string, boolean>>(() => store.getCameraPermissions())
 
@@ -17,12 +17,12 @@ export default function CameraPermissionsPanel({ currentUser }: { currentUser: U
   }
 
   const hasCamera = (u: User) => {
-    if (u.role === "super_admin") return true
+    if (u.role === "super_admin" || u.role === "master_admin") return true
     return perms[u.id] === true
   }
 
   const eligible = users.filter(u =>
-    !["fournisseur", "client"].includes(u.role) && u.role !== "super_admin"
+    !["fournisseur", "client"].includes(u.role) && u.role !== "super_admin" && u.role !== "master_admin"
   )
 
   return (

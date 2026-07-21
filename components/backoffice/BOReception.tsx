@@ -8,7 +8,7 @@ type SourceTab = "bons" | "po" | "manuel" | "historique"
 const DH = (n: number) => n.toLocaleString("fr-MA", { minimumFractionDigits: 2 }) + " DH"
 
 // Roles authorized to perform reception
-const RECEPTION_ALLOWED_ROLES = ["super_admin", "admin", "resp_logistique", "magasinier", "dispatcheur"]
+const RECEPTION_ALLOWED_ROLES = ["super_admin", "master_admin", "admin", "resp_logistique", "magasinier", "dispatcheur"]
 
 export default function BOReception({ user }: { user: { id: string; name: string; role: string } }) {
   const [tab, setTab] = useState<SourceTab>("bons")

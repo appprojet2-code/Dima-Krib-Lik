@@ -100,6 +100,7 @@ function loadMatrix(): PermMatrix {
       result[role as UserRole] = new Set(perms as PermKey[])
     }
     // Always enforce full access for super admins
+    result["master_admin"] = new Set(PERMISSIONS.map(p => p.key))
     result["super_super_admin"] = new Set(PERMISSIONS.map(p => p.key))
     result["super_admin"] = new Set(PERMISSIONS.map(p => p.key))
     return result
@@ -134,7 +135,7 @@ export default function BOPermissionsMatrix() {
   const categories = Array.from(new Set(PERMISSIONS.map(p => p.category)))
 
   const toggle = (role: UserRole, perm: PermKey) => {
-    if (role === "super_super_admin" || role === "super_admin") return // immutable
+    if (role === "master_admin" || role === "super_super_admin" || role === "super_admin") return // immutable
     setMatrix(prev => {
       const rolePerms = new Set(prev[role] ?? [])
       if (rolePerms.has(perm)) rolePerms.delete(perm)
@@ -144,7 +145,7 @@ export default function BOPermissionsMatrix() {
   }
 
   const toggleAll = (role: UserRole, permsInCat: PermKey[]) => {
-    if (role === "super_super_admin" || role === "super_admin") return
+    if (role === "master_admin" || role === "super_super_admin" || role === "super_admin") return
     setMatrix(prev => {
       const rolePerms = new Set(prev[role] ?? [])
       const allChecked = permsInCat.every(p => rolePerms.has(p))

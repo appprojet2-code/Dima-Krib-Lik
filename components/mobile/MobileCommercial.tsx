@@ -62,7 +62,7 @@ export default function MobileCommercial({ user }: Props) {
   const [lignes, setLignes] = useState<LigneForm[]>([{ articleId: "", quantite: "", prixVente: "", uniteMode: "base" }])
 
   // Vendeur selector — only admins / resp_commercial can pick a different vendeur
-  const isAdmin = user.role === "super_admin" || user.role === "admin" || user.role === "resp_commercial"
+  const isAdmin = user.role === "super_admin" || user.role === "master_admin" || user.role === "admin" || user.role === "resp_commercial"
   const [allUsers, setAllUsers] = useState<User[]>([])
   const [vendeurId, setVendeurId] = useState(user.id)
   const [vendeurNom, setVendeurNom] = useState(user.name)
@@ -245,7 +245,7 @@ export default function MobileCommercial({ user }: Props) {
   useEffect(() => {
     setArticles(store.getArticles())
     setClients(store.getClients())
-    if (isAdmin) setAllUsers(store.getUsers().filter(u => ["prevendeur","resp_commercial","team_leader","admin","super_admin"].includes(u.role) && u.actif))
+    if (isAdmin) setAllUsers(store.getUsers().filter(u => ["prevendeur","resp_commercial","team_leader","admin","super_admin","master_admin"].includes(u.role) && u.actif))
   }, [])
 
   // Auto-capture GPS on mount — GPS is MANDATORY
@@ -1356,7 +1356,7 @@ export default function MobileCommercial({ user }: Props) {
               {art && (() => {
                 const vStock = store.getVirtualStock(art.id)
                 const isPrev = user.role === "prevendeur"
-                const canEditPrice = !isPrev && (user.role === "admin" || user.role === "super_admin" || user.role === "resp_commercial")
+                const canEditPrice = !isPrev && (user.role === "admin" || user.role === "super_admin" || user.role === "master_admin" || user.role === "resp_commercial")
                 return (
                   <div className="flex flex-col gap-1.5 px-1">
                     <div className="flex items-center gap-2 text-xs flex-wrap">
@@ -1515,7 +1515,7 @@ export default function MobileCommercial({ user }: Props) {
 
               {(() => {
                 const isPrev = user.role === "prevendeur"
-                const canEditPx = !isPrev && (user.role === "admin" || user.role === "super_admin" || user.role === "resp_commercial" || user.role === "team_leader")
+                const canEditPx = !isPrev && (user.role === "admin" || user.role === "super_admin" || user.role === "master_admin" || user.role === "resp_commercial" || user.role === "team_leader")
                 return (
                   <div className="grid grid-cols-2 gap-2">
                     <div className="flex flex-col gap-1">

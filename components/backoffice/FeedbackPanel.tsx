@@ -680,7 +680,7 @@ function AdminView() {
 
 // ─── Main export — routes by admin status ─────────────────────────────────
 export default function FeedbackPanel({ user }: Props) {
-  const isAdmin = user.role === "super_admin" || user.role === "admin" || user.canViewDatabase
+  const isAdmin = user.role === "super_admin" || user.role === "master_admin" || user.role === "admin" || user.canViewDatabase
   if (!isAdmin) return <SubmitOnlyView user={user} />
   return <AdminView />
 }

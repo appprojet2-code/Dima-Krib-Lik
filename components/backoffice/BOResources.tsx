@@ -98,7 +98,7 @@ function groupeForRole(role: UserRole): EmployeeGroup {
   if (["prevendeur", "resp_commercial", "team_leader"].includes(role)) return "prevendeur"
   if (["livreur", "magasinier", "dispatcheur", "resp_logistique"].includes(role)) return "logistique"
   if (["acheteur", "ctrl_achat"].includes(role)) return "achat"
-  if (["admin", "super_admin", "financier", "cash_man", "ctrl_prep", "rh_manager", "comptable"].includes(role)) return "admin"
+  if (["admin", "super_admin", "master_admin", "financier", "cash_man", "ctrl_prep", "rh_manager", "comptable"].includes(role)) return "admin"
   return "autre"
 }
 
@@ -877,7 +877,7 @@ type SubTab = typeof TABS[number]["id"]
 export default function BOResources({ user }: { user: User }) {
   const [tab, setTab] = useState<SubTab>("productivite")
   const [users, setUsers] = useState<User[]>([])
-  const isAdmin = ["super_admin", "admin"].includes(user.role)
+  const isAdmin = ["super_admin", "master_admin", "admin"].includes(user.role)
 
   useEffect(() => {
     setUsers(store.getUsers())

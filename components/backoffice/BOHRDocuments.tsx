@@ -674,7 +674,7 @@ export default function BOHRDocuments({ user }: { user: User }) {
     }
   }
 
-  const canEdit = user.role === "admin" || user.role === "super_admin" || user.role === "rh_manager"
+  const canEdit = user.role === "admin" || user.role === "super_admin" || user.role === "master_admin" || user.role === "rh_manager"
 
   // ── Field helper ──────────────────────────────────────────────────────────────
   const Field = ({ label, value, onChange, type = "text", placeholder = "" }: {
