@@ -189,7 +189,7 @@ export default function BOAchat() {
 
   const openEditFournisseur = (f: Fournisseur) => {
     setEditFournisseur(f)
-    setFNom(f.nom); setFContact(f.contact); setFEmail(f.email)
+    setFNom(f.nom); setFContact(f.contact ?? ""); setFEmail(f.email)
     setShowFournisseurForm(true)
   }
 

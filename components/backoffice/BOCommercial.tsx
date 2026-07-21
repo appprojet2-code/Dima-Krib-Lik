@@ -91,7 +91,7 @@ export default function BOCommercial({ user }: Props) {
           html: `<div style="background:${colors[c.statut] || "#6b7280"};width:14px;height:14px;border-radius:50%;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.4)"></div>`,
           className: "", iconSize: [14, 14], iconAnchor: [7, 7],
         })
-        L.marker([c.gpsLat, c.gpsLng], { icon })
+        L.marker([c.gpsLat ?? 0, c.gpsLng ?? 0], { icon })
           .addTo(map)
           .bindPopup(`<b>${c.clientNom}</b><br>Zone: ${c.zone}<br>Commercial: ${c.commercialNom}<br>Statut: ${c.statut}<br>Livraison: ${c.heurelivraison}`)
       })
@@ -101,8 +101,8 @@ export default function BOCommercial({ user }: Props) {
 
   const filtered = commandes.filter(c => {
     if (filter.statut && c.statut !== filter.statut) return false
-    if (filter.zone && !c.zone.toLowerCase().includes(filter.zone.toLowerCase())) return false
-    if (filter.prevendeur && !c.commercialNom.toLowerCase().includes(filter.prevendeur.toLowerCase())) return false
+    if (filter.zone && !(c.zone ?? "").toLowerCase().includes(filter.zone.toLowerCase())) return false
+    if (filter.prevendeur && !(c.commercialNom ?? "").toLowerCase().includes(filter.prevendeur.toLowerCase())) return false
     if (filter.date && c.date !== filter.date) return false
     return true
   })
@@ -326,7 +326,7 @@ export default function BOCommercial({ user }: Props) {
                 <td className="px-4 py-3 whitespace-nowrap">{c.heurelivraison}</td>
                 <td className="px-4 py-3">
                   {c.gpsLat ? (
-                    <span className="text-xs text-green-600 font-sans">{c.gpsLat.toFixed(4)}, {c.gpsLng.toFixed(4)}</span>
+                    <span className="text-xs text-green-600 font-sans">{c.gpsLat.toFixed(4)}, {(c.gpsLng ?? 0).toFixed(4)}</span>
                   ) : (
                     <span className="text-xs text-muted-foreground">-</span>
                   )}
@@ -355,7 +355,7 @@ export default function BOCommercial({ user }: Props) {
               <div><span className="text-muted-foreground">Prévendeur:</span> <span className="font-medium text-foreground">{selected.commercialNom}</span></div>
               <div><span className="text-muted-foreground">Zone:</span> <span className="font-medium text-foreground">{selected.zone}</span></div>
               <div><span className="text-muted-foreground">Secteur:</span> <span className="font-medium text-foreground">{selected.secteur}</span></div>
-              <div><span className="text-muted-foreground">GPS:</span> <span className="font-medium text-foreground text-xs">{selected.gpsLat.toFixed(5)}, {selected.gpsLng.toFixed(5)}</span></div>
+              <div><span className="text-muted-foreground">GPS:</span> <span className="font-medium text-foreground text-xs">{(selected.gpsLat ?? 0).toFixed(5)}, {(selected.gpsLng ?? 0).toFixed(5)}</span></div>
               <div><span className="text-muted-foreground">Livraison:</span> <span className="font-medium text-foreground">{selected.heurelivraison}</span></div>
             </div>
             <div className="border-t border-border pt-3">

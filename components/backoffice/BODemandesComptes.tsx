@@ -89,6 +89,8 @@ export default function BODemandesComptes({ user }: Props) {
       email: approveForm.email.trim(),
       password: approveForm.password.trim(),
       role: selected.type === "client" ? "client" : "fournisseur",
+      type: "externe",
+      interface: "client",
       actif: true,
       accessType: "both",
       ...(selected.type === "client" && selected._linkedClientId
@@ -104,6 +106,8 @@ export default function BODemandesComptes({ user }: Props) {
       const client: Client = {
         id: store.genId(),
         nom: selected.societe || selected.nom,
+        type: "autre",
+        taille: "petit",
         telephone: selected.telephone,
         email: selected.email,
         ville: selected.ville,
@@ -122,6 +126,7 @@ export default function BODemandesComptes({ user }: Props) {
       const fourn: Fournisseur = {
         id: store.genId(),
         nom: selected.societe || selected.nom,
+        specialites: [],
         telephone: selected.telephone,
         email: selected.email,
         ville: selected.ville,

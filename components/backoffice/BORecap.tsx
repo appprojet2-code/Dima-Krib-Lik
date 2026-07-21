@@ -160,7 +160,7 @@ export default function BORecap() {
   const [recapTo, setRecapTo]             = useState(emailCfg.recap)
   const [sendingRecap, setSendingRecap]   = useState(false)
   const [recapAuto, setRecapAuto]         = useState(emailCfg.recapAuto)
-  const [recapHeure, setRecapHeure]       = useState(emailCfg.recapHeure)
+  const [recapHeure, setRecapHeure]       = useState(emailCfg.recapHeure ?? "08:00")
   const [nextAutoStr, setNextAutoStr]     = useState<string | null>(null)
   const autoTimerRef                      = useRef<ReturnType<typeof setTimeout> | null>(null)
 

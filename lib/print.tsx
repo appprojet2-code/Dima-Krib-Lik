@@ -246,7 +246,7 @@ export function printBL(bl: BonLivraison, company?: CompanyConfig) {
           <td><strong>${l.articleNom}</strong></td>
           <td>${l.unite ?? "kg"}</td>
           <td class="right">${l.quantite.toLocaleString("fr-MA")}</td>
-          <td class="right">${l.prixUnitaire.toLocaleString("fr-MA", { minimumFractionDigits: 2 })} DH</td>
+          <td class="right">${(l.prixUnitaire ?? 0).toLocaleString("fr-MA", { minimumFractionDigits: 2 })} DH</td>
           <td class="right">${l.total.toLocaleString("fr-MA", { minimumFractionDigits: 2 })} DH</td>
         </tr>`).join("")}
     </tbody>
@@ -357,7 +357,7 @@ export function printFacture(bl: BonLivraison, factureNum: string, company?: Com
       </tr>
     </thead>
     <tbody>
-      ${bl.lignes.map((l, i) => `<tr><td>${i + 1}. <strong>${l.articleNom}</strong></td><td>${l.unite ?? "kg"}</td><td class="right">${l.quantite}</td><td class="right">${l.prixUnitaire.toLocaleString("fr-MA", { minimumFractionDigits: 2 })} DH</td><td class="right">${l.total.toLocaleString("fr-MA", { minimumFractionDigits: 2 })} DH</td></tr>`).join("")}
+      ${bl.lignes.map((l, i) => `<tr><td>${i + 1}. <strong>${l.articleNom}</strong></td><td>${l.unite ?? "kg"}</td><td class="right">${l.quantite}</td><td class="right">${(l.prixUnitaire ?? 0).toLocaleString("fr-MA", { minimumFractionDigits: 2 })} DH</td><td class="right">${l.total.toLocaleString("fr-MA", { minimumFractionDigits: 2 })} DH</td></tr>`).join("")}
     </tbody>
   </table>
 

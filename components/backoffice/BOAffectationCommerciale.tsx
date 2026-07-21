@@ -36,7 +36,7 @@ export default function BOAffectationCommerciale({ user }: Props) {
   )
   const secteurs = useMemo(
     () => uniq([
-      ...clients.map(c => c.secteur),
+      ...clients.map(c => c.secteur ?? ""),
       ...prevendeurs.map(u => u.secteur || ""),
     ]),
     [clients, prevendeurs]

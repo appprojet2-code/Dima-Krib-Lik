@@ -223,9 +223,10 @@ export default function BODashboard({ user }: Props) {
   // --- Top livreurs retour ---
   const livRetour: Record<string, { nom: string; kg: number; nb: number }> = {}
   retoursAll.forEach(r => {
-    if (!livRetour[r.livreurNom]) livRetour[r.livreurNom] = { nom: r.livreurNom, kg: 0, nb: 0 }
-    r.lignes.forEach(l => { livRetour[r.livreurNom].kg += l.quantite })
-    livRetour[r.livreurNom].nb++
+    const nom = r.livreurNom ?? ""
+    if (!livRetour[nom]) livRetour[nom] = { nom, kg: 0, nb: 0 }
+    r.lignes.forEach(l => { livRetour[nom].kg += l.quantite })
+    livRetour[nom].nb++
   })
   const topLivRetour = Object.entries(livRetour).sort(([, a], [, b]) => b.kg - a.kg).slice(0, 6)
 
@@ -272,7 +273,8 @@ export default function BODashboard({ user }: Props) {
   // CA per secteur
   const secteurCA: Record<string, number> = {}
   commandes.forEach(c => {
-    secteurCA[c.secteur] = (secteurCA[c.secteur] ?? 0) + caOf([c])
+    const secteur = c.secteur ?? ""
+    secteurCA[secteur] = (secteurCA[secteur] ?? 0) + caOf([c])
   })
   const secteurChartData = Object.entries(secteurCA).sort(([, a], [, b]) => b - a).slice(0, 8)
     .map(([s, v]) => ({ name: s, ca: Math.round(v) }))

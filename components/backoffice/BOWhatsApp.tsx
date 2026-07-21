@@ -392,7 +392,7 @@ export default function BOWhatsApp({ user }: Props) {
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-green-800 truncate">BL {selectedBL.id}</p>
                         <p className="text-[10px] text-green-600">
-                          {selectedBL.clientNom} — {selectedBL.montantTTC.toLocaleString("fr-MA")} DH
+                          {selectedBL.clientNom} — {(selectedBL.montantTTC ?? 0).toLocaleString("fr-MA")} DH
                         </p>
                       </div>
                       <button onClick={() => setSelectedBL(null)}
@@ -430,7 +430,7 @@ export default function BOWhatsApp({ user }: Props) {
                                     <p className="text-xs font-semibold text-foreground truncate">{bl.id}</p>
                                     <p className="text-[10px] text-muted-foreground">{bl.clientNom} — {bl.date}</p>
                                   </div>
-                                  <span className="text-xs font-bold text-emerald-600 shrink-0">{bl.montantTTC.toLocaleString("fr-MA")} DH</span>
+                                  <span className="text-xs font-bold text-emerald-600 shrink-0">{(bl.montantTTC ?? 0).toLocaleString("fr-MA")} DH</span>
                                 </button>
                               ))}
                             {bonsLivraison.filter(bl => bl.clientNom.toLowerCase().includes(blSearch.toLowerCase()) || bl.id.toLowerCase().includes(blSearch.toLowerCase())).length === 0 && (

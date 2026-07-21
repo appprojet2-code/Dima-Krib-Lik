@@ -232,7 +232,7 @@ export interface ItinerairePoint {
 export interface Fournisseur {
   id: string
   nom: string
-  contact: string
+  contact?: string
   telephone?: string
   email: string
   adresse?: string
@@ -244,6 +244,7 @@ export interface Fournisseur {
   ice?: string
   rc?: string
   notes?: string
+  actif?: boolean
   itineraires?: ItinerairePoint[]
 }
 
@@ -425,6 +426,9 @@ export interface Client {
   segment?: ClientSegment
   loyaltyPoints?: number
   loyaltyOptIn?: boolean
+  ville?: string
+  credit?: number
+  actif?: boolean
 }
 
 export interface LigneCommande {
@@ -460,6 +464,9 @@ export interface Commande {
   teamLeadNom?: string
   notes?: string
   motifRefus?: string
+  approbateur?: string
+  approbateurId?: string
+  dateApprobation?: string
 }
 
 export interface Visite {
@@ -473,6 +480,7 @@ export interface Visite {
   resultat: string
   gpsLat?: number
   gpsLng?: number
+  raisonSansCommande?: string
 }
 
 export interface CaisseVide {
@@ -749,6 +757,36 @@ export interface ReserveCaisseSnap {
   createdBy: string
 }
 
+export interface WebIntegrationConfig {
+  enabled: boolean
+  apiKey: string
+  allowedOrigins: string[]
+  webhookUrl?: string
+  updatedAt?: string
+  updatedBy?: string
+  [key: string]: any
+}
+
+export interface AccountRequest {
+  id: string
+  email: string
+  nom: string
+  type: "client" | "fournisseur"
+  statut: "en_attente" | "approuve" | "rejete"
+  societe?: string
+  telephone?: string
+  ville?: string
+  ice?: string
+  _linkedClientId?: string
+  _linkedFournisseurId?: string
+  approvedAt?: string
+  approvedBy?: string
+  rejectedAt?: string
+  rejectedBy?: string
+  rejectReason?: string
+  [key: string]: any
+}
+
 export type FeedbackSource = "client" | "fournisseur" | "equipe"
 export type FeedbackStatut = "nouveau" | "lu" | "traite"
 
@@ -982,9 +1020,10 @@ export interface Depot {
   id: string
   nom: string
   actif?: boolean
+  adresse?: string
   ville?: string
   responsableNom?: string
-  [key: string]: any
+  notes?: string
 }
 
 // Types Logistique/RH minimalistes — hors périmètre Achat/Réception/Commandes/Facturation,
@@ -1278,6 +1317,8 @@ export const store = {
   updateSourcingEntry(_: SourcingEntry) {},
   deleteSourcingEntry(_id: string) {},
   getFeedbacks(): Feedback[] { return [] },
+  getAccountRequests(): AccountRequest[] { return [] },
+  saveAccountRequests(_: any) {},
   addFeedback(_: Feedback) {},
   updateFeedbackStatus(_id: string, _statut: FeedbackStatut) {},
 
@@ -1343,6 +1384,7 @@ export const store = {
   saveMotifs(_: any)      {},
   getMessages(): Message[]           { return [] },
   saveMessages(_: any)    {},
+  addMessage(_: Message) {},
   getNotices(): Notice[]            { return [] },
   saveNotices(_: any)     {},
 
@@ -1362,6 +1404,9 @@ export const store = {
   autoGeneratePOsFromBesoin(): PurchaseOrder[] { return [] },
   computeBesoinNet(): BesoinNetEntry[] { return [] },
   getDepots(): Depot[] { return [DEFAULT_DEPOT] },
+  addDepot(_: Depot) {},
+  updateDepot(_id: string, _patch: Partial<Depot>) {},
+  deleteDepot(_id: string) {},
   getContenantsConfig(): ContenantTare[] { return [] },
   saveContenantsConfig(_: any) {},
   updateContenant(_id: string, _patch: Partial<ContenantTare>) {},
@@ -1396,6 +1441,9 @@ export const store = {
   addRHNotification(_: RHNotification) {},
   // Fail-closed: no permission is granted unless explicitly present and true.
   getGranularPerms(_userId: string): GranularPermissions { return {} },
+  // Fail-closed: camera access is off unless explicitly granted (grantCamera is a no-op stub for now).
+  getCameraPermissions(): Record<string, boolean> { return {} },
+  grantCamera(_userId: string, _granted: boolean) {},
   saveGranularPerms(_userId: string, _perms: GranularPermissions) {},
   markRHNotifLu(_id: string) {},
   markRHNotifTraite(_id: string) {},
@@ -1441,6 +1489,8 @@ export const store = {
 
   // ── Commandes / Clients ──────────────────────────────────────────────────
   addClient(_: any) {},
+  updateClient(_id: string, _patch: Partial<Client>) {},
+  getClientBaskets(): { clientId: string; lignes: { articleNom: string; quantiteHabituelle: number; unite: string }[] }[] { return [] },
   addCommande(_: any) {},
   deleteCommande(_id: string) {},
   addVisite(_: any) {},
