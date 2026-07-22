@@ -406,7 +406,7 @@ function generatePassword(len = 10): string {
 }
 
 const ALL_ROLES: UserRole[] = [
-  "super_super_admin","super_admin","admin","resp_commercial","team_leader",
+  "super_admin","admin","resp_commercial","team_leader",
   "cash_man","financier",
   "rh_manager","comptable",
   "prevendeur","resp_logistique","magasinier","dispatcheur","livreur",
@@ -415,11 +415,13 @@ const ALL_ROLES: UserRole[] = [
 ]
 
 // Roles grouped by default interface
+// Note: "super_super_admin" est un role reserve (proteges par canDeleteUser / ROLE_DETAILS)
+// mais ne doit jamais etre proposable comme choix a l'attribution/creation d'un utilisateur.
 const ROLE_GROUPS: { label: string; labelAr: string; roles: UserRole[] }[] = [
   {
     label: "Direction / Back-office",
     labelAr: "الإدارة والمكتب",
-    roles: ["super_super_admin", "super_admin", "admin", "resp_commercial", "team_leader"],
+    roles: ["super_admin", "admin", "resp_commercial", "team_leader"],
   },
   {
     label: "Finance & Caisse",
