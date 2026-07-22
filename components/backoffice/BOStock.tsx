@@ -198,6 +198,7 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
   }>({ articleId: "", quantite: 0, sens: "conforme_vers_defect", motif: "" })
 
   const [saved, setSaved] = useState("")
+  const [famillesList, setFamillesList] = useState<string[]>(FAMILLES_ARTICLES)
 
   const reload = () => {
     setArticles(store.getArticles())
@@ -207,6 +208,8 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
     setContenants(store.getContenantsConfig())
     setBonLivraisons(store.getBonsLivraison())
     setRetours(store.getRetours())
+    const fams = store.getFamilles().filter(f => f.actif !== false).sort((a, b) => (a.ordre ?? 0) - (b.ordre ?? 0)).map(f => f.nom)
+    if (fams.length > 0) setFamillesList(fams)
     // Load stock J-1 from localStorage snapshot
     try {
       const snap = JSON.parse(localStorage.getItem("fl_caisses_stock_j1") ?? "null")
@@ -218,6 +221,11 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
   }
 
   useEffect(() => { reload() }, [])
+  useEffect(() => {
+    window.addEventListener("fl:synced", reload)
+    return () => window.removeEventListener("fl:synced", reload)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const filtered = articles.filter(a => {
     const matchSearch = a.nom.toLowerCase().includes(search.toLowerCase()) || a.nomAr.includes(search)
@@ -354,7 +362,7 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
           </div>
           <select value={famille} onChange={e => setFamille(e.target.value)} className="px-3 py-2.5 rounded-xl border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary">
             <option value="">Toutes familles</option>
-            {FAMILLES_ARTICLES.map(f => <option key={f} value={f}>{f}</option>)}
+            {famillesList.map(f => <option key={f} value={f}>{f}</option>)}
           </select>
         </div>
       )}
@@ -822,7 +830,7 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-semibold text-foreground">Famille</label>
                   <select value={artForm.famille} onChange={e => setArtForm({ ...artForm, famille: e.target.value })} className="px-3 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-                    {FAMILLES_ARTICLES.map(f => <option key={f} value={f}>{f}</option>)}
+                    {famillesList.map(f => <option key={f} value={f}>{f}</option>)}
                   </select>
                 </div>
                 <div className="flex flex-col gap-1">

@@ -60,8 +60,20 @@ export default function BOArticles({ user }: { user: { id: string; name: string 
   const [photoUrlInput, setPhotoUrlInput] = useState("")
   const [photoDragOver, setPhotoDragOver] = useState(false)
   const photoInputRef = useRef<HTMLInputElement>(null)
+  const [famillesList, setFamillesList] = useState<string[]>(FAMILLES_ARTICLES)
 
-  useEffect(() => { setArticles(store.getArticles()) }, [])
+  const loadFamilles = () => {
+    const fams = store.getFamilles().filter(f => f.actif !== false).sort((a, b) => (a.ordre ?? 0) - (b.ordre ?? 0)).map(f => f.nom)
+    if (fams.length > 0) setFamillesList(fams)
+  }
+
+  useEffect(() => {
+    const load = () => { setArticles(store.getArticles()); loadFamilles() }
+    load()
+    window.addEventListener("fl:synced", load)
+    return () => window.removeEventListener("fl:synced", load)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Upload photo — tries Supabase Storage first, falls back to base64 local
   const handlePhotoUpload = async (file: File) => {
@@ -145,7 +157,7 @@ export default function BOArticles({ user }: { user: { id: string; name: string 
     setArticles(store.getArticles())
   }
 
-  const byFamille = FAMILLES_ARTICLES.map(f => ({
+  const byFamille = famillesList.map(f => ({
     famille: f,
     count: articles.filter(a => a.famille === f).length,
   })).filter(f => f.count > 0)
@@ -520,7 +532,7 @@ export default function BOArticles({ user }: { user: { id: string; name: string 
               <label className="text-xs font-semibold">Famille</label>
               <select value={form.famille} onChange={e => setForm(f => ({ ...f, famille: e.target.value }))}
                 className="px-3 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none">
-                {FAMILLES_ARTICLES.map(f => <option key={f} value={f}>{f}</option>)}
+                {famillesList.map(f => <option key={f} value={f}>{f}</option>)}
               </select>
             </div>
             <div className="flex flex-col gap-1">

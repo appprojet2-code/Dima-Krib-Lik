@@ -13,7 +13,7 @@ import type {
   User, Client, Article, Fournisseur, Livreur, MotifRetour,
   Commande, Visite, BonAchat, PurchaseOrder, Reception,
   Trip, BonLivraison, Retour, BonPreparation,
-  TransfertStock, Message, Notice, Secteur,
+  TransfertStock, Message, Notice, Secteur, Famille,
 } from "@/lib/store"
 
 // ── Helper: vérifie si Supabase est joignable ─────────────────────────────────
@@ -318,6 +318,46 @@ export async function fetchSecteurs(): Promise<Secteur[]> {
     console.error("[db] fetchSecteurs offline:", e)
   }
   return store.getSecteurs()
+}
+
+// ── FAMILLES ──────────────────────────────────────────────────────────────────
+
+export async function upsertFamille(f: Famille) {
+  const all = store.getFamilles()
+  const idx = all.findIndex(x => x.id === f.id)
+  if (idx >= 0) all[idx] = f; else all.push(f)
+  store.saveFamilles(all)
+
+  try {
+    const { error } = await db().from("fl_familles").upsert({ ...f }, { onConflict: "id" })
+    if (error) console.error("[db] upsertFamille:", error.message)
+  } catch (e) {
+    console.error("[db] upsertFamille offline:", e)
+  }
+}
+
+export async function deleteFamille(id: string) {
+  store.saveFamilles(store.getFamilles().filter(f => f.id !== id))
+  try {
+    const { error } = await db().from("fl_familles").delete().eq("id", id)
+    if (error) console.error("[db] deleteFamille:", error.message)
+  } catch (e) {
+    console.error("[db] deleteFamille offline:", e)
+  }
+}
+
+export async function fetchFamilles(): Promise<Famille[]> {
+  try {
+    const { data, error } = await db().from("fl_familles").select("*").order("ordre", { ascending: true })
+    if (error) throw error
+    if (data && data.length > 0) {
+      store.saveFamilles(data as Famille[])
+      return data as Famille[]
+    }
+  } catch (e) {
+    console.error("[db] fetchFamilles offline:", e)
+  }
+  return store.getFamilles()
 }
 
 // ── COMMANDES ─────────────────────────────────────────────────────────────────
@@ -628,6 +668,7 @@ export async function syncFromSupabase(): Promise<{
     ["articles",     async () => { await fetchArticles();      tables.push("articles")     }],
     ["fournisseurs", async () => { await fetchFournisseurs();  tables.push("fournisseurs") }],
     ["secteurs",     async () => { await fetchSecteurs();      tables.push("secteurs")     }],
+    ["familles",     async () => { await fetchFamilles();      tables.push("familles")     }],
     ["commandes",    async () => { await fetchCommandes();     tables.push("commandes")    }],
     ["trips",        async () => { await fetchTrips();         tables.push("trips")        }],
     ["bons_livraison",async () => { await fetchBonsLivraison();tables.push("bons_livraison")}],

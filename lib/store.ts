@@ -1068,6 +1068,15 @@ export interface Secteur {
   notes?: string
 }
 
+export interface Famille {
+  id: string
+  nom: string
+  couleur?: string
+  ordre?: number
+  actif?: boolean
+  notes?: string
+}
+
 // Types Logistique/RH minimalistes — hors périmètre Achat/Réception/Commandes/Facturation,
 // déclarés juste pour satisfaire la compilation partagée de lib/supabase/db.ts
 export interface Trip { id: string; itineraire?: TripItineraryPoint[]; commandeIds: string[]; numero?: string; [key: string]: any }
@@ -1401,6 +1410,17 @@ export const store = {
   },
   deleteSecteur(id: string) {
     this.saveSecteurs(this.getSecteurs().filter(s => s.id !== id))
+  },
+  getFamilles(): Famille[]          { return readList<Famille>("fl_familles") },
+  saveFamilles(v: Famille[])        { writeList("fl_familles", v) },
+  addFamille(f: Famille) { const all = this.getFamilles(); all.push(f); this.saveFamilles(all) },
+  updateFamille(id: string, patch: Partial<Famille>) {
+    const all = this.getFamilles()
+    const idx = all.findIndex(f => f.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveFamilles(all) }
+  },
+  deleteFamille(id: string) {
+    this.saveFamilles(this.getFamilles().filter(f => f.id !== id))
   },
   getCommandes(): Commande[]        { return readList<Commande>("fl_commandes") },
   saveCommandes(v: Commande[])      { writeList("fl_commandes", v) },
