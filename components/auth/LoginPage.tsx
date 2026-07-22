@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import { store, type User, type UserRole, ROLE_LABELS, getUserInterface } from "@/lib/store"
+import { store, type User, ROLE_LABELS, getUserInterface } from "@/lib/store"
 import FreshLinkLogo from "@/components/ui/FreshLinkLogo"
 import { sendEmail } from "@/lib/email"
 
@@ -88,25 +88,6 @@ async function authenticateBiometric(): Promise<StoredCredential | null> {
 
 interface Props { onLogin: (user: User, forceView?: "mobile" | "backoffice") => void }
 
-const DEMO_ACCOUNTS: {
-  label: string; identifier: string; password: string; role: UserRole; note?: string; group: string
-}[] = [
-  { group: "Direction",   label: "Resp. Commercial",     identifier: "responsable@freshlink.ma",  password: "1234",     role: "resp_commercial", note: "Commercial + comptes externes" },
-  { group: "Finance",     label: "Cash Man",              identifier: "cashman@freshlink.ma",      password: "cash2024", role: "cash_man",        note: "Caisse + encaissements" },
-  { group: "Finance",     label: "Financier",             identifier: "financier@freshlink.ma",    password: "fin2024",  role: "financier",       note: "Finance + recap complet" },
-  { group: "Commercial",  label: "Pre-vendeur",           identifier: "prevendeur@freshlink.ma",   password: "1234",     role: "prevendeur",      note: "Prise commandes terrain" },
-  { group: "Logistique",  label: "Resp. Logistique",     identifier: "logistique@freshlink.ma",   password: "1234",     role: "resp_logistique", note: "Stock + reception + dispatch" },
-  { group: "Logistique",  label: "Dispatcheur",           identifier: "dispatch@freshlink.ma",     password: "1234",     role: "dispatcheur",     note: "Affectation livreurs" },
-  { group: "Logistique",  label: "Magasinier",            identifier: "magasin@freshlink.ma",      password: "1234",     role: "magasinier",      note: "Gestion stock entrepot" },
-  { group: "Logistique",  label: "Acheteur",              identifier: "acheteur@freshlink.ma",     password: "1234",     role: "acheteur",        note: "Bons achat + SKU" },
-  { group: "Logistique",  label: "Ctrl Achat",            identifier: "ctrl.achat@freshlink.ma",   password: "ctrl1234", role: "ctrl_achat",      note: "Controle chargement" },
-  { group: "Logistique",  label: "Ctrl Prep",             identifier: "ctrl.prep@freshlink.ma",    password: "ctrl1234", role: "ctrl_prep",       note: "Controle preparation" },
-  { group: "Logistique",  label: "Livreur",               identifier: "livreur@freshlink.ma",      password: "1234",     role: "livreur",         note: "Livraison + BL + retours" },
-]
-
-const DEMO_GROUPS = ["Direction", "Finance", "Commercial", "Logistique"] as const
-type DemoGroup = typeof DEMO_GROUPS[number]
-
 function generatePassword(len = 10): string {
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#"
   return Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join("")
@@ -130,9 +111,6 @@ export default function LoginPage({ onLogin }: Props) {
   const [showForgot, setShowForgot] = useState(false)
   const [forgotEmail, setForgotEmail] = useState("")
   const [forgotStatus, setForgotStatus] = useState<"idle" | "sending" | "sent" | "notfound">("idle")
-  const [showDemo, setShowDemo] = useState(false)
-  const [selectedGroup, setSelectedGroup] = useState<DemoGroup>("Direction")
-
   // ── Entrance animations ──────────────────────────────────────────────────────
   const [companyBrand, setCompanyBrand] = useState(() => store.getCompanyConfig())
   const [panelIn, setPanelIn] = useState(false)
@@ -262,7 +240,16 @@ export default function LoginPage({ onLogin }: Props) {
       return
     }
     if (!identifier.trim() || !password.trim()) { setError("Remplissez tous les champs"); setLoading(false); return }
-    const user = store.login(identifier.trim(), password)
+    let user = store.login(identifier.trim(), password)
+    if (!user) {
+      // Compte peut-etre cree sur un autre appareil/session et pas encore
+      // present dans le cache local — on tente une synchro Supabase puis on reessaie.
+      try {
+        const { fetchUsers } = await import("@/lib/supabase/db")
+        await fetchUsers()
+        user = store.login(identifier.trim(), password)
+      } catch { /* hors-ligne, on garde l'echec local */ }
+    }
     if (user) {
       const iface = getUserInterface(user)
       if (iface === "both") {
@@ -610,54 +597,6 @@ export default function LoginPage({ onLogin }: Props) {
             </div>
           )}
 
-          {/* Demo accounts */}
-          <div className="rounded-xl overflow-hidden border border-slate-200 bg-white shadow-sm">
-            <button type="button" onClick={() => setShowDemo(v => !v)}
-              className="w-full flex items-center justify-between px-3.5 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">
-              <span className="flex items-center gap-2">
-                <svg width="14" height="14" className="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                </svg>
-                Comptes de démonstration
-              </span>
-              <svg width="14" height="14" className={`w-3.5 h-3.5 text-slate-400 transition-transform ${showDemo ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            {showDemo && (
-              <div className="border-t border-slate-100">
-                <div className="flex bg-slate-50">
-                  {DEMO_GROUPS.map(g => (
-                    <button key={g} type="button" onClick={() => setSelectedGroup(g)}
-                      className={`flex-1 py-1.5 text-[10px] font-bold transition-colors border-b-2 ${selectedGroup === g ? "border-blue-600 text-blue-700 bg-white" : "border-transparent text-slate-400 hover:text-slate-600"}`}>
-                      {g}
-                    </button>
-                  ))}
-                </div>
-                <div className="p-1.5 flex flex-col gap-0.5 max-h-40 overflow-y-auto">
-                  {DEMO_ACCOUNTS.filter(a => a.group === selectedGroup).map(acc => (
-                    <button key={acc.identifier} type="button"
-                      onClick={() => {
-                        setIdentifier(acc.identifier); setPassword(acc.password)
-                        setClientMode(false); setError(""); setShowDemo(false)
-                      }}
-                      className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-blue-50 transition-colors text-left">
-                      <div className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0"
-                        style={{ background: "linear-gradient(135deg, #1B5C94, #0F3460)" }}>
-                        {acc.label.charAt(0)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-slate-700 truncate">{acc.label}</p>
-                        <p className="text-[9px] text-slate-400 truncate">{acc.note}</p>
-                      </div>
-                      <span className="text-[9px] text-slate-300 font-mono shrink-0 bg-slate-100 px-1.5 py-0.5 rounded">{acc.password}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
 
           {/* Forgot password modal */}
           {showForgot && (
