@@ -97,9 +97,15 @@ export async function fetchUsers(): Promise<User[]> {
     if (error) throw error
     if (data && data.length > 0) {
       // Map snake_case → camelCase
-      const users = data.map(rowToUser)
-      store.saveUsers(users)
-      return users
+      const remoteUsers: User[] = data.map(rowToUser)
+      // Supabase ne stocke aujourd'hui que le master_admin (Jawad) — tous les
+      // autres comptes sont locaux. On fusionne donc plutot que de remplacer,
+      // sinon chaque sync effacerait tous les comptes locaux (démo/custom).
+      const local: User[] = store.getUsers()
+      const remoteIds = new Set(remoteUsers.map((u: User) => u.id))
+      const merged: User[] = [...remoteUsers, ...local.filter((u: User) => !remoteIds.has(u.id))]
+      store.saveUsers(merged)
+      return merged
     }
   } catch (e) {
     console.error("[db] fetchUsers offline — using localStorage:", e)

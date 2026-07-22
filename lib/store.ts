@@ -199,8 +199,9 @@ const DEFAULT_USERS: User[] = [
   { id: "f-003", name: "Coopérative Gharb",    email: "gharb@demo.ma",  username: "gharb",  password: "fourn2024", role: "fournisseur", type: "externe", interface: "client" },
 ]
 
-const USERS_KEY    = "fl_users"
-const SESSIONS_KEY = "fl_sessions"
+const USERS_KEY         = "fl_users"
+const DELETED_USERS_KEY = "fl_deleted_user_ids"
+const SESSIONS_KEY      = "fl_sessions"
 
 // ════════════════════════════════════════════════════════════════════════════
 // HELPERS LISTES LOCALSTORAGE (clés alignées sur les noms de table Supabase)
@@ -219,6 +220,16 @@ function readList<T>(key: string): T[] {
 function writeList<T>(key: string, arr: T[]) {
   if (typeof localStorage === "undefined") return
   try { localStorage.setItem(key, JSON.stringify(arr)) } catch { /* quota / privé */ }
+}
+
+function readDeletedUserIds(): Set<string> {
+  if (typeof localStorage === "undefined") return new Set()
+  try {
+    const raw = localStorage.getItem(DELETED_USERS_KEY)
+    return raw ? new Set(JSON.parse(raw)) : new Set()
+  } catch {
+    return new Set()
+  }
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -1239,11 +1250,13 @@ export const store = {
       const raw = localStorage.getItem(USERS_KEY)
       if (!raw) return [...DEFAULT_USERS]
       const saved: User[] = JSON.parse(raw)
-      // Fusion : garantit que les DEFAULT_USERS manquants sont toujours présents
+      const deletedIds = readDeletedUserIds()
+      // Fusion : garantit que les DEFAULT_USERS manquants sont toujours présents,
+      // sauf ceux explicitement supprimés par un admin (voir saveUsers).
       const ids = new Set(saved.map(u => u.id))
       const merged = [
         ...saved,
-        ...DEFAULT_USERS.filter(u => !ids.has(u.id)),
+        ...DEFAULT_USERS.filter(u => !ids.has(u.id) && !deletedIds.has(u.id)),
       ]
       return merged
     } catch {
@@ -1252,6 +1265,15 @@ export const store = {
   },
 
   saveUsers(users: User[]) {
+    // Toute entrée DEFAULT_USERS absente de la liste sauvegardée est une
+    // suppression volontaire : on la mémorise pour qu'elle ne revienne pas
+    // au prochain getUsers() (qui, sinon, la re-fusionne systématiquement).
+    try {
+      const presentIds = new Set(users.map(u => u.id))
+      const deletedIds = readDeletedUserIds()
+      DEFAULT_USERS.forEach(u => { if (!presentIds.has(u.id)) deletedIds.add(u.id) })
+      localStorage.setItem(DELETED_USERS_KEY, JSON.stringify([...deletedIds]))
+    } catch { /* ignore */ }
     localStorage.setItem(USERS_KEY, JSON.stringify(users))
   },
 
