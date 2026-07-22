@@ -36,7 +36,12 @@ export default function BOFamilles({ user }: { user: User }) {
     setArticles(store.getArticles())
   }
 
-  useEffect(() => { refresh() }, [])
+  useEffect(() => {
+    refresh()
+    window.addEventListener("fl:synced", refresh)
+    return () => window.removeEventListener("fl:synced", refresh)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const articlesInFamille = (nom: string) => articles.filter(a => a.famille === nom)
 
