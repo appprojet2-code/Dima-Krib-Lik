@@ -203,6 +203,25 @@ const USERS_KEY    = "fl_users"
 const SESSIONS_KEY = "fl_sessions"
 
 // ════════════════════════════════════════════════════════════════════════════
+// HELPERS LISTES LOCALSTORAGE (clés alignées sur les noms de table Supabase)
+// ════════════════════════════════════════════════════════════════════════════
+
+function readList<T>(key: string): T[] {
+  if (typeof localStorage === "undefined") return []
+  try {
+    const raw = localStorage.getItem(key)
+    return raw ? (JSON.parse(raw) as T[]) : []
+  } catch {
+    return []
+  }
+}
+
+function writeList<T>(key: string, arr: T[]) {
+  if (typeof localStorage === "undefined") return
+  try { localStorage.setItem(key, JSON.stringify(arr)) } catch { /* quota / privé */ }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 // HELPERS COOKIE  (lisibles par le middleware Next.js côté serveur)
 // ════════════════════════════════════════════════════════════════════════════
 
@@ -341,6 +360,7 @@ export interface PurchaseOrder {
   montantPaye?: number
   statutPaiement?: string
   datePaiement?: string
+  notePaiement?: string
   genereAuto?: boolean
 }
 
@@ -1331,70 +1351,118 @@ export const store = {
     return iface === "both" ? null : (iface as "mobile" | "backoffice" | null)
   },
 
-  // ── Données (placeholders) ────────────────────────────────────────────────
-  getClients(): Client[]            { return [] },
-  saveClients(_: any)     {},
-  getArticles(): Article[]           { return [] },
-  saveArticles(_: any)    {},
-  getFournisseurs(): Fournisseur[]       { return [] },
-  saveFournisseurs(_: any){},
-  getCommandes(): Commande[]          { return [] },
-  saveCommandes(_: any)   {},
-  updateCommande(_id: string, _patch: Partial<Commande>) {},
+  // ── Données ─────────────────────────────────────────────────────────────
+  getClients(): Client[]            { return readList<Client>("fl_clients") },
+  saveClients(v: Client[])          { writeList("fl_clients", v) },
+  getArticles(): Article[]          { return readList<Article>("fl_articles") },
+  saveArticles(v: Article[])        { writeList("fl_articles", v) },
+  getFournisseurs(): Fournisseur[]  { return readList<Fournisseur>("fl_fournisseurs") },
+  saveFournisseurs(v: Fournisseur[]) { writeList("fl_fournisseurs", v) },
+  getCommandes(): Commande[]        { return readList<Commande>("fl_commandes") },
+  saveCommandes(v: Commande[])      { writeList("fl_commandes", v) },
+  updateCommande(id: string, patch: Partial<Commande>) {
+    const all = this.getCommandes()
+    const idx = all.findIndex(c => c.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveCommandes(all) }
+  },
   formatMAD(amount: number): string {
     return `${amount.toLocaleString("fr-MA", { maximumFractionDigits: 2 })} MAD`
   },
-  getBonsLivraison(): BonLivraison[]      { return [] },
-  saveBonsLivraison(_: any){},
-  addBonLivraison(_: BonLivraison) {},
-  getTripCharges(): TripCharge[] { return [] },
-  addTripCharge(_: TripCharge) {},
-  updateTripCharge(_id: string, _patch: Partial<TripCharge>) {},
-  addTransportCompany(_: TransportCompany) {},
-  updateTransportCompany(_id: string, _patch: Partial<TransportCompany>) {},
-  deleteTransportCompany(_id: string) {},
-  getPurchaseOrders(): PurchaseOrder[]     { return [] },
-  savePurchaseOrders(_: any){},
-  getReceptions(): Reception[]         { return [] },
-  saveReceptions(_: any)  {},
-  getTrips(): Trip[]              { return [] },
-  saveTrips(_: any)       {},
-  addTrip(_: Trip) {},
-  updateTrip(_id: string, _patch: Partial<Trip>) {},
+  getBonsLivraison(): BonLivraison[] { return readList<BonLivraison>("fl_bons_livraison") },
+  saveBonsLivraison(v: BonLivraison[]) { writeList("fl_bons_livraison", v) },
+  addBonLivraison(b: BonLivraison) {
+    const all = this.getBonsLivraison(); all.push(b); this.saveBonsLivraison(all)
+  },
+  getTripCharges(): TripCharge[] { return readList<TripCharge>("fl_trip_charges") },
+  addTripCharge(c: TripCharge) {
+    const all = this.getTripCharges(); all.push(c); writeList("fl_trip_charges", all)
+  },
+  updateTripCharge(id: string, patch: Partial<TripCharge>) {
+    const all = this.getTripCharges()
+    const idx = all.findIndex(c => c.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; writeList("fl_trip_charges", all) }
+  },
+  addTransportCompany(c: TransportCompany) {
+    const all = this.getTransportCompanies(); all.push(c); this.saveTransportCompanies(all)
+  },
+  updateTransportCompany(id: string, patch: Partial<TransportCompany>) {
+    const all = this.getTransportCompanies()
+    const idx = all.findIndex(c => c.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveTransportCompanies(all) }
+  },
+  deleteTransportCompany(id: string) {
+    this.saveTransportCompanies(this.getTransportCompanies().filter(c => c.id !== id))
+  },
+  getPurchaseOrders(): PurchaseOrder[] { return readList<PurchaseOrder>("fl_purchase_orders") },
+  savePurchaseOrders(v: PurchaseOrder[]) { writeList("fl_purchase_orders", v) },
+  getReceptions(): Reception[] { return readList<Reception>("fl_receptions") },
+  saveReceptions(v: Reception[]) { writeList("fl_receptions", v) },
+  getTrips(): Trip[] { return readList<Trip>("fl_trips") },
+  saveTrips(v: Trip[]) { writeList("fl_trips", v) },
+  addTrip(t: Trip) { const all = this.getTrips(); all.push(t); this.saveTrips(all) },
+  updateTrip(id: string, patch: Partial<Trip>) {
+    const all = this.getTrips()
+    const idx = all.findIndex(t => t.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveTrips(all) }
+  },
   genTripNumber(): string { return `TRIP-${Date.now()}-${Math.random().toString(36).slice(2, 6)}` },
-  getTransportCompanies(): TransportCompany[] { return [] },
-  saveTransportCompanies(_: any) {},
-  getVisites(): Visite[]            { return [] },
-  saveVisites(_: any)     {},
-  getRetours(): Retour[]            { return [] },
-  saveRetours(_: any)     {},
-  addRetour(_: Retour) {},
-  getBonsAchat(): BonAchat[]          { return [] },
-  saveBonsAchat(_: any)   {},
-  getBonsPreparation(): BonPreparation[]    { return [] },
-  saveBonsPreparation(_: any){},
-  addBonPreparation(_: BonPreparation) {},
-  getTransferts(): TransfertStock[]         { return [] },
-  addTransfert(_: TransfertStock) {},
-  saveTransferts(_: any)  {},
-  getLivreurs(): Livreur[]           { return [] },
-  saveLivreurs(_: any)    {},
-  addLivreur(_: Livreur) {},
-  getMotifs(): MotifRetour[]             { return [] },
-  saveMotifs(_: any)      {},
-  getMessages(): Message[]           { return [] },
-  saveMessages(_: any)    {},
-  addMessage(_: Message) {},
-  getNotices(): Notice[]            { return [] },
-  saveNotices(_: any)     {},
+  getTransportCompanies(): TransportCompany[] { return readList<TransportCompany>("fl_transport_companies") },
+  saveTransportCompanies(v: TransportCompany[]) { writeList("fl_transport_companies", v) },
+  getVisites(): Visite[] { return readList<Visite>("fl_visites") },
+  saveVisites(v: Visite[]) { writeList("fl_visites", v) },
+  getRetours(): Retour[] { return readList<Retour>("fl_retours") },
+  saveRetours(v: Retour[]) { writeList("fl_retours", v) },
+  addRetour(r: Retour) { const all = this.getRetours(); all.push(r); this.saveRetours(all) },
+  getBonsAchat(): BonAchat[] { return readList<BonAchat>("fl_bons_achat") },
+  saveBonsAchat(v: BonAchat[]) { writeList("fl_bons_achat", v) },
+  getBonsPreparation(): BonPreparation[] { return readList<BonPreparation>("fl_bons_preparation") },
+  saveBonsPreparation(v: BonPreparation[]) { writeList("fl_bons_preparation", v) },
+  addBonPreparation(b: BonPreparation) {
+    const all = this.getBonsPreparation(); all.push(b); this.saveBonsPreparation(all)
+  },
+  getTransferts(): TransfertStock[] { return readList<TransfertStock>("fl_transferts_stock") },
+  addTransfert(t: TransfertStock) {
+    const all = this.getTransferts(); all.push(t); this.saveTransferts(all)
+  },
+  saveTransferts(v: TransfertStock[]) { writeList("fl_transferts_stock", v) },
+  getLivreurs(): Livreur[] { return readList<Livreur>("fl_livreurs") },
+  saveLivreurs(v: Livreur[]) { writeList("fl_livreurs", v) },
+  addLivreur(l: Livreur) { const all = this.getLivreurs(); all.push(l); this.saveLivreurs(all) },
+  getMotifs(): MotifRetour[] { return readList<MotifRetour>("fl_motifs_retour") },
+  saveMotifs(v: MotifRetour[]) { writeList("fl_motifs_retour", v) },
+  getMessages(): Message[] { return readList<Message>("fl_messages") },
+  saveMessages(v: Message[]) { writeList("fl_messages", v) },
+  addMessage(m: Message) { const all = this.getMessages(); all.push(m); this.saveMessages(all) },
+  getNotices(): Notice[] { return readList<Notice>("fl_notices") },
+  saveNotices(v: Notice[]) { writeList("fl_notices", v) },
 
   // ── Achat / Fournisseurs ───────────────────────────────────────────────────
-  addFournisseur(_: any) {},
-  updateFournisseur(_id: string, _patch: any) {},
-  deleteFournisseur(_id: string) {},
-  addBonAchat(_: any) {},
-  updateBonAchat(_id: string, _patch: any) {},
-  addHistoriquePrixAchat(_articleId: string, _entry: any) {},
+  addFournisseur(f: Fournisseur) {
+    const all = this.getFournisseurs(); all.push(f); this.saveFournisseurs(all)
+  },
+  updateFournisseur(id: string, patch: Partial<Fournisseur>) {
+    const all = this.getFournisseurs()
+    const idx = all.findIndex(f => f.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveFournisseurs(all) }
+  },
+  deleteFournisseur(id: string) {
+    this.saveFournisseurs(this.getFournisseurs().filter(f => f.id !== id))
+  },
+  addBonAchat(b: BonAchat) { const all = this.getBonsAchat(); all.push(b); this.saveBonsAchat(all) },
+  updateBonAchat(id: string, patch: Partial<BonAchat>) {
+    const all = this.getBonsAchat()
+    const idx = all.findIndex(b => b.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveBonsAchat(all) }
+  },
+  addHistoriquePrixAchat(articleId: string, entry: HistoriquePrixAchat) {
+    const all = this.getArticles()
+    const idx = all.findIndex(a => a.id === articleId)
+    if (idx >= 0) {
+      const hist = all[idx].historiquePrixAchat ?? []
+      all[idx] = { ...all[idx], historiquePrixAchat: [...hist, entry] }
+      this.saveArticles(all)
+    }
+  },
   getEmailConfig(): EmailConfig { return { achat: "", commercial: "" } },
   saveEmailConfig(_: any) {},
   getDemandesAchat(): DemandeAchat[] { return [] },
@@ -1479,23 +1547,49 @@ export const store = {
   saveShareholderDistributions(_: any) {},
 
   // ── Purchase Orders ──────────────────────────────────────────────────────
-  addPurchaseOrder(_: any) {},
-  updatePurchaseOrder(_id: string, _patch: any) {},
+  addPurchaseOrder(p: PurchaseOrder) { const all = this.getPurchaseOrders(); all.push(p); this.savePurchaseOrders(all) },
+  updatePurchaseOrder(id: string, patch: Partial<PurchaseOrder>) {
+    const all = this.getPurchaseOrders()
+    const idx = all.findIndex(p => p.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.savePurchaseOrders(all) }
+  },
 
   // ── Réception ────────────────────────────────────────────────────────────
-  addReception(_: any) {},
+  addReception(r: Reception) { const all = this.getReceptions(); all.push(r); this.saveReceptions(all) },
   getVirtualStock(_articleId: string): VirtualStock { return { physical: 0, available: 0, pending: 0 } },
-  updateStock(_articleId: string, _qty: number, _isDefect?: boolean) {},
+  updateStock(articleId: string, qty: number, isDefect?: boolean) {
+    const all = this.getArticles()
+    const idx = all.findIndex(a => a.id === articleId)
+    if (idx < 0) return
+    const a = all[idx]
+    all[idx] = isDefect
+      ? { ...a, stockDefect: (a.stockDefect ?? 0) + qty }
+      : { ...a, stockDisponible: (a.stockDisponible ?? 0) + qty }
+    this.saveArticles(all)
+  },
 
   // ── Commandes / Clients ──────────────────────────────────────────────────
-  addClient(_: any) {},
-  updateClient(_id: string, _patch: Partial<Client>) {},
+  addClient(c: Client) { const all = this.getClients(); all.push(c); this.saveClients(all) },
+  updateClient(id: string, patch: Partial<Client>) {
+    const all = this.getClients()
+    const idx = all.findIndex(c => c.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveClients(all) }
+  },
   getClientBaskets(): { clientId: string; lignes: { articleNom: string; quantiteHabituelle: number; unite: string }[] }[] { return [] },
-  addCommande(_: any) {},
-  deleteCommande(_id: string) {},
-  addVisite(_: any) {},
-  computePV(_article: Article): number { return 0 },
-  updateBonLivraison(_id: string, _patch: any) {},
+  addCommande(c: Commande) { const all = this.getCommandes(); all.push(c); this.saveCommandes(all) },
+  deleteCommande(id: string) { this.saveCommandes(this.getCommandes().filter(c => c.id !== id)) },
+  addVisite(v: Visite) { const all = this.getVisites(); all.push(v); this.saveVisites(all) },
+  computePV(article: Article): number {
+    const achat = article.prixAchat ?? 0
+    if (article.pvMethode === "pourcentage") return achat * (1 + (article.pvValeur ?? 0) / 100)
+    if (article.pvMethode === "montant") return achat + (article.pvValeur ?? 0)
+    return article.pvValeur ?? 0
+  },
+  updateBonLivraison(id: string, patch: Partial<BonLivraison>) {
+    const all = this.getBonsLivraison()
+    const idx = all.findIndex(b => b.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveBonsLivraison(all) }
+  },
 
   // ── Pricing ──────────────────────────────────────────────────────────────
   getPriceEntries(): PriceEntry[] { return [] },

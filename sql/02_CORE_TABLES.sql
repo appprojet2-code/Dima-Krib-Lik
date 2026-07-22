@@ -186,6 +186,7 @@ CREATE TABLE IF NOT EXISTS fl_purchase_orders (
   "montantPaye" NUMERIC,
   "statutPaiement" TEXT,
   "datePaiement" TEXT,
+  "notePaiement" TEXT,
   "genereAuto" BOOLEAN DEFAULT false
 );
 
