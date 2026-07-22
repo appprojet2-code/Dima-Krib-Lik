@@ -37,6 +37,17 @@ export default function MobileLayout({ user, onLogout }: Props) {
     return () => { window.removeEventListener("online", on); window.removeEventListener("offline", off) }
   }, [])
 
+  // Charge toutes les donnees depuis Supabase vers le cache local au demarrage
+  // (sans ca, articles/clients/commandes restent vides sur les comptes mobiles,
+  // meme quand Supabase contient des donnees)
+  useEffect(() => {
+    import("@/lib/supabase/db").then(({ syncFromSupabase }) => {
+      syncFromSupabase().then(({ ok, tables, errors }) => {
+        if (!ok) console.warn("[sync] partiel:", tables, errors)
+      })
+    })
+  }, [])
+
   // Role → tabs mapping using actual store UserRole values
   const ROLE_TAB_ACCESS: Record<string, MobileTab[]> = {
     // Buyers: purchase order only
