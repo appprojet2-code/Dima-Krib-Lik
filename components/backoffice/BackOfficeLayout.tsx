@@ -384,6 +384,17 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
     return () => { cancelled = true; clearInterval(timer) }
   }, [])
 
+  // Charge toutes les données depuis Supabase vers localStorage au démarrage
+  // (sans ça, Stock/Catalogue/Commandes/etc. restent vides même si Supabase
+  // contient des données, car ces panneaux ne lisent que le cache local)
+  useEffect(() => {
+    import("@/lib/supabase/db").then(({ syncFromSupabase }) => {
+      syncFromSupabase().then(({ ok, tables, errors }) => {
+        if (!ok) console.warn("[sync] partiel:", tables, errors)
+      })
+    })
+  }, [])
+
   // Online / offline detection
   useEffect(() => {
     setIsOnline(navigator.onLine)
