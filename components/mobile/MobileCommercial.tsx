@@ -438,6 +438,41 @@ export default function MobileCommercial({ user }: Props) {
     setLignes(updated)
   }
 
+  // Stepper +/- : ajoute/retire l'article du panier en pilotant sa quantite directement
+  // (remplace le vieux flux checkbox + saisie manuelle separee)
+  const setArticleQty = (articleId: string, newQty: number) => {
+    const art = articles.find(a => a.id === articleId)
+    if (!art) return
+    const idx = lignes.findIndex(l => l.articleId === articleId)
+    if (newQty <= 0) {
+      if (idx < 0) return
+      if (lignes.length === 1) setLignes([{ articleId: "", quantite: "", prixVente: "", uniteMode: "base" }])
+      else setLignes(prev => prev.filter((_, j) => j !== idx))
+      return
+    }
+    if (idx >= 0) {
+      const updated = [...lignes]
+      updated[idx] = { ...updated[idx], quantite: String(newQty) }
+      setLignes(updated)
+    } else {
+      const pv = store.computePV(art)
+      const newLigne: LigneForm = { articleId, quantite: String(newQty), prixVente: String(pv), uniteMode: "base" }
+      const emptyIdx = lignes.findIndex(l => !l.articleId)
+      if (emptyIdx >= 0) {
+        const updated = [...lignes]
+        updated[emptyIdx] = newLigne
+        setLignes(updated)
+      } else {
+        setLignes(prev => [...prev, newLigne])
+      }
+    }
+  }
+
+  const getArticleQty = (articleId: string): number => {
+    const l = lignes.find(l => l.articleId === articleId)
+    return l ? Number(l.quantite) || 0 : 0
+  }
+
   const totalGeneral = lignes.reduce((sum, l) => {
     if (!l.articleId || !l.quantite || !l.prixVente) return sum
     return sum + baseQty(l) * Number(l.prixVente)
@@ -1156,7 +1191,6 @@ export default function MobileCommercial({ user }: Props) {
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">Dans panier</span>
                         ) : (
                           <button
-                            disabled={art.stockDisponible <= 0}
                             onClick={() => {
                               // Prefer stored UM from last order; fallback to base-unit math
                               const hasUM = !!(habit.dernierQteUM && habit.dernierUM && art.um && habit.dernierUM === art.um)
@@ -1245,62 +1279,66 @@ export default function MobileCommercial({ user }: Props) {
           ))}
         </div>
 
-        {/* Checkbox list */}
-        <div className="max-h-72 overflow-y-auto divide-y divide-border">
+        {/* Grille photo + stepper +/- */}
+        <div className="max-h-[28rem] overflow-y-auto p-3">
           {pickerArticles.length === 0 ? (
             <div className="py-8 flex flex-col items-center gap-2 text-center">
               <p className="text-sm text-muted-foreground">Aucun article trouve</p>
               <button onClick={() => setArticleSearch("")} className="text-xs text-primary underline">Effacer</button>
             </div>
-          ) : pickerArticles.map(a => {
-            const inCart = lignes.some(l => l.articleId === a.id)
-            const stockOk = a.stockDisponible > 0
-            const pv = store.computePV(a)
-            const globalCount = globalRotation[a.id] ?? 0
-            const habitCount = clientHabits[a.id]?.count ?? 0
-            return (
-              <label key={a.id}
-                className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${inCart ? "bg-primary/5" : stockOk ? "hover:bg-muted/50" : "opacity-40 pointer-events-none"}`}>
-                <input type="checkbox" checked={inCart} readOnly={false}
-                  onChange={e => {
-                    if (e.target.checked) {
-                      const emptyIdx = lignes.findIndex(l => !l.articleId)
-                      if (emptyIdx >= 0) updateLigne(emptyIdx, "articleId", a.id)
-                      else setLignes(prev => [...prev, { articleId: a.id, quantite: "", prixVente: String(pv), uniteMode: "base" }])
-                    } else {
-                      const idx = lignes.findIndex(l => l.articleId === a.id)
-                      if (idx >= 0) {
-                        if (lignes.length === 1) setLignes([{ articleId: "", quantite: "", prixVente: "", uniteMode: "base" }])
-                        else setLignes(prev => prev.filter((_, j) => j !== idx))
-                      }
-                    }
-                  }}
-                  className="w-4 h-4 rounded accent-primary shrink-0" />
-                <img src={a.photo || "https://placehold.co/40x40/e2e8f0/64748b?text=Art"}
-                  alt={`${a.nom} produit frais article`}
-                  className="w-10 h-10 rounded-xl object-cover border border-border shrink-0"
-                  onError={e => { e.currentTarget.src = "https://placehold.co/40x40/e2e8f0/64748b?text=Art" }} />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-foreground truncate">{a.nom}</p>
-                  <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
-                    {(() => {
-                      const vs = store.getVirtualStock(a.id)
-                      const ok = vs.available > 0
-                      return (
-                        <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-lg ${ok ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}>
-                          {ok ? `${vs.available} ${a.unite} dispo` : "Rupture"}
-                          {vs.pending > 0 && ok && <span className="ml-1 font-normal text-slate-600">(-{vs.pending} en cmd)</span>}
+          ) : (
+            <div className="grid grid-cols-2 gap-2.5">
+              {pickerArticles.map(a => {
+                const qty = getArticleQty(a.id)
+                const inCart = qty > 0
+                const pv = store.computePV(a)
+                const globalCount = globalRotation[a.id] ?? 0
+                const habitCount = clientHabits[a.id]?.count ?? 0
+                const vs = store.getVirtualStock(a.id)
+                const stockOk = vs.available > 0
+                return (
+                  <div key={a.id}
+                    className={`flex flex-col rounded-xl border-2 overflow-hidden transition-all ${inCart ? "border-primary shadow-sm" : "border-border"}`}>
+                    <div className="relative aspect-square bg-muted">
+                      <img src={a.photo || "https://placehold.co/200x200/e2e8f0/64748b?text=Article"}
+                        alt={`${a.nom} produit`}
+                        className="w-full h-full object-cover"
+                        onError={e => { e.currentTarget.src = "https://placehold.co/200x200/e2e8f0/64748b?text=Article" }} />
+                      <span className={`absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-lg ${stockOk ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}>
+                        {stockOk ? `${vs.available} ${a.unite}` : "Rupture"}
+                      </span>
+                      {inCart && (
+                        <span className="absolute top-1.5 right-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-lg bg-primary text-primary-foreground">
+                          {qty} au panier
                         </span>
-                      )
-                    })()}
-                    {globalCount > 0 && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-lg bg-blue-100 text-blue-700">{globalCount} cmd</span>}
-                    {habitCount >= 2 && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-lg bg-amber-100 text-amber-700">{habitCount}x client</span>}
+                      )}
+                      {(globalCount > 0 || habitCount >= 2) && (
+                        <span className="absolute bottom-1.5 left-1.5 text-[9px] font-semibold px-1.5 py-0.5 rounded-lg bg-amber-100 text-amber-700">
+                          {habitCount >= 2 ? `${habitCount}x client` : `${globalCount} cmd`}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-1.5 p-2">
+                      <p className="text-xs font-bold text-foreground leading-tight line-clamp-2 min-h-[2rem]">{a.nom}</p>
+                      <span className="text-sm font-bold text-primary">{pv} DH</span>
+                      <div className="flex items-center justify-between gap-1 mt-0.5">
+                        <button type="button" onClick={() => setArticleQty(a.id, qty - 1)}
+                          disabled={qty === 0}
+                          className="w-8 h-8 rounded-lg flex items-center justify-center bg-muted text-foreground font-bold text-lg disabled:opacity-30 active:scale-95 transition-transform">
+                          −
+                        </button>
+                        <span className="flex-1 text-center text-sm font-bold text-foreground">{qty}</span>
+                        <button type="button" onClick={() => setArticleQty(a.id, qty + 1)}
+                          className="w-8 h-8 rounded-lg flex items-center justify-center bg-primary text-primary-foreground font-bold text-lg active:scale-95 transition-transform">
+                          +
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <span className="text-sm font-bold text-primary shrink-0">{pv} DH</span>
-              </label>
-            )
-          })}
+                )
+              })}
+            </div>
+          )}
         </div>
       </div>
 

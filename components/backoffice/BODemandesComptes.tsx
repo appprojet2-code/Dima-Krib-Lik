@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { store, type AccountRequest, type User, type Client, type Fournisseur } from "@/lib/store"
+import { upsertUser as upsertUserSupabase } from "@/lib/supabase/db"
 
 function generatePassword(len = 10): string {
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789"
@@ -75,7 +76,7 @@ export default function BODemandesComptes({ user }: Props) {
     setMsg(null)
   }
 
-  const handleApprove = () => {
+  const handleApprove = async () => {
     if (!selected) return
     if (!approveForm.email.trim() || !approveForm.nom.trim() || !approveForm.password.trim()) {
       setMsg({ ok: false, text: "Tous les champs sont requis." })
@@ -137,8 +138,8 @@ export default function BODemandesComptes({ user }: Props) {
       newUser.fournisseurId = fourn.id
     }
 
-    // Save user
-    store.saveUsers([...store.getUsers(), newUser])
+    // Save user (local + Supabase)
+    await upsertUserSupabase(newUser)
 
     // Update request status
     const updated = requests.map(r =>

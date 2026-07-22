@@ -13,7 +13,7 @@ import type {
   User, Client, Article, Fournisseur, Livreur, MotifRetour,
   Commande, Visite, BonAchat, PurchaseOrder, Reception,
   Trip, BonLivraison, Retour, BonPreparation,
-  TransfertStock, Message, Notice,
+  TransfertStock, Message, Notice, Secteur,
 } from "@/lib/store"
 
 // ── Helper: vérifie si Supabase est joignable ─────────────────────────────────
@@ -276,6 +276,46 @@ export async function fetchFournisseurs(): Promise<Fournisseur[]> {
     console.error("[db] fetchFournisseurs offline:", e)
   }
   return store.getFournisseurs()
+}
+
+// ── SECTEURS ──────────────────────────────────────────────────────────────────
+
+export async function upsertSecteur(s: Secteur) {
+  const all = store.getSecteurs()
+  const idx = all.findIndex(x => x.id === s.id)
+  if (idx >= 0) all[idx] = s; else all.push(s)
+  store.saveSecteurs(all)
+
+  try {
+    const { error } = await db().from("fl_secteurs").upsert({ ...s }, { onConflict: "id" })
+    if (error) console.error("[db] upsertSecteur:", error.message)
+  } catch (e) {
+    console.error("[db] upsertSecteur offline:", e)
+  }
+}
+
+export async function deleteSecteur(id: string) {
+  store.saveSecteurs(store.getSecteurs().filter(s => s.id !== id))
+  try {
+    const { error } = await db().from("fl_secteurs").delete().eq("id", id)
+    if (error) console.error("[db] deleteSecteur:", error.message)
+  } catch (e) {
+    console.error("[db] deleteSecteur offline:", e)
+  }
+}
+
+export async function fetchSecteurs(): Promise<Secteur[]> {
+  try {
+    const { data, error } = await db().from("fl_secteurs").select("*").order("nom")
+    if (error) throw error
+    if (data && data.length > 0) {
+      store.saveSecteurs(data as Secteur[])
+      return data as Secteur[]
+    }
+  } catch (e) {
+    console.error("[db] fetchSecteurs offline:", e)
+  }
+  return store.getSecteurs()
 }
 
 // ── COMMANDES ─────────────────────────────────────────────────────────────────
@@ -585,6 +625,7 @@ export async function syncFromSupabase(): Promise<{
     ["clients",      async () => { await fetchClients();       tables.push("clients")      }],
     ["articles",     async () => { await fetchArticles();      tables.push("articles")     }],
     ["fournisseurs", async () => { await fetchFournisseurs();  tables.push("fournisseurs") }],
+    ["secteurs",     async () => { await fetchSecteurs();      tables.push("secteurs")     }],
     ["commandes",    async () => { await fetchCommandes();     tables.push("commandes")    }],
     ["trips",        async () => { await fetchTrips();         tables.push("trips")        }],
     ["bons_livraison",async () => { await fetchBonsLivraison();tables.push("bons_livraison")}],

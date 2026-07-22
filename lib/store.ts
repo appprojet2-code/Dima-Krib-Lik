@@ -134,8 +134,9 @@ export interface User {
 
 // ════════════════════════════════════════════════════════════════════════════
 // UTILISATEURS PAR DÉFAUT
-// RÈGLE : Seul Jawad (master_admin) est dans Supabase.
-//         Tous les autres comptes restent en localStorage local.
+// Comptes de démo ci-dessous : seedés en local uniquement (jamais poussés à
+// Supabase automatiquement). Tout utilisateur créé/édité depuis Utilisateurs
+// & Rôles (BOUsers.tsx) est en revanche synchronisé vers fl_users (Supabase).
 // ════════════════════════════════════════════════════════════════════════════
 
 const DEFAULT_USERS: User[] = [
@@ -1055,6 +1056,18 @@ export interface Depot {
   notes?: string
 }
 
+export interface Secteur {
+  id: string
+  nom: string
+  ville?: string
+  zones?: string[]
+  responsableId?: string
+  responsableNom?: string
+  couleur?: string
+  actif?: boolean
+  notes?: string
+}
+
 // Types Logistique/RH minimalistes — hors périmètre Achat/Réception/Commandes/Facturation,
 // déclarés juste pour satisfaire la compilation partagée de lib/supabase/db.ts
 export interface Trip { id: string; itineraire?: TripItineraryPoint[]; commandeIds: string[]; numero?: string; [key: string]: any }
@@ -1378,6 +1391,17 @@ export const store = {
   saveArticles(v: Article[])        { writeList("fl_articles", v) },
   getFournisseurs(): Fournisseur[]  { return readList<Fournisseur>("fl_fournisseurs") },
   saveFournisseurs(v: Fournisseur[]) { writeList("fl_fournisseurs", v) },
+  getSecteurs(): Secteur[]          { return readList<Secteur>("fl_secteurs") },
+  saveSecteurs(v: Secteur[])        { writeList("fl_secteurs", v) },
+  addSecteur(s: Secteur) { const all = this.getSecteurs(); all.push(s); this.saveSecteurs(all) },
+  updateSecteur(id: string, patch: Partial<Secteur>) {
+    const all = this.getSecteurs()
+    const idx = all.findIndex(s => s.id === id)
+    if (idx >= 0) { all[idx] = { ...all[idx], ...patch }; this.saveSecteurs(all) }
+  },
+  deleteSecteur(id: string) {
+    this.saveSecteurs(this.getSecteurs().filter(s => s.id !== id))
+  },
   getCommandes(): Commande[]        { return readList<Commande>("fl_commandes") },
   saveCommandes(v: Commande[])      { writeList("fl_commandes", v) },
   updateCommande(id: string, patch: Partial<Commande>) {

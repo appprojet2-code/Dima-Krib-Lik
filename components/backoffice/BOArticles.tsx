@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { store, type Article, type HistoriquePrixAchat, FAMILLES_ARTICLES } from "@/lib/store"
 import { createClient } from "@/lib/supabase/client"
+import { upsertArticle, deleteArticle as deleteArticleSupabase } from "@/lib/supabase/db"
 
 const DH = (n: number) => `${n.toLocaleString("fr-MA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} DH`
 
@@ -114,38 +115,33 @@ export default function BOArticles({ user }: { user: { id: string; name: string 
     setShowForm(true)
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.nom) return
-    const all = store.getArticles()
-    if (editArt) {
-      const idx = all.findIndex(a => a.id === editArt.id)
-      if (idx >= 0) { all[idx] = { ...all[idx], ...form }; store.saveArticles(all) }
-    } else {
-      all.push({ ...form, id: store.genId() })
-      store.saveArticles(all)
-    }
+    const article: Article = editArt ? { ...editArt, ...form } : { ...form, id: store.genId() }
+    await upsertArticle(article)
     setArticles(store.getArticles())
     setShowForm(false)
     setEditArt(null)
     setForm(EMPTY_FORM)
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (!window.confirm("Supprimer définitivement cet article ? Cette action est irréversible.")) return
-    const all = store.getArticles().filter(a => a.id !== id)
-    store.saveArticles(all)
+    await deleteArticleSupabase(id)
     setArticles(store.getArticles())
   }
 
-  const handleToggleActif = (id: string) => {
-    const all = store.getArticles().map(a => a.id === id ? { ...a, actif: !(a.actif ?? true) } : a)
-    store.saveArticles(all)
+  const handleToggleActif = async (id: string) => {
+    const art = store.getArticles().find(a => a.id === id)
+    if (!art) return
+    await upsertArticle({ ...art, actif: !(art.actif ?? true) })
     setArticles(store.getArticles())
   }
 
-  const handleToggleCatalogue = (id: string) => {
-    const all = store.getArticles().map(a => a.id === id ? { ...a, catalogueVisible: !(a.catalogueVisible ?? true) } : a)
-    store.saveArticles(all)
+  const handleToggleCatalogue = async (id: string) => {
+    const art = store.getArticles().find(a => a.id === id)
+    if (!art) return
+    await upsertArticle({ ...art, catalogueVisible: !(art.catalogueVisible ?? true) })
     setArticles(store.getArticles())
   }
 

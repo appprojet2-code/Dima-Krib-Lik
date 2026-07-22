@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { store, type User, type UserRole, type UserAccessType, type GranularPermissions, type Civilite, ROLE_LABELS, ROLE_COLORS, JAWAD_ID } from "@/lib/store"
 import { sendEmail } from "@/lib/email"
+import { upsertUser as upsertUserSupabase, deleteUser as deleteUserSupabase } from "@/lib/supabase/db"
 
 // ──────────────────────────────────────────────────────────────────────────────
 // GRANULAR RBAC — Ultra-detailed permissions (each action = independent toggle)
@@ -869,16 +870,19 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
     setShowForm(true)
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.name.trim() || !form.email.trim()) return
     const all = store.getUsers()
     if (editing) {
       const idx = all.findIndex(u => u.id === editing.id)
-      if (idx >= 0) { all[idx] = { ...all[idx], ...form }; store.saveUsers(all) }
+      if (idx >= 0) {
+        const updated = { ...all[idx], ...form } as User
+        await upsertUserSupabase(updated)
+      }
     } else {
       const newId = store.genId()
-      all.push({ ...form, id: newId })
-      store.saveUsers(all)
+      const newUser = { ...form, id: newId } as User
+      await upsertUserSupabase(newUser)
       // Notifier le RH : nouveau compte cree — dossier administratif a completer
       if (["super_super_admin", "admin", "super_admin"].includes(currentUser.role)) {
         store.addRHNotification({
@@ -907,21 +911,20 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
     if (idx >= 0) { all[idx].actif = !all[idx].actif; store.saveUsers(all); reload() }
   }
 
-  const handleDelete = (u: User) => {
+  const handleDelete = async (u: User) => {
     if (!canDeleteUser(u)) return
     if (!confirm(`Supprimer l'utilisateur "${u.name}" ?`)) return
-    const all = store.getUsers().filter(x => x.id !== u.id)
-    store.saveUsers(all)
+    await deleteUserSupabase(u.id)
     reload()
   }
 
-  const handleDeleteAllExceptJawad = () => {
+  const handleDeleteAllExceptJawad = async () => {
     if (!isFullAdmin) return
     const toDelete = store.getUsers().filter(x => x.id !== JAWAD_ID)
     if (toDelete.length === 0) return
     if (!confirm(`Supprimer definitivement les ${toDelete.length} utilisateur(s) autres que Jawad ? Cette action est irreversible.`)) return
     if (!confirm(`Confirmation finale : ${toDelete.length} compte(s) seront supprimes, seul Jawad restera. Continuer ?`)) return
-    store.saveUsers(store.getUsers().filter(x => x.id === JAWAD_ID))
+    await Promise.all(toDelete.map(u => deleteUserSupabase(u.id)))
     reload()
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)

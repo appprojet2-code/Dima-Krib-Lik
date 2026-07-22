@@ -1,7 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { store, type Article, type TransfertStock, type CaisseVide, type CaisseVideMouvement, type ContenantTare, DEFAULT_CONTENANTS_TARE, FAMILLES_ARTICLES, type BonLivraison, type Retour } from "@/lib/store"
+import { createClient } from "@/lib/supabase/client"
+import { upsertArticle, deleteArticle as deleteArticleSupabase } from "@/lib/supabase/db"
+
+const DEFAULT_ART_PHOTO = "https://placehold.co/200x200/e2e8f0/64748b?text=Article"
 
 const DH = (n: number) => `${n.toLocaleString("fr-MA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} DH`
 
@@ -151,8 +155,41 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
   const [artForm, setArtForm] = useState<Omit<Article, "id">>({
     nom: "", nomAr: "", famille: "Légumes fruits", unite: "kg",
     stockDisponible: 0, stockDefect: 0, prixAchat: 0,
-    pvMethode: "pourcentage", pvValeur: 60,
+    pvMethode: "pourcentage", pvValeur: 60, photo: "",
   })
+  const [photoUploading, setPhotoUploading] = useState(false)
+  const [photoError, setPhotoError] = useState("")
+  const photoInputRef = useRef<HTMLInputElement>(null)
+
+  // Upload photo article — depuis galerie ou appareil photo (input file natif).
+  // Essaie Supabase Storage (bucket "articles"), retombe sur base64 local si hors-ligne.
+  const handlePhotoUpload = async (file: File) => {
+    setPhotoUploading(true)
+    setPhotoError("")
+    const localUrl = URL.createObjectURL(file)
+    setArtForm(f => ({ ...f, photo: localUrl }))
+    try {
+      const sb = createClient()
+      const ext = file.name.split(".").pop() ?? "jpg"
+      const path = `articles/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
+      const { error: upErr } = await sb.storage.from("articles").upload(path, file, { upsert: true, contentType: file.type })
+      if (upErr) throw new Error(upErr.message)
+      const { data } = sb.storage.from("articles").getPublicUrl(path)
+      setArtForm(f => ({ ...f, photo: data.publicUrl }))
+      URL.revokeObjectURL(localUrl)
+    } catch {
+      const reader = new FileReader()
+      reader.onload = ev => {
+        const b64 = ev.target?.result as string
+        setArtForm(f => ({ ...f, photo: b64 }))
+        URL.revokeObjectURL(localUrl)
+      }
+      reader.readAsDataURL(file)
+      setPhotoError("Supabase inaccessible — photo enregistree localement")
+    } finally {
+      setPhotoUploading(false)
+    }
+  }
 
   // Transfert form
   const [showTransfert, setShowTransfert] = useState(false)
@@ -191,33 +228,29 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
   // ---- Article CRUD ----
   const openNewArt = () => {
     setEditArt(null)
-    setArtForm({ nom: "", nomAr: "", famille: "Légumes fruits", unite: "kg", stockDisponible: 0, stockDefect: 0, prixAchat: 0, pvMethode: "pourcentage", pvValeur: 60 })
+    setPhotoError("")
+    setArtForm({ nom: "", nomAr: "", famille: "Légumes fruits", unite: "kg", stockDisponible: 0, stockDefect: 0, prixAchat: 0, pvMethode: "pourcentage", pvValeur: 60, photo: "" })
     setShowArtForm(true)
   }
 
   const openEditArt = (a: Article) => {
     setEditArt(a)
-    setArtForm({ nom: a.nom, nomAr: a.nomAr, famille: a.famille, unite: a.unite, stockDisponible: a.stockDisponible, stockDefect: a.stockDefect, prixAchat: a.prixAchat, pvMethode: a.pvMethode, pvValeur: a.pvValeur })
+    setPhotoError("")
+    setArtForm({ nom: a.nom, nomAr: a.nomAr, famille: a.famille, unite: a.unite, stockDisponible: a.stockDisponible, stockDefect: a.stockDefect, prixAchat: a.prixAchat, pvMethode: a.pvMethode, pvValeur: a.pvValeur, photo: a.photo ?? "" })
     setShowArtForm(true)
   }
 
-  const handleSaveArt = () => {
+  const handleSaveArt = async () => {
     if (!artForm.nom.trim()) return
-    const all = store.getArticles()
-    if (editArt) {
-      const idx = all.findIndex(a => a.id === editArt.id)
-      if (idx >= 0) { all[idx] = { ...all[idx], ...artForm }; store.saveArticles(all) }
-    } else {
-      all.push({ ...artForm, id: store.genId() })
-      store.saveArticles(all)
-    }
+    const article: Article = editArt ? { ...editArt, ...artForm } : { ...artForm, id: store.genId() }
+    await upsertArticle(article)
     reload(); setShowArtForm(false)
     setSaved("Article sauvegardé"); setTimeout(() => setSaved(""), 2000)
   }
 
-  const handleDeleteArt = (a: Article) => {
+  const handleDeleteArt = async (a: Article) => {
     if (!confirm(`Supprimer l'article "${a.nom}" ?`)) return
-    store.saveArticles(store.getArticles().filter(x => x.id !== a.id))
+    await deleteArticleSupabase(a.id)
     reload()
   }
 
@@ -740,6 +773,43 @@ export default function BOStock({ user }: { user: { id: string; name: string } }
               </button>
             </div>
             <div className="p-6 flex flex-col gap-4">
+              {/* Photo article — galerie ou appareil photo */}
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-semibold text-foreground">Photo article</label>
+                <div className="flex gap-3 items-start flex-wrap">
+                  <div className="w-20 h-20 rounded-xl border-2 border-dashed border-border flex items-center justify-center bg-muted/40 overflow-hidden shrink-0">
+                    {artForm.photo
+                      ? <img src={artForm.photo} alt="Apercu photo article" className="w-full h-full object-cover" onError={e => { e.currentTarget.src = DEFAULT_ART_PHOTO }} />
+                      : <svg className="w-7 h-7 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    }
+                  </div>
+                  <div className="flex flex-col gap-2 flex-1 min-w-0">
+                    <input ref={photoInputRef} type="file" accept="image/*" className="hidden"
+                      onChange={e => { const file = e.target.files?.[0]; if (file) handlePhotoUpload(file); e.target.value = "" }} />
+                    <button type="button" onClick={() => photoInputRef.current?.click()}
+                      className="flex items-center justify-center gap-2 px-3 py-3 rounded-xl border-2 border-dashed border-border hover:border-primary/50 hover:bg-muted/50 text-muted-foreground cursor-pointer transition-all text-xs font-semibold">
+                      {photoUploading
+                        ? <><span className="w-3.5 h-3.5 border-2 border-primary border-t-transparent rounded-full animate-spin shrink-0" />Chargement...</>
+                        : <><svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                          <span>Galerie ou appareil photo</span>
+                        </>
+                      }
+                    </button>
+                    {artForm.photo && (
+                      <button type="button" onClick={() => setArtForm(f => ({ ...f, photo: "" }))}
+                        className="text-[10px] text-red-500 hover:underline self-start">
+                        Supprimer la photo
+                      </button>
+                    )}
+                    {photoError && (
+                      <p className="text-[10px] text-amber-600 flex items-center gap-1">
+                        <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        {photoError}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-semibold text-foreground">Nom (Français) *</label>
