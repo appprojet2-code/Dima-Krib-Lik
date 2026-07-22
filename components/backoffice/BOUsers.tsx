@@ -913,6 +913,18 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
     reload()
   }
 
+  const handleDeleteAllExceptJawad = () => {
+    if (!isFullAdmin) return
+    const toDelete = store.getUsers().filter(x => x.id !== JAWAD_ID)
+    if (toDelete.length === 0) return
+    if (!confirm(`Supprimer definitivement les ${toDelete.length} utilisateur(s) autres que Jawad ? Cette action est irreversible.`)) return
+    if (!confirm(`Confirmation finale : ${toDelete.length} compte(s) seront supprimes, seul Jawad restera. Continuer ?`)) return
+    store.saveUsers(store.getUsers().filter(x => x.id === JAWAD_ID))
+    reload()
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
+  }
+
   const handleGeneratePassword = async (u: User) => {
     const pwd = generatePassword()
     setGenPwdState({ userId: u.id, pwd, sending: true, sent: false })
@@ -1048,6 +1060,16 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
               Importer JSON
               <input type="file" accept=".json" className="hidden" onChange={importJSON} />
             </label>
+          )}
+          {isFullAdmin && (
+            <button onClick={handleDeleteAllExceptJawad}
+              title="Supprimer tous les utilisateurs sauf Jawad"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold border border-red-200 text-red-600 hover:bg-red-50 transition-colors">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16" />
+              </svg>
+              Supprimer tous sauf Jawad
+            </button>
           )}
           {canOpenNewForm && (
             <button onClick={openNew}
