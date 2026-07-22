@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS fl_users (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   email TEXT,
+  username TEXT,
   password_hash TEXT,
   role TEXT NOT NULL,
   access_type TEXT,

@@ -585,7 +585,7 @@ const BACKOFFICE_PERM_SECTIONS: PermSection[] = [
 const PERM_SECTIONS: PermSection[] = [...MOBILE_PERM_SECTIONS, ...BACKOFFICE_PERM_SECTIONS]
 
 const EMPTY_USER: Omit<User, "id"> = {
-  name: "", email: "", password: "1234", role: "prevendeur", type: "interne", interface: "mobile", accessType: undefined, secteur: "", depotId: undefined,
+  name: "", email: "", username: "", password: "1234", role: "prevendeur", type: "interne", interface: "mobile", accessType: undefined, secteur: "", depotId: undefined,
   phone: "", actif: true,
   canViewAchat: false, canViewCommercial: false, canViewLogistique: false,
   canViewStock: false, canViewCash: false, canViewFinance: false, canViewRecap: false,
@@ -848,7 +848,7 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
     if (!canEditUser(u)) return
     setEditing(u)
     setForm({
-      name: u.name, email: u.email, password: u.password, role: u.role, type: u.type, interface: u.interface, accessType: u.accessType,
+      name: u.name, email: u.email, username: u.username || "", password: u.password, role: u.role, type: u.type, interface: u.interface, accessType: u.accessType,
       secteur: u.secteur || "", depotId: u.depotId, phone: u.phone || "", actif: u.actif,
       canViewAchat: u.canViewAchat || false, canViewCommercial: u.canViewCommercial || false,
       canViewLogistique: u.canViewLogistique || false, canViewStock: u.canViewStock || false,
@@ -1480,6 +1480,13 @@ export default function BOUsers({ currentUser }: { currentUser: User }) {
                     <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
                       className="px-3 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="user@freshlink.ma" />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-semibold text-foreground">Nom de compte (identifiant)</label>
+                    <input type="text" value={form.username ?? ""} onChange={e => setForm({ ...form, username: e.target.value })}
+                      className="px-3 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="ex: bakkar" />
+                    <p className="text-[10px] text-muted-foreground">Optionnel — permet de se connecter avec ce nom au lieu de l&apos;email.</p>
                   </div>
                   <div className="flex flex-col gap-1">
                     <label className="text-xs font-semibold text-foreground">Mot de passe</label>
