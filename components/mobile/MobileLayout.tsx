@@ -45,11 +45,13 @@ export default function MobileLayout({ user, onLogout }: Props) {
     ctrl_prep:        ["ctrl_prep",  "agent_ia", "avis"],
     magasinier:       ["magasinier", "preparation", "ctrl_prep", "agent_ia", "avis"],
     prevendeur:       ["commercial", "pricing", "bilan",      "agent_ia", "avis"],
+    commercial:       ["commercial", "pricing", "bilan",      "agent_ia", "avis"],
     team_leader:      ["commercial", "pricing", "bilan", "ctrl_retour", "agent_ia", "avis"],
     resp_commercial:  ["commercial", "pricing", "bilan", "ctrl_retour", "agent_ia", "avis"],
     resp_logistique:  ["logistique", "preparation", "ctrl_prep", "ctrl_retour", "agent_ia", "avis"],
     dispatcheur:      ["logistique", "preparation", "ctrl_prep", "ctrl_retour", "agent_ia", "avis"],
     livreur:          ["logistique", "ctrl_retour", "agent_ia", "avis"],
+    chauffeur:        ["logistique", "ctrl_retour", "agent_ia", "avis"],
     client:           ["commercial", "avis"],
     fournisseur:      ["achat",      "avis"],
   }
