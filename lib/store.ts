@@ -159,7 +159,6 @@ const DEFAULT_USERS: User[] = [
   { id: "u-004", name: "Directeur Achat",      email: "da@freshlink.ma",           username: "da",         password: "da2024",     role: "directeur_achat",      type: "interne", interface: "backoffice", canViewAchat: true, canViewRecap: true },
   { id: "u-005", name: "Directeur Logistique", email: "dl@freshlink.ma",           username: "dl",         password: "dl2024",     role: "directeur_logistique", type: "interne", interface: "backoffice", canViewLogistique: true, canViewStock: true, canViewRecap: true },
   { id: "u-006", name: "Directeur Financier",  email: "df@freshlink.ma",           username: "df",         password: "df2024",     role: "directeur_financier",  type: "interne", interface: "backoffice", canViewFinance: true, canViewCash: true, canViewRecap: true },
-  { id: "u-007", name: "Directeur RH",         email: "drh@freshlink.ma",          username: "drh",        password: "drh2024",    role: "directeur_rh",         type: "interne", interface: "backoffice", canViewRH: true },
   { id: "u-008", name: "Directeur IT",         email: "dit@freshlink.ma",          username: "dit",        password: "it2024",     role: "directeur_it",         type: "interne", interface: "backoffice", canViewDatabase: true },
 
   // ─── RESPONSABLES ────────────────────────────────────────────────────────
@@ -167,7 +166,6 @@ const DEFAULT_USERS: User[] = [
   { id: "u-010", name: "Resp. Achat",       email: "resp.achat@freshlink.ma",   username: "resp-achat", password: "rach2024",   role: "resp_achat",       type: "interne", interface: "backoffice", canViewAchat: true, canViewRecap: true },
   { id: "u-011", name: "Resp. Logistique",  email: "logistique@freshlink.ma",   username: "resp-log",   password: "1234",       role: "resp_logistique",  type: "interne", interface: "backoffice", canViewLogistique: true, canViewStock: true, canViewRecap: true },
   { id: "u-012", name: "Resp. Stock",       email: "resp.stock@freshlink.ma",   username: "resp-stock", password: "stock2024",  role: "resp_stock",       type: "interne", interface: "backoffice", canViewStock: true },
-  { id: "u-013", name: "Resp. RH",          email: "resp.rh@freshlink.ma",      username: "resp-rh",    password: "rh2024",     role: "resp_rh",          type: "interne", interface: "backoffice", canViewRH: true },
   { id: "u-014", name: "Resp. IT",          email: "resp.it@freshlink.ma",      username: "resp-it",    password: "it1234",     role: "resp_it",          type: "interne", interface: "backoffice", canViewDatabase: true },
   { id: "u-015", name: "Resp. Qualité",     email: "resp.qualite@freshlink.ma", username: "resp-qual",  password: "qual2024",   role: "resp_qualite",     type: "interne", interface: "backoffice", canViewLogistique: true, canViewStock: true },
 
