@@ -18,18 +18,36 @@ export default function PWAInstall() {
   useEffect(() => {
     if (typeof window === "undefined") return
 
-    // Already dismissed or installed
-    if (localStorage.getItem("pwa_install_dismissed") === "1") return
-
-    // Register service worker
+    // Register service worker — toujours, meme si la banniere d'install a ete
+    // fermee, sinon le navigateur ne revient jamais verifier une nouvelle
+    // version (bundle JS foncierement fige apres un "X" sur la banniere).
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("/sw.js")
         .then(reg => {
           // Tell new SW to take over immediately
           if (reg.waiting) reg.waiting.postMessage({ type: "SKIP_WAITING" })
+          reg.addEventListener("updatefound", () => {
+            const installing = reg.installing
+            if (!installing) return
+            installing.addEventListener("statechange", () => {
+              if (installing.state === "installed" && navigator.serviceWorker.controller) {
+                installing.postMessage({ type: "SKIP_WAITING" })
+              }
+            })
+          })
         })
         .catch(() => {})
+      // Reload once when the new SW takes control, so the fresh bundle is used
+      let reloaded = false
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (reloaded) return
+        reloaded = true
+        window.location.reload()
+      })
     }
+
+    // Already dismissed or installed
+    if (localStorage.getItem("pwa_install_dismissed") === "1") return
 
     // iOS detection
     const ua = navigator.userAgent
