@@ -243,9 +243,15 @@ export default function MobileCommercial({ user }: Props) {
   }
 
   useEffect(() => {
-    setArticles(store.getArticles())
-    setClients(store.getClients())
-    if (isAdmin) setAllUsers(store.getUsers().filter(u => ["prevendeur","resp_commercial","team_leader","admin","super_admin","master_admin"].includes(u.role) && u.actif))
+    const load = () => {
+      setArticles(store.getArticles())
+      setClients(store.getClients())
+      if (isAdmin) setAllUsers(store.getUsers().filter(u => ["prevendeur","resp_commercial","team_leader","admin","super_admin","master_admin"].includes(u.role) && u.actif))
+    }
+    load()
+    // Recharge quand la sync Supabase (async, lancee par MobileLayout) se termine
+    window.addEventListener("fl:synced", load)
+    return () => window.removeEventListener("fl:synced", load)
   }, [])
 
   // Auto-capture GPS on mount — GPS is MANDATORY

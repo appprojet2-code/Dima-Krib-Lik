@@ -394,6 +394,7 @@ export default function BackOfficeLayout({ user, onLogout }: Props) {
     import("@/lib/supabase/db").then(({ syncFromSupabase }) => {
       syncFromSupabase().then(({ ok, tables, errors }) => {
         if (!ok) console.warn("[sync] partiel:", tables, errors)
+        window.dispatchEvent(new Event("fl:synced"))
       })
     })
   }, [])

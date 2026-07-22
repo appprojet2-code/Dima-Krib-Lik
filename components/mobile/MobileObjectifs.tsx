@@ -73,7 +73,12 @@ export default function MobileObjectifs({ user }: Props) {
   const week = getWeekRange(today)
   const month = getMonthRange(today)
 
-  useEffect(() => { setCommandes(store.getCommandes()) }, [])
+  useEffect(() => {
+    const load = () => setCommandes(store.getCommandes())
+    load()
+    window.addEventListener("fl:synced", load)
+    return () => window.removeEventListener("fl:synced", load)
+  }, [])
 
   const myCommandes = commandes.filter(c => c.commercialId === user.id)
   const cdJ = myCommandes.filter(c => c.date === today)

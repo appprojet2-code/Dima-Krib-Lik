@@ -83,13 +83,18 @@ export default function MobileControlAchat({ user }: Props) {
   const [camTarget, setCamTarget] = useState<string | null>(null) // articleId currently being photographed
 
   useEffect(() => {
-    const allArts = store.getArticles()
-    const todayBons = store.getBonsAchat().filter(b => b.date === store.today())
-    const allContenants = store.getContenantsConfig().filter(c => c.actif)
-    setArticles(allArts)
-    setBons(todayBons)
-    setContenants(allContenants)
-    buildEntries(todayBons, allArts, "all", allContenants)
+    const load = () => {
+      const allArts = store.getArticles()
+      const todayBons = store.getBonsAchat().filter(b => b.date === store.today())
+      const allContenants = store.getContenantsConfig().filter(c => c.actif)
+      setArticles(allArts)
+      setBons(todayBons)
+      setContenants(allContenants)
+      buildEntries(todayBons, allArts, "all", allContenants)
+    }
+    load()
+    window.addEventListener("fl:synced", load)
+    return () => window.removeEventListener("fl:synced", load)
   }, [])
 
   function buildEntries(todayBons: BonAchat[], allArts: Article[], bonFilter: string, allContenants: ContenantTare[]) {

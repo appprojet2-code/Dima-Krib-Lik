@@ -343,6 +343,20 @@ export default function MobileAchat({ user }: Props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Recharge le catalogue/fournisseurs/clients quand la sync Supabase
+  // (async, lancee par MobileLayout) se termine apres ce montage.
+  useEffect(() => {
+    const reloadCatalog = () => {
+      const arts = store.getArticles()
+      setArticles(arts)
+      setFournisseurs(store.getFournisseurs())
+      setClients(store.getClients())
+      setBesoinSKU(calcBesoinSKU(arts))
+    }
+    window.addEventListener("fl:synced", reloadCatalog)
+    return () => window.removeEventListener("fl:synced", reloadCatalog)
+  }, [])
+
   const fournisseur = fournisseurs.find(f => f.id === fournisseurId)
 
   const updateLigne = (i: number, patch: Partial<LigneForm>) => {

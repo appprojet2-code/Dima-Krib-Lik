@@ -178,6 +178,11 @@ export default function MobileMagasinier({ user }: Props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { refresh() }, [])
 
+  useEffect(() => {
+    window.addEventListener("fl:synced", refresh)
+    return () => window.removeEventListener("fl:synced", refresh)
+  }, [])
+
   // Pending bons = only those not yet fully received
   const pendingItems = useMemo(() =>
     items.filter(i => i.statut !== "receptionné"),

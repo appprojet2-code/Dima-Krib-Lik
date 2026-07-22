@@ -63,6 +63,11 @@ export default function MobilePricing({ user }: Props) {
 
   useEffect(() => { load() }, [load])
 
+  useEffect(() => {
+    window.addEventListener("fl:synced", load)
+    return () => window.removeEventListener("fl:synced", load)
+  }, [load])
+
   function resetForm() {
     setType("fournisseur"); setArticleNom(""); setCategorie("Légumes fruits")
     setPrix(""); setUnite("kg"); setGrade("A"); setSource("visite")

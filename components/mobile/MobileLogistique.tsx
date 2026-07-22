@@ -220,6 +220,11 @@ export default function MobileLogistique({ user }: Props) {
   useEffect(() => { refresh() }, [])
 
   useEffect(() => {
+    window.addEventListener("fl:synced", refresh)
+    return () => window.removeEventListener("fl:synced", refresh)
+  }, [])
+
+  useEffect(() => {
     if (activeTab === "map" && !mapLoaded) loadMap()
   }, [activeTab, mapLoaded])
 

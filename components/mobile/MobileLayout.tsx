@@ -44,6 +44,9 @@ export default function MobileLayout({ user, onLogout }: Props) {
     import("@/lib/supabase/db").then(({ syncFromSupabase }) => {
       syncFromSupabase().then(({ ok, tables, errors }) => {
         if (!ok) console.warn("[sync] partiel:", tables, errors)
+        // Previent les ecrans deja montes (qui ont lu le cache local AVANT
+        // la fin de la sync) qu'ils doivent recharger leurs donnees.
+        window.dispatchEvent(new Event("fl:synced"))
       })
     })
   }, [])

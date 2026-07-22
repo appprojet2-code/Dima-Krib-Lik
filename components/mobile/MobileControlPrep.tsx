@@ -172,6 +172,13 @@ export default function MobileControlPrep({ user }: Props) {
   const [showScanner, setShowScanner] = useState<string | null>(null) // tripId
   const cam = useCam()
   const [camTarget, setCamTarget] = useState<{ tripId: string; artId: string } | null>(null)
+  const [syncTick, setSyncTick] = useState(0)
+
+  useEffect(() => {
+    const bump = () => setSyncTick(t => t + 1)
+    window.addEventListener("fl:synced", bump)
+    return () => window.removeEventListener("fl:synced", bump)
+  }, [])
 
   useEffect(() => {
     const today = store.today()
@@ -243,7 +250,8 @@ export default function MobileControlPrep({ user }: Props) {
 
     setTripControls(controls)
     if (controls.length > 0) setActiveTrip(controls[0].trip.id)
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [syncTick])
 
   const grossType = contenants.find(c => c.nom.toLowerCase().includes("gros") || c.nom.toLowerCase().includes("plastique"))
   const demiType  = contenants.find(c => c.nom.toLowerCase().includes("demi") || c.nom.toLowerCase().includes("petit"))
